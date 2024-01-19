@@ -1,0 +1,66 @@
+---
+title: "PQD Dashboard"
+author: "Jay LEE"
+format: 
+  dashboard:
+    logo: images/logo_ccpg.png
+    theme: 
+      - yeti
+      - style.css
+server: shiny
+---
+<!-- 셋업-->
+
+```{r}
+#| context: setup
+#| echo: false
+library(shiny)
+library(flexdashboard)
+library(bslib)
+library(bsicons)
+library(plotly)
+library(DT)
+library(utils)
+library(kableExtra)    # knit table 패키지
+library(tidyverse)
+library(htmlwidgets)
+library(sparkline)
+
+sparkline <- plot_ly(economics) %>%
+  add_lines(
+    x = ~date, y = ~psavert,
+    color = I("white"), span = I(1),
+    fill = 'tozeroy', alpha = 0.2
+  ) %>%
+  layout(
+    xaxis = list(visible = F, showgrid = F, title = ""),
+    yaxis = list(visible = F, showgrid = F, title = ""),
+    hovermode = "x",
+    margin = list(t = 0, r = 0, l = 0, b = 0),
+    font = list(color = "white"),
+    paper_bgcolor = "transparent",
+    plot_bgcolor = "transparent"
+  ) %>%
+  config(displayModeBar = F) %>%
+  htmlwidgets::onRender(
+    "function(el) {
+      var ro = new ResizeObserver(function() {
+         var visible = el.offsetHeight > 200;
+         Plotly.relayout(el, {'xaxis.visible': visible});
+      });
+      ro.observe(el);
+    }"
+  )
+
+data("iris")
+temp_iris <- iris
+data("mtcars")
+```
+
+```{r child="layout.qmd"}
+
+```
+
+```{r child="dynamicTable.qmd"}
+
+```
