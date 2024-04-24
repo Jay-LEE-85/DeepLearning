@@ -1,3 +1,71 @@
 # Introduction
 
-This is a book created from markdown and executable code.
+Deeplearning(이하 'DL')은 다양한 분야에 활용되고 있습니다. 그러나 DL이 무엇인지? 그리고 DL이 어떻게 작동하는지? 필자들은 이러한 기초적인 물음에 답을 찾고 싶었습니다. 그러나 시중에 나와 있는 대부분의 문헌은 DL의 Application에 촛점을 두고 다양한 Framework(tensorflow, torch 등)의 사용례에 집중하여 DL의 Fundation을 이해할 수 없는 문제를 맞았습니다.
+
+DL을 Deep하게 이해하기 위하여 필자들은 기초부터 시작하여 응용까지 모든 과정을 따라가 보기위하여 본 프로젝트를 시작하였습니다. 이 과정은 쉽지 않을 것이지만 다양한 이론과 수식들을 직접 찾아보고 이해해보고, 동시에 외부 라이브러리에 의존하지 않고 기초적인 내용을 하나 하나를 구현해 봄으로써 더 Deep하게 DL을 이해하고, 향후 Framework의 활용시 높은 수준의 이해를 갖고 새로운 문제들을 해결하고자 합니다.
+
+## Learning Path
+
+필자들의 DL 학습배경에 따라 아래의 경로로 DL을 학습할 계획이며 많은 문헌에서 다루고 있는 학습경로 입니다.
+
+학습경로가 정확한지? 적절한지? 알 수 없지만, 적어도 *A to Z*의 관점에서 빠짐없이 모든 내용을 학습해보기로 하였습니다.
+
+학습경로에 관한 내용은 @fig-LearningPath 을 참고하기 바라며, 학습을 수행하는 과정마다 변경되거나 추가되는 사항은 지속적으로 반영해 나갈 예저입니다.
+
+
+```{mermaid}
+%%| label: fig-LearningPath
+%%| fig-cap: "Learning Path"
+
+flowchart LR
+  opt[Optimazation]:::ch --> opt1[Solving Problems]
+  opt --> opt2[Gradient Descent] 
+
+  opt1 --> opt_l{{Lab1: Linear Regression}}
+  opt2 --> opt_l:::lab
+
+  per[Perceptron]:::ch --> per1[Classification]
+  per --> per2[Logistic Regression]
+
+  per1 --> per_l1{{Lab2: Classification}}:::lab
+  per2 --> per_l2{{Lab2: Logistic Regression}}:::lab
+
+  %% ann[ANN]:::ch --> ann1[Multi Layer Perceptron] --> ann_l{{Lab3:}}:::lab
+  %% ann --> ann2[Artificial NN?]
+
+  %% ann2 --> ann2_1[Recursive Algorithm]
+  %% ann2 --> ann2_2[Dynamic Programing]
+  %% ann2 --> ann2_3[Neural Networks]
+  
+  %% ann2_3 --> ann2_3_3[Loss Function]
+  %% ann2_3 --> ann2_3_1[Optimization]
+  %% ann2_3 --> ann2_3_2[Activation Function]
+
+  %% ann2_1 & ann2_2 & ann2_3_1 & ann2_3_2 & ann2_3_3 --> ann_l{{Lab3: MNIST Classification}}:::lab
+  
+  %% cnn[Convolution-NN]:::ch --> cnn1[NA]
+
+  %% rnn[Recurrent-NN]:::ch --> rnn[NA]
+
+  classDef ch fill:#ccccff
+  classDef lab fill:#ccffcc
+```
+
+## Environment
+
+우리가 학습하며 사용한 실습환경에 대하여 간단하게 소개하겠습니다. 
+
+누구나 접근이 가능한 `Python`을 기반으로 하고 있고, 실습에 사용하는 라이브러리(@tbl-packages )는 의존도를 최소화 하기 위하여 `numpy`를 주로 사용하였습니다. 그리고 실습결과를 도식화하기 위하여는 `matplotlib`을 사용하였습니다.
+
+이론에 대한 충분한 실습을 완료한 뒤에는 `tensorflow` 또는 `torch`를 사용하기로 하였습니다. 이는 **NVIDIA**의 GPU를 활용하여 보다 Deep한 신경망을 구현하기 위함임을 참고하여 주시고 학습과정에서 본 Framework의 사용은 최소화 할 예정입니다.
+
+학습경로와 마찬가지로 아래의 테이블에 적시된 라이브러리와 그 버전은 수시로 업데이트 할 예정입니다.
+
+| Name | Version |
+|---|---|
+| numpy | #.#.# |
+| matplotlib | #.#.# |
+| tensorflow | #.#.# |
+| torch | #.#.# |
+
+: List of Packages {#tbl-packages}
