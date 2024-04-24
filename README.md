@@ -1,3 +1,6 @@
-### Jump to Python!
+# *PLay Ground for Deep learning*
 ---
-2024년에는 R만큼 Python을 다룰 수 있도록 해보자.
+
+## Intro
+
+"Deep Learning from Scratch"를 기반으로 Deeplearning을 학습하기 위한 페이지이다.
