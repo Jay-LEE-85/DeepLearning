@@ -4,7 +4,7 @@ project:
 
 book:
   title: "DeepLearning x 101"
-  author: "papa & flower fig"
+  author: "Jay & Luis"
   date: "2024. 4."
   chapters:
     - index.qmd
