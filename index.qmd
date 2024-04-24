@@ -1,3 +1,23 @@
 # Preface {.unnumbered}
 
-This is a Quarto book.
+## Welcome
+
+최근 전세계적으로 AI에 대한 관심이 증가하고 있다. 특히 **OPEN AI**의 **Chat-GPT**를 시작으로 다양한 생성형 AI가 발표되고 있다.
+이러한 AI 발전의 기초가되는 기술은 Deeplearning으로 Data에서 사람이 찾을 수 없는 Pattern을 기계를 활용하기 위한 기술이다.
+
+이 사이트는 날로 중요해지는 **Deeplearning**에 대한 기초적인 이해부터 구현까지 학습하는 과정을 담고 있다. 나아가 **Deeplearning**기술을 활용하여 금융분야에 활용할 수 있는 방법을 연구하거나, 현재 다양한 금융공학의 기술과 접목시키고자 한다.
+
+::: {.callout-note}
+본 사이트는 **[Quarto](https://quarto.org/)**를 기반으로 작성되었으며, (https://jay-lee-85.github.io/DeepLearning/)에서 접근할 수 있다.
+아울러 본 사이트에서 사용한 실습환경은 아래와 같다. 개발환경과 관련한 정확한 *version* 정보와 필요한 *package* 정보는 지속적으로 업데이트 할 예정이다.
+
+*   Syntax
+: Python3, R
+*   Package
+: `numpy`, `pandas(optional)`, `matplotlib`, `tensorflow-2.0`
+:::
+
+## Disclaimer
+
+이 사이트는 모두에게 무료이며, "[Deep Learning from Scratch](https://github.com/ahn-github/saito-goki)"를 기반으로 학습자들이 연구한 내용을 담고 있다. 모든 내용에 대하여 출처를 밝힐 예정이나, 간혹 출처가 빠져 있는 경우 지속적으로 업데이트 하여, 원작자들의 권리를 침해하지 않고 오류를 수정해 나갈 것이다.
+

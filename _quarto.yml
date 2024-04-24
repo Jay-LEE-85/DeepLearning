@@ -4,7 +4,7 @@ project:
 
 book:
   title: "DeepLearning x 101"
-  author: "LEE C.J. & LEE K.Y."
+  author: "papa & flower fig"
   date: "2024. 4. 24."
   chapters:
     - index.qmd
