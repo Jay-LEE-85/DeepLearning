@@ -12,7 +12,7 @@
 아울러 본 사이트에서 사용한 실습환경은 아래와 같다. 개발환경과 관련한 정확한 *version* 정보와 필요한 *package* 정보는 지속적으로 업데이트 할 예정이다.
 
 *   Syntax
-: Python3, R
+: Python3, R(optional)
 *   Package
 : `numpy`, `pandas(optional)`, `matplotlib`, `tensorflow-2.0`
 :::
@@ -20,4 +20,3 @@
 ## Disclaimer
 
 이 사이트는 모두에게 무료이며, "[Deep Learning from Scratch](https://github.com/ahn-github/saito-goki)"를 기반으로 학습자들이 연구한 내용을 담고 있다. 모든 내용에 대하여 출처를 밝힐 예정이나, 간혹 출처가 빠져 있는 경우 지속적으로 업데이트 하여, 원작자들의 권리를 침해하지 않고 오류를 수정해 나갈 것이다.
-
