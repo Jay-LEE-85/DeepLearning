@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -73,10 +107,39 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-diagram/mermaid-init.js"></script>
 <link href="site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
 
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
-<body class="nav-sidebar floating">
+<body class="nav-sidebar floating slimcontent">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -152,11 +215,12 @@ ul.task-list li input[type="checkbox"] {
   <ul>
   <li><a href="#learning-path" id="toc-learning-path" class="nav-link active" data-scroll-target="#learning-path"><span class="header-section-number">1.1</span> Learning Path</a></li>
   <li><a href="#environment" id="toc-environment" class="nav-link" data-scroll-target="#environment"><span class="header-section-number">1.2</span> Environment</a></li>
+  <li><a href="#how-to-read" id="toc-how-to-read" class="nav-link" data-scroll-target="#how-to-read"><span class="header-section-number">1.3</span> How to read</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
+<main class="content page-columns page-full" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
@@ -178,14 +242,14 @@ ul.task-list li input[type="checkbox"] {
 
 
 <p>Deeplearning(이하 ‘DL’)은 다양한 분야에 활용되고 있습니다. 그러나 DL이 무엇인지? 그리고 DL이 어떻게 작동하는지? 필자들은 이러한 기초적인 물음에 답을 찾고 싶었습니다.</p>
-<p>그러나 시중에 나와 있는 대부분의 문헌은 DL의 Application에 촛점을 두고 다양한 Framework(tensorflow, torch 등)의 사용례에 집중하여 DL의 Fundation을 이해할 수 없는 문제를 맞았습니다.</p>
+<p>그러나 시중에 나와 있는 대부분의 문헌은 DL의 Application에 촛점을 두고 다양한 Framework(tensorflow, torch 등)의 사용례에 집중하여 DL의 Fundation을 이해할 수 없는 문제를 접하게 되었었습니다.</p>
 <p>DL을 Deep하게 이해하기 위하여 필자들은 기초부터 시작하여 응용까지 모든 과정을 따라가 보기위하여 본 프로젝트를 시작하였습니다.</p>
 <p>이 과정은 쉽지 않을 것이지만 다양한 이론과 수식들을 직접 찾아보고 이해해보고, 동시에 외부 라이브러리에 의존하지 않고 기초적인 내용을 하나 하나를 구현해 봄으로써 더 Deep하게 DL을 이해하고, 향후 Framework의 활용시 높은 수준의 이해를 갖고 새로운 문제들을 해결하고자 합니다.</p>
 <section id="learning-path" class="level2" data-number="1.1">
 <h2 data-number="1.1" class="anchored" data-anchor-id="learning-path"><span class="header-section-number">1.1</span> Learning Path</h2>
 <p>필자들의 DL 학습배경에 따라 아래의 경로로 DL을 학습할 계획이며 많은 문헌에서 다루고 있는 학습경로 입니다.</p>
 <p>학습경로가 정확한지? 적절한지? 알 수 없지만, 적어도 <em>A to Z</em>의 관점에서 빠짐없이 모든 내용을 학습해보기로 하였습니다.</p>
-<p>학습경로에 관한 내용은 <a href="#fig-LearningPath" class="quarto-xref">Figure&nbsp;<span>1.1</span></a> 을 참고하기 바라며, 학습을 수행하는 과정마다 변경되거나 추가되는 사항은 지속적으로 반영해 나갈 예wjd입니다.</p>
+<p>학습경로에 관한 내용은 <a href="#fig-LearningPath" class="quarto-xref">Figure&nbsp;<span>1.1</span></a> 을 참고하기 바라며, 학습을 수행하는 과정마다 변경되거나 추가되는 사항은 지속적으로 반영해 나갈 예정입니다.</p>
 <div class="cell" data-layout-align="default">
 <div class="cell-output-display">
 <div id="fig-LearningPath" class="quarto-figure quarto-figure-center quarto-float anchored">
@@ -273,6 +337,116 @@ Table&nbsp;1.1: List of Packages
 </tr>
 </tbody>
 </table>
+</div>
+</figure>
+</div>
+</section>
+<section id="how-to-read" class="level2 page-columns page-full" data-number="1.3">
+<h2 data-number="1.3" class="anchored" data-anchor-id="how-to-read"><span class="header-section-number">1.3</span> How to read</h2>
+<p>이 사이트에서 다루는 내용은 기본적인 이론에 대한 설명과 이와 관련된 코드와 그 실행 결과 들을 보여줄 것입니다.</p>
+<p><strong>Code Example</strong></p>
+<ul>
+<li>기본적으로 코드는 아래의 <strong>Code Block</strong>에서 모든 내용을 표시하였습니다.</li>
+<li>특별히 중요하거나 추가적인 설명이 필요한 경우 <strong>Code Annotation</strong>에 표시하였습니다.</li>
+</ul>
+<div id="c05fb5a8" class="cell" data-execution_count="1">
+<div id="lst-codeExample" class="python cell-code listing quarto-float">
+<figure class="quarto-float quarto-float-lst figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-lst" id="lst-codeExample-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Listing&nbsp;1.1: Code Block
+</figcaption>
+<div aria-describedby="lst-codeExample-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="sourceCode cell-code" id="lst-codeExample"><pre class="sourceCode code-annotation-code python code-with-copy"><code class="sourceCode python"><span id="lst-codeExample-1"><a href="#lst-codeExample-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> add(num1, num2):</span>
+<span id="lst-codeExample-2"><a href="#lst-codeExample-2" aria-hidden="true" tabindex="-1"></a>  result <span class="op">=</span> num1 <span class="op">+</span> num2</span>
+<span id="lst-codeExample-3"><a href="#lst-codeExample-3" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span>  result</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</figure>
+</div>
+</div>
+<ol type="1">
+<li><code>num1</code>과 <code>num2</code>를 더하여 <code>result</code>에 할당</li>
+</ol>
+<p><strong>Equation Example</strong></p>
+<ul>
+<li>수식 중 설명이 필요한 경우는 기본적으로 본문에 내용을 표시하였습니다.</li>
+<li>설명이 완료된 수식 중 참고할 사항은 <code>margin</code>컬럼에 표시였습니다.</li>
+</ul>
+<div id="lst-equationExample" class="listing quarto-float">
+<figure class="quarto-float quarto-float-lst figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-lst" id="lst-equationExample-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Listing&nbsp;1.2: Equation
+</figcaption>
+<div aria-describedby="lst-equationExample-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<p><span class="math display">\[\frac{d}{dx}\left( \int_{a}^{x} f(u)\,du\right)=f(x).\]</span></p>
+</div>
+</figure>
+</div>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p>We know from <em>the first fundamental theorem of calculus</em> that for <span class="math inline">\(x\)</span> in <span class="math inline">\([a, b]\)</span>:</p>
+<p><span class="math display">\[\frac{d}{dx}\left( \int_{a}^{x} f(u)\,du\right)=f(x).\]</span></p>
+</div></div><p><strong>Callout Example</strong></p>
+<ul>
+<li>학습을 진행해 가는 과정에서 나오는 이슈사항은 <code>Callout</code>으로 표시해 두었습니다,</li>
+<li>각 <code>Callout</code>이 담아야 할 내용은 아래를 참고하여 주시기 바랍니다.</li>
+</ul>
+<div id="lst-calloutExample" class="listing quarto-float">
+<figure class="quarto-float quarto-float-lst figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-lst" id="lst-calloutExample-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Listing&nbsp;1.3: Callout
+</figcaption>
+<div aria-describedby="lst-calloutExample-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note의 활용법
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>본문의 내용과 직접관련된 내용으로 부가적인 설명을 담고 있습니다.</li>
+<li>관련 문헌이나 자료들에서 중요한 부분을 발췌한 내용을 담고 있습니다.</li>
+<li>필자가 보다 효율적이라고 판단한 내용들을 보여주고자 합니다.</li>
+</ul>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip의 활용법
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>본문의 내용과 직접관련 없지만 알아두면 좋은 내용을 담고 있습니다.</li>
+<li>코드의 작성방법 등 유용한 정보를 답고 있습니다.</li>
+<li>실습과정에서 발견한 문제의 해결방법을 보여주고자 합니다.</li>
+</ul>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Warning의 활용법법
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>이해하기 어려운 내용에 대하여 그 문제를 적시하고자 합니다.</li>
+<li>실습과정에서 경험한 문제 및 해결되지 않은 오류 등을 적시하고자 합니다.</li>
+<li>해결이 완료된 경우 <code>note</code> 또는 <code>tip</code>으로 전환될 수 있습니다.</li>
+</ul>
+</div>
+</div>
 </div>
 </figure>
 </div>
@@ -631,25 +805,64 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         }
       };
     }
-      // Attach click handler to the DT
-      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
-      for (const annoteDlNode of annoteDls) {
-        annoteDlNode.addEventListener('click', (event) => {
-          const clickedEl = event.target;
-          if (clickedEl !== selectedAnnoteEl) {
-            unselectCodeLines();
-            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
-            if (activeEl) {
-              activeEl.classList.remove('code-annotation-active');
-            }
-            selectCodeLines(clickedEl);
-            clickedEl.classList.add('code-annotation-active');
-          } else {
-            // Unselect the line
-            unselectCodeLines();
-            clickedEl.classList.remove('code-annotation-active');
+      const annoteTargets = window.document.querySelectorAll('.code-annotation-anchor');
+      for (let i=0; i<annoteTargets.length; i++) {
+        const annoteTarget = annoteTargets[i];
+        const targetCell = annoteTarget.getAttribute("data-target-cell");
+        const targetAnnotation = annoteTarget.getAttribute("data-target-annotation");
+        const contentFn = () => {
+          const content = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          if (content) {
+            const tipContent = content.cloneNode(true);
+            tipContent.classList.add("code-annotation-tip-content");
+            return tipContent.outerHTML;
           }
-        });
+        }
+        const config = {
+          allowHTML: true,
+          content: contentFn,
+          onShow: (instance) => {
+            selectCodeLines(instance.reference);
+            instance.reference.classList.add('code-annotation-active');
+            window.tippy.hideAll();
+          },
+          onHide: (instance) => {
+            unselectCodeLines();
+            instance.reference.classList.remove('code-annotation-active');
+          },
+          maxWidth: 300,
+          delay: [50, 0],
+          duration: [200, 0],
+          offset: [5, 10],
+          arrow: true,
+          appendTo: function(el) {
+            return el.parentElement.parentElement.parentElement;
+          },
+          interactive: true,
+          interactiveBorder: 10,
+          theme: 'quarto',
+          placement: 'right',
+          popperOptions: {
+            modifiers: [
+            {
+              name: 'flip',
+              options: {
+                flipVariations: false, // true by default
+                allowedAutoPlacements: ['right'],
+                fallbackPlacements: ['right', 'top', 'top-start', 'top-end', 'bottom', 'bottom-start', 'bottom-end', 'left'],
+              },
+            },
+            {
+              name: 'preventOverflow',
+              options: {
+                mainAxis: false,
+                altAxis: false
+              }
+            }
+            ]        
+          }      
+        };
+        window.tippy(annoteTarget, config); 
       }
   const findCites = (el) => {
     const parentEl = el.parentElement;
