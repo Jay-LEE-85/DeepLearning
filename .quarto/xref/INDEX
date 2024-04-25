@@ -1,0 +1,17 @@
+{
+  "index.qmd": {
+    "index.html": "47e1df70"
+  },
+  "intro.qmd": {
+    "intro.html": "b515bf76"
+  },
+  "perceptron.qmd": {
+    "perceptron.html": "e9d07047"
+  },
+  "summary.qmd": {
+    "summary.html": "afd4fc2a"
+  },
+  "references.qmd": {
+    "references.html": "fcec8db6"
+  }
+}
