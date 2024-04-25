@@ -180,8 +180,10 @@ window.Quarto = {
    
   <ul>
   <li><a href="#what-is-a-perceptron" id="toc-what-is-a-perceptron" class="nav-link active" data-scroll-target="#what-is-a-perceptron"><span class="header-section-number">2.1</span> What is a ‘Perceptron’?</a></li>
-  <li><a href="#regression" id="toc-regression" class="nav-link" data-scroll-target="#regression"><span class="header-section-number">2.2</span> Regression</a></li>
-  <li><a href="#classification" id="toc-classification" class="nav-link" data-scroll-target="#classification"><span class="header-section-number">2.3</span> Classification</a></li>
+  <li><a href="#classification" id="toc-classification" class="nav-link" data-scroll-target="#classification"><span class="header-section-number">2.2</span> Classification</a>
+  <ul class="collapse">
+  <li><a href="#what-is-a-classicication" id="toc-what-is-a-classicication" class="nav-link" data-scroll-target="#what-is-a-classicication"><span class="header-section-number">2.2.1</span> What is a “Classicication”?</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -213,7 +215,12 @@ window.Quarto = {
 <section id="what-is-a-perceptron" class="level2" data-number="2.1">
 <h2 data-number="2.1" class="anchored" data-anchor-id="what-is-a-perceptron"><span class="header-section-number">2.1</span> What is a ‘Perceptron’?</h2>
 <p>퍼셉트론은 인공신경망의 가장 기초가 되는 구조이고 이를 이해하기 위하여 생물한적 신경망의 가장 기초가 되는 뉴런에 대하여 살펴보고자(<a href="#fig-neuron" class="quarto-xref">Figure&nbsp;<span>2.1</span></a>) 합니다.</p>
-<p>뉴런의 구조는 다양하게 하지만 우리가 집중하고자 하는 곳은 크게 3가지 부분으로 구성되어 있습니다. - 외부 자극등 정보를 수신하는 <strong>수상돌기(Dendrite)</strong> - 수신된 정보를 신호를 만들어 내는 <strong>핵(Nucleus)</strong> - 신호를 신경절달 물질로 만들어 내는 <strong>축삭돌기(Axon)+시넵스(Synapse)</strong>가 있습니다.</p>
+<p>뉴런의 구조는 다양하게 하지만 우리가 집중하고자 하는 곳은 크게 3가지 부분으로 구성되어 있습니다.</p>
+<ul>
+<li>외부 자극등 정보를 수신하는 <strong>수상돌기(Dendrite)</strong></li>
+<li>수신된 정보를 신호를 만들어 내는 <strong>핵(Nucleus)</strong></li>
+<li>신호를 신경절달 물질로 만들어 내는 <strong>축삭돌기(Axon)+시넵스(Synapse)</strong></li>
+</ul>
 <p>여기서 주목할 것은 뉴런은 정보를 입력받아 내부적인 신호를 생성하여 다음 뉴런에 정보를 전달한 다는 것입니다.</p>
 <div id="fig-neuron" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
@@ -241,7 +248,7 @@ Figure&nbsp;2.1: Structure of Neuron (source: Wikipdia)
   end
   node1_1((x_1)) --w1--&gt; node2_1
   node1_2((x_2)) --w2--&gt; node2_1
-  node2_2 --&gt; node3((y))
+  node2_2 --&gt; node3((y_hat))
 </pre>
 </div>
 </div>
@@ -253,11 +260,11 @@ Figure&nbsp;2.2: Basic of Perceptron
 </div>
 </div>
 <p><a href="#fig-perceptron1" class="quarto-xref">Figure&nbsp;<span>2.2</span></a> 에서 원은 <strong>노드(Node)</strong>라고 하면 노드간 연결된 선을 <strong>엣지(Edge)</strong>라고 합니다. 첫번째 노드의 <code>x_1</code>과 <code>x_2</code>는 입력값을 말하고, 두번째 노드는 내부적으로 <code>SUM</code>과 <code>STEP</code>으로 구성된 활성함수를 말하며, 마지막 노드의 <code>z</code>는 출력값으로 노드의 활성 정도를 말합니다.</p>
-<p>노란색 노드에서는 2단계 계산이 발생합니다. 하나늗 입력값의 뉴런에서는 신호의 세기를 측정하는 <strong>Weighted Sum</strong>과</p>
+<p>노란색 노드에서는 2단계 계산이 발생합니다. 하나늗 입력값의 뉴런에서는 신호의 세기를 계산하는 <strong>Weighted Sum</strong>(<a href="#eq-weightedSum" class="quarto-xref">Equation&nbsp;<span>2.1</span></a>) 과 뉴런의 여부를 계산하는 <strong>Step Function</strong>(<a href="#eq-stepFunction" class="quarto-xref">Equation&nbsp;<span>2.2</span></a>) 으로 구성되어 있습니다.</p>
+<p>결과적으로 퍼셉트론의 출력값(<span class="math inline">\(\hat{y}=h_{w,b}(x)=sign(\textbf{w}^{T}\textbf{x}+b)\)</span>)은 (-1, 0, 1)로 3가지를 갖게 됩니다.</p>
 <p><span id="eq-weightedSum"><span class="math display">\[
 z = b + w_{1}x_{1} + w_{2}x_{2} + \cdots + w_{n}x_{n} = b + \textbf{w}^{T} \textbf{x}
 \tag{2.1}\]</span></span></p>
-<p>뉴런의 여부를 계산하는 <strong>Step Function</strong>으로 구성되어 있습니다.</p>
 <p><span id="eq-stepFunction"><span class="math display">\[
 step(z) = sign(z) = \begin{cases}
 -1 &amp; z &lt; 0 \\
@@ -265,7 +272,6 @@ step(z) = sign(z) = \begin{cases}
 1 &amp; z &gt; 0
 \end{cases}
 \tag{2.2}\]</span></span></p>
-<p>결과적으로 퍼셉트론의 출력값(<span class="math inline">\(\hat{y}=h_{w,b}(x)=sign(\textbf{w}^{T}\textbf{x}+b)\)</span>)은 (-1, 0, 1)로 3가지를 갖게 됩니다.</p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -276,7 +282,8 @@ step(z) = sign(z) = \begin{cases}
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>일반적으로 <strong>Sign function</strong>을 가장 많이 사용하지만, 이진값(0, 1)만을 갖는 <strong>Heavisde step function</strong>이 사용되기도 합니다. <span class="math display">\[
+<p>일반적으로 <strong>Sign function</strong>을 가장 많이 사용하지만, 이진값(0, 1)만을 갖는 <strong>Heavisde step function</strong>이 사용되기도 합니다. Clsiffication 문제에서 직선상의 Observation값은 0 으로 두어 처리하고, Weight와 같은 방향은 1, 다른 방향은 -1로 처리하는 것이 보다 높은 성능을 내어 우리는 <strong>Sign function</strong>을 주로 사용합니다,</p>
+<p><span class="math display">\[
 heavisde(z) = \begin{cases}
 0 &amp; z &lt; 0 \\
 1 &amp; z &gt;= 0
@@ -285,13 +292,14 @@ heavisde(z) = \begin{cases}
 </div>
 </div>
 </section>
-<section id="regression" class="level2" data-number="2.2">
-<h2 data-number="2.2" class="anchored" data-anchor-id="regression"><span class="header-section-number">2.2</span> Regression</h2>
+<section id="classification" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="classification"><span class="header-section-number">2.2</span> Classification</h2>
+<p>앞서 보았던 Perceptron을 Classification을 수행해보며 보다 자세하게 살펴보겠습니다. 이와 관련하여 우리는 Classification의 문제에 대하여 이해해볼 필요가 있습니다.</p>
+<section id="what-is-a-classicication" class="level3" data-number="2.2.1">
+<h3 data-number="2.2.1" class="anchored" data-anchor-id="what-is-a-classicication"><span class="header-section-number">2.2.1</span> What is a “Classicication”?</h3>
+
+
 </section>
-<section id="classification" class="level2" data-number="2.3">
-<h2 data-number="2.3" class="anchored" data-anchor-id="classification"><span class="header-section-number">2.3</span> Classification</h2>
-
-
 </section>
 
 </main> <!-- /main -->
