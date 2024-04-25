@@ -253,13 +253,37 @@ Figure&nbsp;2.2: Basic of Perceptron
 </div>
 </div>
 <p><a href="#fig-perceptron1" class="quarto-xref">Figure&nbsp;<span>2.2</span></a> 에서 원은 <strong>노드(Node)</strong>라고 하면 노드간 연결된 선을 <strong>엣지(Edge)</strong>라고 합니다. 첫번째 노드의 <code>x_1</code>과 <code>x_2</code>는 입력값을 말하고, 두번째 노드는 내부적으로 <code>SUM</code>과 <code>STEP</code>으로 구성된 활성함수를 말하며, 마지막 노드의 <code>z</code>는 출력값으로 노드의 활성 정도를 말합니다.</p>
-<p>노란색 노드에서는 2단계 계산이 발생합니다. 하나늗 입력값의 뉴런에서는 신호의 세기를 측정하는 <strong>Weighted Sum</strong>과 뉴런의 여부를 계산하는 <strong>Step Function</strong>으로 구성되어 있습니다.</p>
+<p>노란색 노드에서는 2단계 계산이 발생합니다. 하나늗 입력값의 뉴런에서는 신호의 세기를 측정하는 <strong>Weighted Sum</strong>과</p>
 <p><span id="eq-weightedSum"><span class="math display">\[
-z = b + w_{1}x_{1} + w_{2}x_{2} + \cdots + w_{n}x_{n} = b + \boldsymbol{w}^{T}\boldsymbol{x}
+z = b + w_{1}x_{1} + w_{2}x_{2} + \cdots + w_{n}x_{n} = b + \textbf{w}^{T} \textbf{x}
 \tag{2.1}\]</span></span></p>
-<p><span class="math display">\[
-step(z) = sign(z) =
+<p>뉴런의 여부를 계산하는 <strong>Step Function</strong>으로 구성되어 있습니다.</p>
+<p><span id="eq-stepFunction"><span class="math display">\[
+step(z) = sign(z) = \begin{cases}
+-1 &amp; z &lt; 0 \\
+0 &amp; z = 0 \\
+1 &amp; z &gt; 0
+\end{cases}
+\tag{2.2}\]</span></span></p>
+<p>결과적으로 퍼셉트론의 출력값(<span class="math inline">\(\hat{y}=h_{w,b}(x)=sign(\textbf{w}^{T}\textbf{x}+b)\)</span>)은 (-1, 0, 1)로 3가지를 갖게 됩니다.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+퍼셉트론에서 사용되는 계단함수
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>일반적으로 <strong>Sign function</strong>을 가장 많이 사용하지만, 이진값(0, 1)만을 갖는 <strong>Heavisde step function</strong>이 사용되기도 합니다. <span class="math display">\[
+heavisde(z) = \begin{cases}
+0 &amp; z &lt; 0 \\
+1 &amp; z &gt;= 0
+\end{cases}
 \]</span></p>
+</div>
+</div>
 </section>
 <section id="regression" class="level2" data-number="2.2">
 <h2 data-number="2.2" class="anchored" data-anchor-id="regression"><span class="header-section-number">2.2</span> Regression</h2>
