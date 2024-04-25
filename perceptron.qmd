@@ -2,6 +2,16 @@
 
 ## What is a  'Perceptron'?
 
+```{mermaid}
+%%| label: fig-perceptron1
+%%| fig-cap: "Basic of Perceptron"
+
+graph LR
+      node1_1((x1)) --w1--> node2(("$$\alpha$$"))
+      node1_2((x2)) --w2--> node2
+
+```
+
 ## Regression
 
 ## Classification

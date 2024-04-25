@@ -2,7 +2,7 @@
 
 Deeplearning(이하 'DL')은 다양한 분야에 활용되고 있습니다. 그러나 DL이 무엇인지? 그리고 DL이 어떻게 작동하는지? 필자들은 이러한 기초적인 물음에 답을 찾고 싶었습니다. 
 
-그러나 시중에 나와 있는 대부분의 문헌은 DL의 Application에 촛점을 두고 다양한 Framework(tensorflow, torch 등)의 사용례에 집중하여 DL의 Fundation을 이해할 수 없는 문제를 접하게 되었었습니다.
+그러나 시중에 나와 있는 대부분의 문헌은 DL의 Application에 촛점을 두고 다양한 Framework(`tensorflow`, `torch` 등)의 사용례에 집중하여 DL의 Fundation을 이해할 수 없는 문제를 접하게 되었었습니다.
 
 DL을 Deep하게 이해하기 위하여 필자들은 기초부터 시작하여 응용까지 모든 과정을 따라가 보기위하여 본 프로젝트를 시작하였습니다. 
 
@@ -67,10 +67,10 @@ flowchart LR
 
 | Name | Version |
 |---|---|
-| numpy | #.#.# |
-| matplotlib | #.#.# |
-| tensorflow | #.#.# |
-| torch | #.#.# |
+| `numpy` | #.#.# |
+| `matplotlib` | #.#.# |
+| `tensorflow` | #.#.# |
+| `torch` | #.#.# |
 
 : List of Packages {#tbl-packages}
 
@@ -78,20 +78,21 @@ flowchart LR
 
 이 사이트에서 다루는 내용은 기본적인 이론에 대한 설명과 이와 관련된 코드와 그 실행 결과 들을 보여줄 것입니다. 
 
+
 **Code Example**
 
 -   기본적으로 코드는 아래의 **Code Block**에서 모든 내용을 표시하였습니다.
 -   특별히 중요하거나 추가적인 설명이 필요한 경우 **Code Annotation**에 표시하였습니다.
 
+::: {#lst-codeExample lst-cap="Code Block"}
 ```{python}
-#| lst-label: lst-codeExample
-#| lst-cap: "Code Block"
-
 def add(num1, num2):
   result = num1 + num2 # <1>
   return  result
 ```
 1. `num1`과 `num2`를 더하여 `result`에 할당
+:::
+
 
 **Equation Example**
 
@@ -107,6 +108,7 @@ We know from *the first fundamental theorem of calculus* that for $x$ in $[a, b]
 
 $$\frac{d}{dx}\left( \int_{a}^{x} f(u)\,du\right)=f(x).$$
 :::
+
 
 **Callout Example**
 
