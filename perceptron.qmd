@@ -1,16 +1,55 @@
 # Perceptron
 
-## What is a  'Perceptron'?
+DL은 **인공신경망(ANN, Articial Neural Network)**이 여러개(Deep)의 층(Layers)로 존재하는 구조를 말하는 것입니다.
+
+여기서 주목할 것은 신경망 입니다. 인공 신경망은 생물학적 신경망을 모방하여 설계된 만큼 이에 대한 작동기전을 이해하는 것이 중요하다고 생각합니다.
+
+본 장에서는 생물학적 신경망의 가장 기초가되는 **뉴런(Neuron)**에 대한 이해를 기반으로 인공 신경망의 가장 기초가되는 **퍼셉트론(Perceptron)**에 대하여 이해해 보고자 합니다.
+
+## What is a 'Perceptron'?
+
+퍼셉트론은 인공신경망의 가장 기초가 되는 구조이고 이를 이해하기 위하여 생물한적 신경망의 가장 기초가 되는 뉴런에 대하여 살펴보고자(@fig-neuron) 합니다.
+
+뉴런의 구조는 다양하게 하지만 우리가 집중하고자 하는 곳은 크게 3가지 부분으로 구성되어 있습니다. 
+-   외부 자극등 정보를 수신하는 **수상돌기(Dendrite)**
+-   수신된 정보를 신호를 만들어 내는 **핵(Nucleus)**
+-   신호를 신경절달 물질로 만들어 내는 **축삭돌기(Axon)+시넵스(Synapse)**가 있습니다.
+
+여기서 주목할 것은 뉴런은 정보를 입력받아 내부적인 신호를 생성하여 다음 뉴런에 정보를 전달한 다는 것입니다. 
+
+![Structure of Neuron (source: Wikipdia)](image/neuron.png){#fig-neuron}
+
+이러한 뉴런의 작동기전을 모방하여 만들어 하진 것이 퍼셉트론(@fig-perceptron1)입니다. 
+
+퍼셉트론은 1957년 프랑크 로젠블라트가 제안한 것으로 퍼셉트론은 이러한 뉴런의 작동기전을 모방하여 정보를 입력(Input)받아 연산을 통해 출력(Output)을 생성하도록 설계되었습니다. 
+
+이러한 정보의 흐름 또는 연산 절차를 다른 말로 **Forward Propagation**이라 합니다, 향후 논의 될 **Back Propagation**과 대비되는 개념입니다.
 
 ```{mermaid}
 %%| label: fig-perceptron1
 %%| fig-cap: "Basic of Perceptron"
 
-graph LR
-      node1_1((x1)) --w1--> node2(("$$\alpha$$"))
-      node1_2((x2)) --w2--> node2
-
+flowchart LR
+  subgraph node
+    direction LR
+    node2_1((SUM)) --> node2_2((STEP))
+  end
+  node1_1((x_1)) --w1--> node2_1
+  node1_2((x_2)) --w2--> node2_1
+  node2_2 --> node3((y))
 ```
+
+@fig-perceptron1 에서 원은 **노드(Node)**라고 하면 노드간 연결된 선을 **엣지(Edge)**라고 합니다. 첫번째 노드의 `x_1`과 `x_2`는 입력값을 말하고, 두번째 노드는 내부적으로 `SUM`과 `STEP`으로 구성된 활성함수를 말하며, 마지막 노드의 `z`는 출력값으로 노드의 활성 정도를 말합니다.
+
+노란색 노드에서는 2단계 계산이 발생합니다. 하나늗 입력값의 뉴런에서는 신호의 세기를 측정하는 **Weighted Sum**과 뉴런의 여부를 계산하는 **Step Function**으로 구성되어 있습니다.
+
+$$
+z = b + w_{1}x_{1} + w_{2}x_{2} + \cdots + w_{n}x_{n} = b + \boldsymbol{w}^{T}\boldsymbol{x}
+$$ {#eq-weightedSum}
+
+$$
+step(z) = sign(z) = 
+$$
 
 ## Regression
 
