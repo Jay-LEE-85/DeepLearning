@@ -45,11 +45,15 @@ flowchart LR
 
 $$
 z = b + w_{1}x_{1} + w_{2}x_{2} + \cdots + w_{n}x_{n} = b + \boldsymbol{w}^{T}\boldsymbol{x}
+<<<<<<< Updated upstream
 $$ {#eq-weightedSum}
 
 $$
 step(z) = sign(z) = 
 $$
+=======
+$$ {#eq-weightedSum #fig-cap="Weighted Sum"}
+>>>>>>> Stashed changes
 
 ## Regression
 
