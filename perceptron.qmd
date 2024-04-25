@@ -41,19 +41,34 @@ flowchart LR
 
 @fig-perceptron1 에서 원은 **노드(Node)**라고 하면 노드간 연결된 선을 **엣지(Edge)**라고 합니다. 첫번째 노드의 `x_1`과 `x_2`는 입력값을 말하고, 두번째 노드는 내부적으로 `SUM`과 `STEP`으로 구성된 활성함수를 말하며, 마지막 노드의 `z`는 출력값으로 노드의 활성 정도를 말합니다.
 
-노란색 노드에서는 2단계 계산이 발생합니다. 하나늗 입력값의 뉴런에서는 신호의 세기를 측정하는 **Weighted Sum**과 뉴런의 여부를 계산하는 **Step Function**으로 구성되어 있습니다.
+노란색 노드에서는 2단계 계산이 발생합니다. 하나늗 입력값의 뉴런에서는 신호의 세기를 측정하는 **Weighted Sum**과 
 
 $$
-z = b + w_{1}x_{1} + w_{2}x_{2} + \cdots + w_{n}x_{n} = b + \boldsymbol{w}^{T}\boldsymbol{x}
-<<<<<<< Updated upstream
+z = b + w_{1}x_{1} + w_{2}x_{2} + \cdots + w_{n}x_{n} = b + \textbf{w}^{T} \textbf{x}
 $$ {#eq-weightedSum}
 
+뉴런의 여부를 계산하는 **Step Function**으로 구성되어 있습니다.
+
 $$
-step(z) = sign(z) = 
+step(z) = sign(z) = \begin{cases}
+-1 & z < 0 \\
+0 & z = 0 \\
+1 & z > 0
+\end{cases}
+$$ {#eq-stepFunction}
+
+결과적으로 퍼셉트론의 출력값($\hat{y}=h_{w,b}(x)=sign(\textbf{w}^{T}\textbf{x}+b)$)은 (-1, 0, 1)로 3가지를 갖게 됩니다.
+
+::: {.callout-note}
+## 퍼셉트론에서 사용되는 계단함수
+일반적으로 **Sign function**을 가장 많이 사용하지만, 이진값(0, 1)만을 갖는 **Heavisde step function**이 사용되기도 합니다.
 $$
-=======
-$$ {#eq-weightedSum #fig-cap="Weighted Sum"}
->>>>>>> Stashed changes
+heavisde(z) = \begin{cases}
+0 & z < 0 \\
+1 & z >= 0
+\end{cases}
+$$
+:::
 
 ## Regression
 
