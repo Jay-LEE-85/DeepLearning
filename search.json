@@ -64,7 +64,17 @@
     "href": "perceptron.html",
     "title": "2  Perceptron",
     "section": "",
-    "text": "2.1 What is a ‘Perceptron’?\ngraph LR\n      node1_1((x1)) --w1--&gt; node2((\"$$\\alpha$$\"))\n      node1_2((x2)) --w2--&gt; node2\n\n\n\n\n\nFigure 2.1: Basic of Perceptron",
+    "text": "2.1 What is a ‘Perceptron’?\n퍼셉트론은 인공신경망의 가장 기초가 되는 구조이고 이를 이해하기 위하여 생물한적 신경망의 가장 기초가 되는 뉴런에 대하여 살펴보고자(Figure 2.1) 합니다.\n뉴런의 구조는 다양하게 하지만 우리가 집중하고자 하는 곳은 크게 3가지 부분으로 구성되어 있습니다. - 외부 자극등 정보를 수신하는 수상돌기(Dendrite) - 수신된 정보를 신호를 만들어 내는 핵(Nucleus) - 신호를 신경절달 물질로 만들어 내는 축삭돌기(Axon)+시넵스(Synapse)가 있습니다.\n여기서 주목할 것은 뉴런은 정보를 입력받아 내부적인 신호를 생성하여 다음 뉴런에 정보를 전달한 다는 것입니다.\n이러한 뉴런의 작동기전을 모방하여 만들어 하진 것이 퍼셉트론(Figure 2.2)입니다.\n퍼셉트론은 1957년 프랑크 로젠블라트가 제안한 것으로 퍼셉트론은 이러한 뉴런의 작동기전을 모방하여 정보를 입력(Input)받아 연산을 통해 출력(Output)을 생성하도록 설계되었습니다.\n이러한 정보의 흐름 또는 연산 절차를 다른 말로 Forward Propagation이라 합니다, 향후 논의 될 Back Propagation과 대비되는 개념입니다.\nflowchart LR\n  subgraph node\n    direction LR\n    node2_1((SUM)) --&gt; node2_2((STEP))\n  end\n  node1_1((x_1)) --w1--&gt; node2_1\n  node1_2((x_2)) --w2--&gt; node2_1\n  node2_2 --&gt; node3((y))\n\n\n\n\nFigure 2.2: Basic of Perceptron\nFigure 2.2 에서 원은 노드(Node)라고 하면 노드간 연결된 선을 엣지(Edge)라고 합니다. 첫번째 노드의 x_1과 x_2는 입력값을 말하고, 두번째 노드는 내부적으로 SUM과 STEP으로 구성된 활성함수를 말하며, 마지막 노드의 z는 출력값으로 노드의 활성 정도를 말합니다.\n노란색 노드에서는 2단계 계산이 발생합니다. 하나늗 입력값의 뉴런에서는 신호의 세기를 측정하는 Weighted Sum과 뉴런의 여부를 계산하는 Step Function으로 구성되어 있습니다.\n\\[\nz = b + w_{1}x_{1} + w_{2}x_{2} + \\cdots + w_{n}x_{n} = b + \\boldsymbol{w}^{T}\\boldsymbol{x}\n\\tag{2.1}\\]\n\\[\nstep(z) = sign(z) =\n\\]",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Perceptron</span>"
+    ]
+  },
+  {
+    "objectID": "perceptron.html#what-is-a-perceptron",
+    "href": "perceptron.html#what-is-a-perceptron",
+    "title": "2  Perceptron",
+    "section": "",
+    "text": "Figure 2.1: Structure of Neuron (source: Wikipdia)",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Perceptron</span>"
     ]
