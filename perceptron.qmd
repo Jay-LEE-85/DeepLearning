@@ -20,11 +20,11 @@ DL은 **인공신경망(ANN, Articial Neural Network)**이 여러개(Deep)의 �
 
 ![Structure of Neuron (source: Wikipdia)](image/neuron.png){#fig-neuron}
 
-이러한 뉴런의 작동기전을 모방하여 만들어 하진 것이 퍼셉트론(@fig-perceptron1)입니다. 
+이러한 뉴런의 작동기전을 모방하여 만들어진 것이 퍼셉트론(@fig-perceptron1)입니다. 
 
 퍼셉트론은 1957년 프랑크 로젠블라트가 제안한 것으로 퍼셉트론은 이러한 뉴런의 작동기전을 모방하여 정보를 입력(Input)받아 연산을 통해 출력(Output)을 생성하도록 설계되었습니다. 
 
-이러한 정보의 흐름 또는 연산 절차를 다른 말로 **Forward Propagation**이라 합니다, 향후 논의 될 **Back Propagation**과 대비되는 개념입니다.
+이러한 정보의 흐름 또는 연산 절차를 다른 말로 **Forward Propagation**이라 합니다, 향후 논의 될 **Back Propagation**과 대비되는(?) 개념입니다.
 
 ```{mermaid}
 %%| label: fig-perceptron1
@@ -40,7 +40,9 @@ flowchart LR
   node2_2 --> node3((y_hat))
 ```
 
-@fig-perceptron1 에서 원은 **노드(Node)**라고 하면 노드간 연결된 선을 **엣지(Edge)**라고 합니다. 첫번째 노드의 `x_1`과 `x_2`는 입력값을 말하고, 두번째 노드는 내부적으로 `SUM`과 `STEP`으로 구성된 활성함수를 말하며, 마지막 노드의 `z`는 출력값으로 노드의 활성 정도를 말합니다.
+@fig-perceptron1 에서 원은 **노드(Node)**라고 하면 노드간 연결된 선을 **엣지(Edge)**라고 합니다. 엣지상에 존재하는 `w`는 **가중치(Weight)**하고 합니다.
+
+첫번째 노드의 `x_1`과 `x_2`는 입력값을 말하고, 두번째 노드는 내부적으로 `SUM`과 `STEP`으로 구성된 활성함수를 말하며, 마지막 노드의 `z`는 출력값으로 노드의 활성 정도를 말합니다.
 
 노란색 노드에서는 2단계 계산이 발생합니다. 하나늗 입력값의 뉴런에서는 신호의 세기를 계산하는 **Weighted Sum**(@eq-weightedSum) 과 뉴런의 여부를 계산하는 **Step Function**(@eq-stepFunction) 으로 구성되어 있습니다.
 
@@ -61,7 +63,7 @@ $$ {#eq-stepFunction}
 
 ::: {.callout-note}
 ## 퍼셉트론에서 사용되는 계단함수
-일반적으로 **Sign function**을 가장 많이 사용하지만, 이진값(0, 1)만을 갖는 **Heavisde step function**이 사용되기도 합니다. Clsiffication 문제에서 직선상의 Observation값은 0 으로 두어 처리하고, Weight와 같은 방향은 1, 다른 방향은 -1로 처리하는 것이 보다 높은 성능을 내어 우리는 **Sign function**을 주로 사용합니다,
+일반적으로 **Sign function**을 가장 많이 사용하지만, 이진값(0, 1)만을 갖는 **Heavisde step function**이 사용되기도 합니다. Clsiffication 문제에서 직선상의 Observation값은 0 , Weight와 같은 방향은 1, 다른 방향은 -1로 처리하는 것이 보다 용이하기에 우리는 **Sign function**을 주로 사용합니다.
 
 $$
 heavisde(z) = \begin{cases}
