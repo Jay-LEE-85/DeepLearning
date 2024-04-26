@@ -18,7 +18,7 @@ DL은 **인공신경망(ANN, Articial Neural Network)**이 여러개(Deep)의 �
 
 여기서 주목할 것은 뉴런은 정보를 입력받아 내부적인 신호를 생성하여 다음 뉴런에 정보를 전달한 다는 것입니다. 
 
-![Structure of Neuron (source: Wikipdia)](image/neuron.png){#fig-neuron}
+![Structure of Neuron (source: Wikipedia)](image/neuron.png){#fig-neuron}
 
 이러한 뉴런의 작동기전을 모방하여 만들어진 것이 퍼셉트론(@fig-perceptron1)입니다. 
 
@@ -46,7 +46,7 @@ flowchart LR
 
 노란색 노드에서는 2단계 계산이 발생합니다. 하나늗 입력값의 뉴런에서는 신호의 세기를 계산하는 **Weighted Sum**(@eq-weightedSum) 과 뉴런의 여부를 계산하는 **Step Function**(@eq-stepFunction) 으로 구성되어 있습니다.
 
-결과적으로 퍼셉트론의 출력값($\hat{y}=h_{w,b}(x)=sign(\textbf{w}^{T}\textbf{x}+b)$)은 (-1, 0, 1)로 3가지를 갖게 됩니다.
+결과적으로 퍼셉트론의 출력값($\hat{y}=h_{w,b}(x)=sign(\textbf{w}^{T}\textbf{x}+b)$)은 (-1, 0, 1)로 3가지를 갖게 됩니다. 이 결과값을 실제의 값($y$)와 비교(Loss Function)하여 가중치($w$)를 업데이트 하여 최적해(?)를 찾는 것이 퍼셉트론입니다.
 
 $$
 z = b + w_{1}x_{1} + w_{2}x_{2} + \cdots + w_{n}x_{n} = b + \textbf{w}^{T} \textbf{x}
@@ -75,7 +75,7 @@ $$
 
 ## Classification
 
-앞서 보았던 Perceptron을 Classification을 수행해보며 보다 자세하게 살펴보겠습니다. 이와 관련하여 우리는 Classification의 문제에 대하여 이해해볼 필요가 있습니다. 
+앞서 보았던 포셉트론을 Classification을 수행해보며 보다 자세하게 살펴보겠습니다. 이와 관련하여 우리는 Classification의 문제에 대하여 이해해볼 필요가 있습니다. 
 
 ### What is a "Classicication"?
 
