@@ -232,9 +232,9 @@ Figure&nbsp;2.1: Structure of Neuron (source: Wikipdia)
 </figcaption>
 </figure>
 </div>
-<p>이러한 뉴런의 작동기전을 모방하여 만들어 하진 것이 퍼셉트론(<a href="#fig-perceptron1" class="quarto-xref">Figure&nbsp;<span>2.2</span></a>)입니다.</p>
+<p>이러한 뉴런의 작동기전을 모방하여 만들어진 것이 퍼셉트론(<a href="#fig-perceptron1" class="quarto-xref">Figure&nbsp;<span>2.2</span></a>)입니다.</p>
 <p>퍼셉트론은 1957년 프랑크 로젠블라트가 제안한 것으로 퍼셉트론은 이러한 뉴런의 작동기전을 모방하여 정보를 입력(Input)받아 연산을 통해 출력(Output)을 생성하도록 설계되었습니다.</p>
-<p>이러한 정보의 흐름 또는 연산 절차를 다른 말로 <strong>Forward Propagation</strong>이라 합니다, 향후 논의 될 <strong>Back Propagation</strong>과 대비되는 개념입니다.</p>
+<p>이러한 정보의 흐름 또는 연산 절차를 다른 말로 <strong>Forward Propagation</strong>이라 합니다, 향후 논의 될 <strong>Back Propagation</strong>과 대비되는(?) 개념입니다.</p>
 <div class="cell" data-layout-align="default">
 <div class="cell-output-display">
 <div id="fig-perceptron1" class="quarto-figure quarto-figure-center quarto-float anchored">
@@ -259,7 +259,8 @@ Figure&nbsp;2.2: Basic of Perceptron
 </div>
 </div>
 </div>
-<p><a href="#fig-perceptron1" class="quarto-xref">Figure&nbsp;<span>2.2</span></a> 에서 원은 <strong>노드(Node)</strong>라고 하면 노드간 연결된 선을 <strong>엣지(Edge)</strong>라고 합니다. 첫번째 노드의 <code>x_1</code>과 <code>x_2</code>는 입력값을 말하고, 두번째 노드는 내부적으로 <code>SUM</code>과 <code>STEP</code>으로 구성된 활성함수를 말하며, 마지막 노드의 <code>z</code>는 출력값으로 노드의 활성 정도를 말합니다.</p>
+<p><a href="#fig-perceptron1" class="quarto-xref">Figure&nbsp;<span>2.2</span></a> 에서 원은 <strong>노드(Node)</strong>라고 하면 노드간 연결된 선을 <strong>엣지(Edge)</strong>라고 합니다. 엣지상에 존재하는 <code>w</code>는 <strong>가중치(Weight)</strong>하고 합니다.</p>
+<p>첫번째 노드의 <code>x_1</code>과 <code>x_2</code>는 입력값을 말하고, 두번째 노드는 내부적으로 <code>SUM</code>과 <code>STEP</code>으로 구성된 활성함수를 말하며, 마지막 노드의 <code>z</code>는 출력값으로 노드의 활성 정도를 말합니다.</p>
 <p>노란색 노드에서는 2단계 계산이 발생합니다. 하나늗 입력값의 뉴런에서는 신호의 세기를 계산하는 <strong>Weighted Sum</strong>(<a href="#eq-weightedSum" class="quarto-xref">Equation&nbsp;<span>2.1</span></a>) 과 뉴런의 여부를 계산하는 <strong>Step Function</strong>(<a href="#eq-stepFunction" class="quarto-xref">Equation&nbsp;<span>2.2</span></a>) 으로 구성되어 있습니다.</p>
 <p>결과적으로 퍼셉트론의 출력값(<span class="math inline">\(\hat{y}=h_{w,b}(x)=sign(\textbf{w}^{T}\textbf{x}+b)\)</span>)은 (-1, 0, 1)로 3가지를 갖게 됩니다.</p>
 <p><span id="eq-weightedSum"><span class="math display">\[
@@ -282,7 +283,7 @@ step(z) = sign(z) = \begin{cases}
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>일반적으로 <strong>Sign function</strong>을 가장 많이 사용하지만, 이진값(0, 1)만을 갖는 <strong>Heavisde step function</strong>이 사용되기도 합니다. Clsiffication 문제에서 직선상의 Observation값은 0 으로 두어 처리하고, Weight와 같은 방향은 1, 다른 방향은 -1로 처리하는 것이 보다 높은 성능을 내어 우리는 <strong>Sign function</strong>을 주로 사용합니다,</p>
+<p>일반적으로 <strong>Sign function</strong>을 가장 많이 사용하지만, 이진값(0, 1)만을 갖는 <strong>Heavisde step function</strong>이 사용되기도 합니다. Clsiffication 문제에서 직선상의 Observation값은 0 , Weight와 같은 방향은 1, 다른 방향은 -1로 처리하는 것이 보다 용이하기에 우리는 <strong>Sign function</strong>을 주로 사용합니다.</p>
 <p><span class="math display">\[
 heavisde(z) = \begin{cases}
 0 &amp; z &lt; 0 \\
