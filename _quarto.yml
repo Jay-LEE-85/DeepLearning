@@ -20,6 +20,7 @@ format:
     theme: cosmo
     mermaid:
       theme: default
+    html-math-method: katex
     code-annotations: hover
 
 
