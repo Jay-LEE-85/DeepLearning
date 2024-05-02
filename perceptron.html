@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>DeepLearning x 101 - 2&nbsp; Perceptron</title>
+<title>DeepLearning x 101 - 3&nbsp; Perceptron</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -31,7 +31,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
 <link href="./summary.html" rel="next">
-<link href="./intro.html" rel="prev">
+<link href="./prerequisite.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -114,7 +114,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./perceptron.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Perceptron</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./perceptron.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Perceptron</span></a></li></ol></nav>
         <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -153,14 +153,20 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./prerequisite.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">prerequisite.html</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./perceptron.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Perceptron</span></span></a>
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Perceptron</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./summary.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Summary</span></span></a>
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Summary</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -179,10 +185,10 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#what-is-a-perceptron" id="toc-what-is-a-perceptron" class="nav-link active" data-scroll-target="#what-is-a-perceptron"><span class="header-section-number">2.1</span> What is a ‘Perceptron’?</a></li>
-  <li><a href="#classification" id="toc-classification" class="nav-link" data-scroll-target="#classification"><span class="header-section-number">2.2</span> Classification</a>
+  <li><a href="#what-is-a-perceptron" id="toc-what-is-a-perceptron" class="nav-link active" data-scroll-target="#what-is-a-perceptron"><span class="header-section-number">3.1</span> What is a ‘Perceptron’?</a></li>
+  <li><a href="#classification" id="toc-classification" class="nav-link" data-scroll-target="#classification"><span class="header-section-number">3.2</span> Classification</a>
   <ul class="collapse">
-  <li><a href="#what-is-a-classicication" id="toc-what-is-a-classicication" class="nav-link" data-scroll-target="#what-is-a-classicication"><span class="header-section-number">2.2.1</span> What is a “Classicication”?</a></li>
+  <li><a href="#what-is-a-classicication" id="toc-what-is-a-classicication" class="nav-link" data-scroll-target="#what-is-a-classicication"><span class="header-section-number">3.2.1</span> What is a “Classicication”?</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -192,7 +198,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Perceptron</span></h1>
+<h1 class="title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Perceptron</span></h1>
 </div>
 
 
@@ -212,9 +218,9 @@ window.Quarto = {
 <p>DL은 <strong>인공신경망(ANN, Articial Neural Network)</strong>이 여러개(Deep)의 층(Layers)로 존재하는 구조를 말하는 것입니다.</p>
 <p>여기서 주목할 것은 신경망 입니다. 인공 신경망은 생물학적 신경망을 모방하여 설계된 만큼 이에 대한 작동기전을 이해하는 것이 중요하다고 생각합니다.</p>
 <p>본 장에서는 생물학적 신경망의 가장 기초가되는 <strong>뉴런(Neuron)</strong>에 대한 이해를 기반으로 인공 신경망의 가장 기초가되는 <strong>퍼셉트론(Perceptron)</strong>에 대하여 이해해 보고자 합니다.</p>
-<section id="what-is-a-perceptron" class="level2" data-number="2.1">
-<h2 data-number="2.1" class="anchored" data-anchor-id="what-is-a-perceptron"><span class="header-section-number">2.1</span> What is a ‘Perceptron’?</h2>
-<p>퍼셉트론은 인공신경망의 가장 기초가 되는 구조이고 이를 이해하기 위하여 생물한적 신경망의 가장 기초가 되는 뉴런에 대하여 살펴보고자(<a href="#fig-neuron" class="quarto-xref">Figure&nbsp;<span>2.1</span></a>) 합니다.</p>
+<section id="what-is-a-perceptron" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="what-is-a-perceptron"><span class="header-section-number">3.1</span> What is a ‘Perceptron’?</h2>
+<p>퍼셉트론은 인공신경망의 가장 기초가 되는 구조이고 이를 이해하기 위하여 생물한적 신경망의 가장 기초가 되는 뉴런에 대하여 살펴보고자(<a href="#fig-neuron" class="quarto-xref">Figure&nbsp;<span>3.1</span></a>) 합니다.</p>
 <p>뉴런의 구조는 다양하게 하지만 우리가 집중하고자 하는 곳은 크게 3가지 부분으로 구성되어 있습니다.</p>
 <ul>
 <li>외부 자극등 정보를 수신하는 <strong>수상돌기(Dendrite)</strong></li>
@@ -228,11 +234,11 @@ window.Quarto = {
 <img src="image/neuron.png" class="img-fluid figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-neuron-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;2.1: Structure of Neuron (source: Wikipdia)
+Figure&nbsp;3.1: Structure of Neuron (source: Wikipedia)
 </figcaption>
 </figure>
 </div>
-<p>이러한 뉴런의 작동기전을 모방하여 만들어진 것이 퍼셉트론(<a href="#fig-perceptron1" class="quarto-xref">Figure&nbsp;<span>2.2</span></a>)입니다.</p>
+<p>이러한 뉴런의 작동기전을 모방하여 만들어진 것이 퍼셉트론(<a href="#fig-perceptron1" class="quarto-xref">Figure&nbsp;<span>3.2</span></a>)입니다.</p>
 <p>퍼셉트론은 1957년 프랑크 로젠블라트가 제안한 것으로 퍼셉트론은 이러한 뉴런의 작동기전을 모방하여 정보를 입력(Input)받아 연산을 통해 출력(Output)을 생성하도록 설계되었습니다.</p>
 <p>이러한 정보의 흐름 또는 연산 절차를 다른 말로 <strong>Forward Propagation</strong>이라 합니다, 향후 논의 될 <strong>Back Propagation</strong>과 대비되는(?) 개념입니다.</p>
 <div class="cell" data-layout-align="default">
@@ -253,26 +259,26 @@ Figure&nbsp;2.1: Structure of Neuron (source: Wikipdia)
 </div>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-perceptron1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;2.2: Basic of Perceptron
+Figure&nbsp;3.2: Basic of Perceptron
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
-<p><a href="#fig-perceptron1" class="quarto-xref">Figure&nbsp;<span>2.2</span></a> 에서 원은 <strong>노드(Node)</strong>라고 하면 노드간 연결된 선을 <strong>엣지(Edge)</strong>라고 합니다. 엣지상에 존재하는 <code>w</code>는 <strong>가중치(Weight)</strong>하고 합니다.</p>
+<p><a href="#fig-perceptron1" class="quarto-xref">Figure&nbsp;<span>3.2</span></a> 에서 원은 <strong>노드(Node)</strong>라고 하면 노드간 연결된 선을 <strong>엣지(Edge)</strong>라고 합니다. 엣지상에 존재하는 <code>w</code>는 <strong>가중치(Weight)</strong>하고 합니다.</p>
 <p>첫번째 노드의 <code>x_1</code>과 <code>x_2</code>는 입력값을 말하고, 두번째 노드는 내부적으로 <code>SUM</code>과 <code>STEP</code>으로 구성된 활성함수를 말하며, 마지막 노드의 <code>z</code>는 출력값으로 노드의 활성 정도를 말합니다.</p>
-<p>노란색 노드에서는 2단계 계산이 발생합니다. 하나늗 입력값의 뉴런에서는 신호의 세기를 계산하는 <strong>Weighted Sum</strong>(<a href="#eq-weightedSum" class="quarto-xref">Equation&nbsp;<span>2.1</span></a>) 과 뉴런의 여부를 계산하는 <strong>Step Function</strong>(<a href="#eq-stepFunction" class="quarto-xref">Equation&nbsp;<span>2.2</span></a>) 으로 구성되어 있습니다.</p>
-<p>결과적으로 퍼셉트론의 출력값(<span class="math inline">\(\hat{y}=h_{w,b}(x)=sign(\textbf{w}^{T}\textbf{x}+b)\)</span>)은 (-1, 0, 1)로 3가지를 갖게 됩니다.</p>
+<p>노란색 노드에서는 2단계 계산이 발생합니다. 하나늗 입력값의 뉴런에서는 신호의 세기를 계산하는 <strong>Weighted Sum</strong>(<a href="#eq-weightedSum" class="quarto-xref">Equation&nbsp;<span>3.1</span></a>) 과 뉴런의 여부를 계산하는 <strong>Step Function</strong>(<a href="#eq-stepFunction" class="quarto-xref">Equation&nbsp;<span>3.2</span></a>) 으로 구성되어 있습니다.</p>
+<p>결과적으로 퍼셉트론의 출력값(<span class="math inline">\(\hat{y}=h_{w,b}(x)=sign(\textbf{w}^{T}\textbf{x}+b)\)</span>)은 (-1, 0, 1)로 3가지를 갖게 됩니다. 이 결과값을 실제의 값(<span class="math inline">\(y\)</span>)와 비교(Loss Function)하여 가중치(<span class="math inline">\(w\)</span>)를 업데이트 하여 최적해(?)를 찾는 것이 퍼셉트론입니다.</p>
 <p><span id="eq-weightedSum"><span class="math display">\[
 z = b + w_{1}x_{1} + w_{2}x_{2} + \cdots + w_{n}x_{n} = b + \textbf{w}^{T} \textbf{x}
-\tag{2.1}\]</span></span></p>
+\tag{3.1}\]</span></span></p>
 <p><span id="eq-stepFunction"><span class="math display">\[
 step(z) = sign(z) = \begin{cases}
 -1 &amp; z &lt; 0 \\
 0 &amp; z = 0 \\
 1 &amp; z &gt; 0
 \end{cases}
-\tag{2.2}\]</span></span></p>
+\tag{3.2}\]</span></span></p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -293,11 +299,11 @@ heavisde(z) = \begin{cases}
 </div>
 </div>
 </section>
-<section id="classification" class="level2" data-number="2.2">
-<h2 data-number="2.2" class="anchored" data-anchor-id="classification"><span class="header-section-number">2.2</span> Classification</h2>
-<p>앞서 보았던 Perceptron을 Classification을 수행해보며 보다 자세하게 살펴보겠습니다. 이와 관련하여 우리는 Classification의 문제에 대하여 이해해볼 필요가 있습니다.</p>
-<section id="what-is-a-classicication" class="level3" data-number="2.2.1">
-<h3 data-number="2.2.1" class="anchored" data-anchor-id="what-is-a-classicication"><span class="header-section-number">2.2.1</span> What is a “Classicication”?</h3>
+<section id="classification" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="classification"><span class="header-section-number">3.2</span> Classification</h2>
+<p>앞서 보았던 포셉트론을 Classification을 수행해보며 보다 자세하게 살펴보겠습니다. 이와 관련하여 우리는 Classification의 문제에 대하여 이해해볼 필요가 있습니다.</p>
+<section id="what-is-a-classicication" class="level3" data-number="3.2.1">
+<h3 data-number="3.2.1" class="anchored" data-anchor-id="what-is-a-classicication"><span class="header-section-number">3.2.1</span> What is a “Classicication”?</h3>
 
 
 </section>
@@ -754,13 +760,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./intro.html" class="pagination-link" aria-label="Introduction">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></span>
+      <a href="./prerequisite.html" class="pagination-link" aria-label="prerequisite.html">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">prerequisite.html</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
       <a href="./summary.html" class="pagination-link" aria-label="Summary">
-        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Summary</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Summary</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
