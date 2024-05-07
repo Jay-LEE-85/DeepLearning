@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>DeepLearning x 101 - 1&nbsp; Introduction</title>
+<title>DeepLearning x 101 - Introduction</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -64,7 +64,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./perceptron.html" rel="next">
+<link href="./perceptron-intro.html" rel="next">
 <link href="./index.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -162,7 +162,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./intro.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./intro.html">Introduction</a></li></ol></nav>
         <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -196,27 +196,49 @@ window.Quarto = {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./intro.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
+ <span class="menu-text">Introduction</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+ <span class="menu-text">Perceptron</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./perceptron.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Perceptron</span></span></a>
+  <a href="./perceptron-intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Perceptron</span></span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+ <span class="menu-text">ANN</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ANN.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Artificial Neural Networks</span></span></a>
+  <a href="./ANN-intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Artificial Neural Networks</span></span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./summary.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Summary</span></span></a>
+  <a href="./ANN-activation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Activation Function</span></span></a>
   </div>
 </li>
+      </ul>
+  </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./references.html" class="sidebar-item-text sidebar-link">
@@ -233,9 +255,9 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#learning-path" id="toc-learning-path" class="nav-link active" data-scroll-target="#learning-path"><span class="header-section-number">1.1</span> Learning Path</a></li>
-  <li><a href="#environment" id="toc-environment" class="nav-link" data-scroll-target="#environment"><span class="header-section-number">1.2</span> Environment</a></li>
-  <li><a href="#how-to-read" id="toc-how-to-read" class="nav-link" data-scroll-target="#how-to-read"><span class="header-section-number">1.3</span> How to read</a></li>
+  <li><a href="#learning-path" id="toc-learning-path" class="nav-link active" data-scroll-target="#learning-path">Learning Path</a></li>
+  <li><a href="#environment" id="toc-environment" class="nav-link" data-scroll-target="#environment">Environment</a></li>
+  <li><a href="#how-to-read" id="toc-how-to-read" class="nav-link" data-scroll-target="#how-to-read">How to read</a></li>
   </ul>
 </nav>
     </div>
@@ -244,7 +266,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></h1>
+<h1 class="title">Introduction</h1>
 </div>
 
 
@@ -265,11 +287,11 @@ window.Quarto = {
 <p>그러나 시중에 나와 있는 대부분의 문헌은 DL의 Application에 촛점을 두고 다양한 Framework(<code>tensorflow</code>, <code>torch</code> 등)의 사용례에 집중하여 DL의 Fundation을 이해할 수 없는 문제를 접하게 되었었습니다.</p>
 <p>DL을 Deep하게 이해하기 위하여 필자들은 기초부터 시작하여 응용까지 모든 과정을 따라가 보기위하여 본 프로젝트를 시작하였습니다.</p>
 <p>이 과정은 쉽지 않을 것이지만 다양한 이론과 수식들을 직접 찾아보고 이해해보고, 동시에 외부 라이브러리에 의존하지 않고 기초적인 내용을 하나 하나를 구현해 봄으로써 더 Deep하게 DL을 이해하고, 향후 Framework의 활용시 높은 수준의 이해를 갖고 새로운 문제들을 해결하고자 합니다.</p>
-<section id="learning-path" class="level2" data-number="1.1">
-<h2 data-number="1.1" class="anchored" data-anchor-id="learning-path"><span class="header-section-number">1.1</span> Learning Path</h2>
+<section id="learning-path" class="level2">
+<h2 class="anchored" data-anchor-id="learning-path">Learning Path</h2>
 <p>필자들의 DL 학습배경에 따라 아래의 경로로 DL을 학습할 계획이며 많은 문헌에서 다루고 있는 학습경로 입니다.</p>
 <p>학습경로가 정확한지? 적절한지? 알 수 없지만, 적어도 <em>A to Z</em>의 관점에서 빠짐없이 모든 내용을 학습해보기로 하였습니다.</p>
-<p>학습경로에 관한 내용은 <a href="#fig-LearningPath" class="quarto-xref">Figure&nbsp;<span>1.1</span></a> 을 참고하기 바라며, 학습을 수행하는 과정마다 변경되거나 추가되는 사항은 지속적으로 반영해 나갈 예정입니다.</p>
+<p>학습경로에 관한 내용은 <a href="#fig-LearningPath" class="quarto-xref">Figure&nbsp;<span>1</span></a> 을 참고하기 바라며, 학습을 수행하는 과정마다 변경되거나 추가되는 사항은 지속적으로 반영해 나갈 예정입니다.</p>
 <div class="cell" data-layout-align="default">
 <div class="cell-output-display">
 <div id="fig-LearningPath" class="quarto-figure quarto-figure-center quarto-float anchored">
@@ -312,17 +334,17 @@ window.Quarto = {
 </div>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-LearningPath-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;1.1: Learning Path
+Figure&nbsp;1: Learning Path
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
 </section>
-<section id="environment" class="level2" data-number="1.2">
-<h2 data-number="1.2" class="anchored" data-anchor-id="environment"><span class="header-section-number">1.2</span> Environment</h2>
+<section id="environment" class="level2">
+<h2 class="anchored" data-anchor-id="environment">Environment</h2>
 <p>우리가 학습하며 사용한 실습환경에 대하여 간단하게 소개하겠습니다.</p>
-<p>누구나 접근이 가능한 <code>Python</code>을 기반으로 하고 있고, 실습에 사용하는 라이브러리(<a href="#tbl-packages" class="quarto-xref">Table&nbsp;<span>1.1</span></a> )는 의존도를 최소화 하기 위하여 <code>numpy</code>를 주로 사용하였습니다. 그리고 실습결과를 도식화하기 위하여는 <code>matplotlib</code>을 사용하였습니다.</p>
+<p>누구나 접근이 가능한 <code>Python</code>을 기반으로 하고 있고, 실습에 사용하는 라이브러리(<a href="#tbl-packages" class="quarto-xref">Table&nbsp;<span>1</span></a> )는 의존도를 최소화 하기 위하여 <code>numpy</code>를 주로 사용하였습니다. 그리고 실습결과를 도식화하기 위하여는 <code>matplotlib</code>을 사용하였습니다.</p>
 <p>이론에 대한 충분한 실습을 완료한 뒤에는 <code>tensorflow</code> 또는 <code>torch</code>를 사용하기로 하였습니다. 이는 <strong>NVIDIA</strong>의 GPU를 활용하여 보다 Deep한 신경망을 구현하기 위함임을 참고하여 주시고 학습과정에서 본 Framework의 사용은 최소화 할 예정입니다.</p>
 <p>학습경로와 마찬가지로 아래의 테이블에 적시된 라이브러리와 그 버전은 수시로 업데이트 할 예정입니다.</p>
 <div id="tbl-packages" class="quarto-float anchored">
@@ -356,13 +378,13 @@ Figure&nbsp;1.1: Learning Path
 </table>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-tbl" id="tbl-packages-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Table&nbsp;1.1: List of Packages
+Table&nbsp;1: List of Packages
 </figcaption>
 </figure>
 </div>
 </section>
-<section id="how-to-read" class="level2 page-columns page-full" data-number="1.3">
-<h2 data-number="1.3" class="anchored" data-anchor-id="how-to-read"><span class="header-section-number">1.3</span> How to read</h2>
+<section id="how-to-read" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="how-to-read">How to read</h2>
 <p>이 사이트에서 다루는 내용은 기본적인 이론에 대한 설명과 이와 관련된 코드와 그 실행 결과 들을 보여줄 것입니다.</p>
 <p><strong>Code Example</strong></p>
 <ul>
@@ -372,10 +394,10 @@ Table&nbsp;1.1: List of Packages
 <div id="lst-codeExample" class="listing quarto-float">
 <figure class="quarto-float quarto-float-lst figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-lst" id="lst-codeExample-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Listing&nbsp;1.1: Code Block
+Listing&nbsp;1: Code Block
 </figcaption>
 <div aria-describedby="lst-codeExample-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div id="ae7246fb" class="cell" data-execution_count="1">
+<div id="acedb213" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="annotated-cell-1"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-1-1"><a href="#annotated-cell-1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> add(num1, num2):</span>
 <button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="1">1</button><span id="annotated-cell-1-2" class="code-annotation-target"><a href="#annotated-cell-1-2" aria-hidden="true" tabindex="-1"></a>  result <span class="op">=</span> num1 <span class="op">+</span> num2</span>
 <span id="annotated-cell-1-3"><a href="#annotated-cell-1-3" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span>  result</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -399,7 +421,7 @@ Listing&nbsp;1.1: Code Block
 <div id="lst-equationExample" class="listing quarto-float">
 <figure class="quarto-float quarto-float-lst figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-lst" id="lst-equationExample-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Listing&nbsp;1.2: Equation
+Listing&nbsp;2: Equation
 </figcaption>
 <div aria-describedby="lst-equationExample-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <p><span class="math display">\frac{d}{dx}\left( \int_{a}^{x} f(u)\,du\right)=f(x).</span></p>
@@ -418,7 +440,7 @@ Listing&nbsp;1.2: Equation
 <div id="lst-calloutExample" class="listing quarto-float">
 <figure class="quarto-float quarto-float-lst figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-lst" id="lst-calloutExample-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Listing&nbsp;1.3: Callout
+Listing&nbsp;3: Callout
 </figcaption>
 <div aria-describedby="lst-calloutExample-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="callout callout-style-default callout-note callout-titled">
@@ -935,8 +957,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./perceptron.html" class="pagination-link" aria-label="Perceptron">
-        <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Perceptron</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./perceptron-intro.html" class="pagination-link" aria-label="Perceptron">
+        <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Perceptron</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
