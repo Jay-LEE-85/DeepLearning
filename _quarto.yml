@@ -9,9 +9,16 @@ book:
   chapters:
     - index.qmd
     - intro.qmd
-    - perceptron.qmd
-    - ANN.qmd
-    - summary.qmd
+    
+    - part: perceptron.qmd
+      chapters:
+      - perceptron-intro.qmd
+
+    - part: ANN.qmd
+      chapters:
+      - ANN-intro.qmd
+      - ANN-activation.qmd
+
     - references.qmd
 
 bibliography: references.bib

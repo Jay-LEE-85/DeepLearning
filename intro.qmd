@@ -1,4 +1,4 @@
-# Introduction
+# Introduction {.unnumbered}
 
 Deeplearning(이하 'DL')은 다양한 분야에 활용되고 있습니다. 그러나 DL이 무엇인지? 그리고 DL이 어떻게 작동하는지? 필자들은 이러한 기초적인 물음에 답을 찾고 싶었습니다. 
 

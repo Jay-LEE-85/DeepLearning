@@ -1,0 +1,30 @@
+# Activation Function
+
+앞서 살펴본 $h(x)$ 라는 함수가 바로 **활성화 함수**(Activation function)이다. 이는 입력신호의 총합(Weighted Sum)이 다음 뉴런이 활성화 정도를 결정하는 함수로 이해할 수 있습니다.
+
+이러한 활성화 함수가 포함된 ANN의 기본적인 모형은 다음과 같이 수정할 수 있다. `a`는 입력신호의 총합이를 받아 `h()`함수를 거쳐 `y`를 출력합니다.
+
+``` {mermaid}
+%%| label: fig-egANN
+%%| fig-cap: "Processing of the activation function"
+
+graph LR
+  subgraph h ["h()"]
+    direction LR
+    a((a)) & y((y))
+  end
+
+  x0((1)):::bias --b---> a
+  x1((x1))  --w1---> a
+  x2((x2))  --w2---> a
+  a --> y
+  classDef bias fill:#f96
+```
+
+퍼셉트론에서는 활성화 함수로 **계단함수**(Sign function)를 사용하였느나, ANN에서는 활성화 함수로 미분가능한 함수들을 사용합니다. 다음은 ANN에서 사용하는 활성화 함수에 대하여 소개하겠습니다.
+
+## Sigmoid Function
+
+## ReLU Function
+
+## Softmax Function
