@@ -10,6 +10,7 @@ book:
     - index.qmd
     - intro.qmd
     - perceptron.qmd
+    - ANN.qmd
     - summary.qmd
     - references.qmd
 
@@ -22,6 +23,8 @@ format:
       theme: default
     html-math-method: katex
     code-annotations: hover
+    fig-cap-location: bottom
+    tbl-cap-location: bottom
 
 
 
