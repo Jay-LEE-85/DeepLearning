@@ -1,6 +1,0 @@
-# Artificial Neural Networks
-
-ANN의 정의
-활성화 함수
-신경망 학습
-오차 역전파

@@ -1,4 +1,4 @@
-# What is a 'ANN?
+# Artificial Neural Networks
 
 **인공신경망(ANN, Artificial Neural Networks)**은 퍼셉트론과 유사한 메커니즘을 갖고 있습니다. @fig-egANN 에서 가장 왼쪽이 **입력층**(Input), 중간이 **은닉층**(Hidden), 가장 오른쪽이 **출력층**(Output)으로 구성되어 있습니다.
 
@@ -66,3 +66,9 @@ $$
   \end{cases}
 \end{align}
 $$ {#eq-ann}
+
+::: {.callout-note}
+## 펴셉트론과 Deeplearning의 차이
+-   퍼셉트론에 사용되는 선형판별식에 가중치 및 임계치의 조합은 무수히 많고, 가중치 및 임계치는 **인간**이 설정해야 함
+-   Deeplearning의 경우 가중치 및 임계치를 **컴퓨터**가 **학습**하여 설정해게 됨
+:::
