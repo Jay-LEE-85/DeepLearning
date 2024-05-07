@@ -1,0 +1,41 @@
+{
+  "ANN.qmd": {
+    "ANN.html": "c6ed346a"
+  },
+  "index.qmd": {
+    "index.html": "d0e02774"
+  },
+  "intro.qmd": {
+    "intro.html": "804075e7"
+  },
+  "perceptron.qmd": {
+    "perceptron.html": "ea77a8ab"
+  },
+  "Activation.qmd": {
+    "Activation.html": "6b288b01"
+  },
+  "summary.qmd": {
+    "summary.html": "38682fa6"
+  },
+  "references.qmd": {
+    "references.html": "c546a768"
+  },
+  "perceptron1.qmd": {
+    "perceptron1.html": "a40a6ba2"
+  },
+  "perceptron2.qmd": {
+    "perceptron2.html": "c488533a"
+  },
+  "ANN-activation.qmd": {
+    "ANN-activation.html": "4448deff"
+  },
+  "perceptron-contents.qmd": {
+    "perceptron-contents.html": "7d040175"
+  },
+  "ANN-intro.qmd": {
+    "ANN-intro.html": "b6e92dbb"
+  },
+  "perceptron-intro.qmd": {
+    "perceptron-intro.html": "35fc3c11"
+  }
+}
