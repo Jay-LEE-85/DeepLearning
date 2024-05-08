@@ -1,0 +1,12 @@
+{
+  "hash": "a821fd5879b61d6d424d9b5da66fd897",
+  "result": {
+    "engine": "jupyter",
+    "markdown": "# Activation Function\n\n앞서 살펴본 $h(x)$ 라는 함수가 바로 **활성화 함수**(Activation function)이다. 이는 입력신호의 총합(Weighted Sum)을 입력값으로 받아 다음 뉴런이 활성화 정도를 결정하는 함수로 이해할 수 있습니다.\n\n이러한 활성화 함수가 포함된 ANN의 기본적인 모형은 다음과 같습니다. `a`는 입력신호의 총합을 의미하고, `h()`는 이를 다양한 활성화 함수를 이용하여 다음 뉴런의 활성정도인 `y`를 출력합니다.\n\n\n``` {mermaid}\n%%| label: fig-egANN\n%%| fig-cap: \"Processing of the activation function\"\n\ngraph LR\n  subgraph h [\"h()\"]\n    direction LR\n    a((a)) & y((y))\n  end\n\n  x0((1)):::bias --b---> a\n  x1((x1))  --w1---> a\n  x2((x2))  --w2---> a\n  a --> y\n  classDef bias fill:#f96\n```\n\n\n퍼셉트론에서는 활성화 함수로 **계단함수**(Sign function)를 사용하였느나, ANN에서는 활성화 함수로 미분가능한 함수들을 사용합니다. 다음은 ANN에서 사용하는 활성화 함수에 대하여 소개하겠습니다.\n\n## Sigmoid Function\n\n## ReLU Function\n\n## Softmax Functiony\n\n",
+    "supporting": [
+      "ANN-activation_files"
+    ],
+    "filters": [],
+    "includes": {}
+  }
+}
