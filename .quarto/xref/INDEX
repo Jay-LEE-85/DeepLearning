@@ -1,0 +1,23 @@
+{
+  "index.qmd": {
+    "index.html": "d166ab19"
+  },
+  "intro.qmd": {
+    "intro.html": "7bf3bbf5"
+  },
+  "perceptron-intro.qmd": {
+    "perceptron-intro.html": "ecce7d33"
+  },
+  "perceptron-lab_classification.qmd": {
+    "perceptron-lab_classification.html": "75a0337c"
+  },
+  "ANN-intro.qmd": {
+    "ANN-intro.html": "ef9fc343"
+  },
+  "ANN-activation.qmd": {
+    "ANN-activation.html": "3b1e4bef"
+  },
+  "references.qmd": {
+    "references.html": "f3e4623c"
+  }
+}
