@@ -295,7 +295,7 @@ window.Quarto = {
 <p>본 장에서는 생물학적 신경망의 가장 기초가되는 <strong>뉴런(Neuron)</strong>에 대한 이해를 기반으로 인공 신경망의 가장 기초가되는 <strong>퍼셉트론(Perceptron)</strong>에 대하여 이해해 보고자 합니다.</p>
 <section id="what-is-a-perceptron" class="level2" data-number="1.1">
 <h2 data-number="1.1" class="anchored" data-anchor-id="what-is-a-perceptron"><span class="header-section-number">1.1</span> What is a ‘Perceptron’?</h2>
-<p>퍼셉트론은 인공신경망의 가장 기초가 되는 구조이고 이를 이해하기 위하여 생물한적 신경망의 가장 기초가 되는 뉴런에 대하여 살펴보고자(<a href="#fig-neuron" class="quarto-xref">Figure&nbsp;<span>1.1</span></a>) 합니다.</p>
+<p>퍼셉트론은 인공신경망의 가장 기초가 되는 개념이고 이를 이해하기 위하여 생물학적 신경망의 가장 기초가 되는 뉴런(<a href="#fig-neuron" class="quarto-xref">Figure&nbsp;<span>1.1</span></a>)에 대하여 이해할 필요가 있습니다.</p>
 <p>뉴런의 구조는 다양하게 하지만 우리가 집중하고자 하는 곳은 크게 3가지 부분으로 구성되어 있습니다.</p>
 <ul>
 <li>외부 자극등 정보를 수신하는 <strong>수상돌기(Dendrite)</strong></li>
@@ -596,7 +596,7 @@ y = \begin{cases}
 \end{cases}
 \tag{1.4}</span></span></p>
 </div></div><p>변형된 수식(<a href="#eq-eqAndGate2" class="quarto-xref">Equation&nbsp;<span>1.4</span></a> )에 기초하여 진리표(<a href="#tbl-bitwise" class="quarto-xref">Table&nbsp;<span>1.1</span></a> )상의 게이트를 코드로 구현하면 아래와 같습니다.</p>
-<div id="418ffa35" class="cell" data-execution_count="2">
+<div id="b19a3837" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="annotated-cell-1"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="1">1</button><span id="annotated-cell-1-1" class="code-annotation-target"><a href="#annotated-cell-1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="annotated-cell-1-2"><a href="#annotated-cell-1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="annotated-cell-1-3"><a href="#annotated-cell-1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># AND gate</span></span>
@@ -726,7 +726,7 @@ Table&nbsp;1.2: <code>XOR</code>게이트의 진리표
 </figure>
 </div>
 <p>위의 진리표(<a href="#tbl-XOR2" class="quarto-xref">Table&nbsp;<span>1.2</span></a> )를 코드로 구현하면 아래와 같습니다. 앞서 구현한 게이트들을 코드내에서 사용하여 단순하게 구현할 수 있습니다.</p>
-<div id="3c558a3d" class="cell" data-execution_count="3">
+<div id="10f6c2b6" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> XOR(x1, x2):</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  s1 <span class="op">=</span> NAND(x1, x2)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  s2 <span class="op">=</span> OR(x1, x2)</span>

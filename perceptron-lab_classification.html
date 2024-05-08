@@ -266,12 +266,11 @@ window.Quarto = {
 </div>
 <p><span class="citation" data-cites="fig_classification">(<a href="references.html#ref-fig_classification" role="doc-biblioref"><strong>fig_classification?</strong></a>)</span> 와 같은 산점도에서 <code>C1</code>과 <code>C0</code>을 구분하는 문제를 퍼셉트론을 이용하여 해결해 보겠습니다.</p>
 <p>전장에서 살펴본 퍼셉트론(<a href="perceptron-intro.html#fig-perceptron1" class="quarto-xref">Figure&nbsp;<span>1.2</span></a>)에 따라 설명하고자 합니다. 우선 입력받는 변수는 <span class="math inline">x</span>, 가중치는 <span class="math inline">\omega</span>로 둘수 있습니다.</p>
-$$ x =
-<span class="math display">\begin{bmatrix}x_1\\ \vdots\\ x_d \end{bmatrix}</span>
-<p>\</p>
-=
-<span class="math display">\begin{bmatrix}\omega_1\\ \vdots\\ \omega_d \end{bmatrix}</span>
-<p>$$</p>
+<p>$$ <span class="math display">\begin{align}
+x = \begin{bmatrix}x_1\\ \vdots\\ x_d \end{bmatrix} \\
+
+\omega = \begin{bmatrix}\omega_1\\ \vdots\\ \omega_d \end{bmatrix}
+\end{align}</span> $$</p>
 <p>여기서 Weighted Sum의 결과가 특정 임계치(<span class="math inline">\theta</span>)를 초과하는 지에 따라 적색 또는 청색으로 구분하고자 합니다.</p>
 <p><span class="math display">
 \begin{align}
@@ -286,12 +285,12 @@ h(x) &amp;= \text{sign} \left(\left( \sum\limits_{i=1}^{d}\omega_ix_i \right)- \
 
 &amp;= \text{sign}\left(\left( \sum\limits_{i=1}^{d}\omega_ix_i \right)+ \omega_0\right)
 \end{align}</span> $$</p>
-<p><span class="math inline">\omega_0=1</span>로 두고 이를 벡터 형식(vector form)으로 표현하고, Step function을 Sign function으로 정의하면 최종식은 같이 수정할 수 있습니다.</p>
+<p><span class="math inline">\omega_0=1</span>로 두고 이를 벡터 형식(vector form)으로 표현하고, Step function을 Sign function으로 정의하면 최종식은 아래와 같이 수정할 수 있습니다.</p>
 <p><span class="math display">
 \begin{align}
-h(x) &amp;= sign(\sum_{i=0}^{d}\omega_{i}x_{i}) \\
-&amp;=sign(\omega^{T}x) \\ \\
-sign(x) &amp;= \begin{cases}
+h(x) &amp;= \text{sign}(\sum_{i=0}^{d}\omega_{i}x_{i}) \\
+&amp;=\text{sign}(\omega^{T}x) \\ \\
+\text{sign}(x) &amp;= \begin{cases}
 1, &amp;\text{if }\; x &gt; 0\\
 0, &amp;\text{if }\; x = 0\\
 -1, &amp;\text{if }\; x &lt; 0
