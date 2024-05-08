@@ -64,7 +64,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./ANN-intro.html" rel="next">
+<link href="./perceptron-lab_classification.html" rel="next">
 <link href="./intro.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -214,6 +214,12 @@ window.Quarto = {
  <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Perceptron</span></span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./perceptron-lab_classification.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Lab: Classification with Perceptron</span></span></a>
+  </div>
+</li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
@@ -228,13 +234,13 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./ANN-intro.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Artificial Neural Networks</span></span></a>
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Artificial Neural Networks</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./ANN-activation.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Activation Function</span></span></a>
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Activation Function</span></span></a>
   </div>
 </li>
       </ul>
@@ -590,7 +596,7 @@ y = \begin{cases}
 \end{cases}
 \tag{1.4}</span></span></p>
 </div></div><p>변형된 수식(<a href="#eq-eqAndGate2" class="quarto-xref">Equation&nbsp;<span>1.4</span></a> )에 기초하여 진리표(<a href="#tbl-bitwise" class="quarto-xref">Table&nbsp;<span>1.1</span></a> )상의 게이트를 코드로 구현하면 아래와 같습니다.</p>
-<div id="6110537a" class="cell" data-execution_count="2">
+<div id="fe93bdac" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="annotated-cell-1"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="1">1</button><span id="annotated-cell-1-1" class="code-annotation-target"><a href="#annotated-cell-1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="annotated-cell-1-2"><a href="#annotated-cell-1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="annotated-cell-1-3"><a href="#annotated-cell-1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># AND gate</span></span>
@@ -720,7 +726,7 @@ Table&nbsp;1.2: <code>XOR</code>게이트의 진리표
 </figure>
 </div>
 <p>위의 진리표(<a href="#tbl-XOR2" class="quarto-xref">Table&nbsp;<span>1.2</span></a> )를 코드로 구현하면 아래와 같습니다. 앞서 구현한 게이트들을 코드내에서 사용하여 단순하게 구현할 수 있습니다.</p>
-<div id="01d62109" class="cell" data-execution_count="3">
+<div id="0ef64d3f" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> XOR(x1, x2):</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  s1 <span class="op">=</span> NAND(x1, x2)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  s2 <span class="op">=</span> OR(x1, x2)</span>
@@ -1187,8 +1193,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./ANN-intro.html" class="pagination-link" aria-label="Artificial Neural Networks">
-        <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Artificial Neural Networks</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./perceptron-lab_classification.html" class="pagination-link" aria-label="Lab: Classification with Perceptron">
+        <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Lab: Classification with Perceptron</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>DeepLearning x 101 - 3&nbsp; Activation Function</title>
+<title>DeepLearning x 101 - 4&nbsp; Activation Function</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -128,7 +128,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./ANN-intro.html">ANN</a></li><li class="breadcrumb-item"><a href="./ANN-activation.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Activation Function</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./ANN-intro.html">ANN</a></li><li class="breadcrumb-item"><a href="./ANN-activation.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Activation Function</span></a></li></ol></nav>
         <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -180,6 +180,12 @@ window.Quarto = {
  <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Perceptron</span></span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./perceptron-lab_classification.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Lab: Classification with Perceptron</span></span></a>
+  </div>
+</li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
@@ -194,13 +200,13 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./ANN-intro.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Artificial Neural Networks</span></span></a>
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Artificial Neural Networks</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./ANN-activation.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Activation Function</span></span></a>
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Activation Function</span></span></a>
   </div>
 </li>
       </ul>
@@ -221,18 +227,18 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#sigmoid-function" id="toc-sigmoid-function" class="nav-link active" data-scroll-target="#sigmoid-function"><span class="header-section-number">3.1</span> Sigmoid Function</a></li>
-  <li><a href="#relu-function" id="toc-relu-function" class="nav-link" data-scroll-target="#relu-function"><span class="header-section-number">3.2</span> ReLU Function</a></li>
-  <li><a href="#softmax-function" id="toc-softmax-function" class="nav-link" data-scroll-target="#softmax-function"><span class="header-section-number">3.3</span> Softmax Function</a></li>
+  <li><a href="#sigmoid-function" id="toc-sigmoid-function" class="nav-link active" data-scroll-target="#sigmoid-function"><span class="header-section-number">4.1</span> Sigmoid Function</a></li>
+  <li><a href="#relu-function" id="toc-relu-function" class="nav-link" data-scroll-target="#relu-function"><span class="header-section-number">4.2</span> ReLU Function</a></li>
+  <li><a href="#softmax-functiony" id="toc-softmax-functiony" class="nav-link" data-scroll-target="#softmax-functiony"><span class="header-section-number">4.3</span> Softmax Functiony</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./ANN-intro.html">ANN</a></li><li class="breadcrumb-item"><a href="./ANN-activation.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Activation Function</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./ANN-intro.html">ANN</a></li><li class="breadcrumb-item"><a href="./ANN-activation.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Activation Function</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Activation Function</span></h1>
+<h1 class="title"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Activation Function</span></h1>
 </div>
 
 
@@ -249,8 +255,8 @@ window.Quarto = {
 </header>
 
 
-<p>앞서 살펴본 <span class="math inline">h(x)</span> 라는 함수가 바로 <strong>활성화 함수</strong>(Activation function)이다. 이는 입력신호의 총합(Weighted Sum)이 다음 뉴런이 활성화 정도를 결정하는 함수로 이해할 수 있습니다.</p>
-<p>이러한 활성화 함수가 포함된 ANN의 기본적인 모형은 다음과 같이 수정할 수 있다. <code>a</code>는 입력신호의 총합이를 받아 <code>h()</code>함수를 거쳐 <code>y</code>를 출력합니다.</p>
+<p>앞서 살펴본 <span class="math inline">h(x)</span> 라는 함수가 바로 <strong>활성화 함수</strong>(Activation function)이다. 이는 입력신호의 총합(Weighted Sum)을 입력값으로 받아 다음 뉴런이 활성화 정도를 결정하는 함수로 이해할 수 있습니다.</p>
+<p>이러한 활성화 함수가 포함된 ANN의 기본적인 모형은 다음과 같습니다. <code>a</code>는 입력신호의 총합을 의미하고, <code>h()</code>는 이를 다양한 활성화 함수를 이용하여 다음 뉴런의 활성정도인 <code>y</code>를 출력합니다.</p>
 <div class="cell" data-layout-align="default">
 <div class="cell-output-display">
 <div id="fig-egANN" class="quarto-figure quarto-figure-center quarto-float anchored">
@@ -272,21 +278,21 @@ window.Quarto = {
 </div>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-egANN-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;3.1: Processing of the activation function
+Figure&nbsp;4.1: Processing of the activation function
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
 <p>퍼셉트론에서는 활성화 함수로 <strong>계단함수</strong>(Sign function)를 사용하였느나, ANN에서는 활성화 함수로 미분가능한 함수들을 사용합니다. 다음은 ANN에서 사용하는 활성화 함수에 대하여 소개하겠습니다.</p>
-<section id="sigmoid-function" class="level2" data-number="3.1">
-<h2 data-number="3.1" class="anchored" data-anchor-id="sigmoid-function"><span class="header-section-number">3.1</span> Sigmoid Function</h2>
+<section id="sigmoid-function" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="sigmoid-function"><span class="header-section-number">4.1</span> Sigmoid Function</h2>
 </section>
-<section id="relu-function" class="level2" data-number="3.2">
-<h2 data-number="3.2" class="anchored" data-anchor-id="relu-function"><span class="header-section-number">3.2</span> ReLU Function</h2>
+<section id="relu-function" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="relu-function"><span class="header-section-number">4.2</span> ReLU Function</h2>
 </section>
-<section id="softmax-function" class="level2" data-number="3.3">
-<h2 data-number="3.3" class="anchored" data-anchor-id="softmax-function"><span class="header-section-number">3.3</span> Softmax Function</h2>
+<section id="softmax-functiony" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="softmax-functiony"><span class="header-section-number">4.3</span> Softmax Functiony</h2>
 
 
 </section>
@@ -743,7 +749,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
       <a href="./ANN-intro.html" class="pagination-link" aria-label="Artificial Neural Networks">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Artificial Neural Networks</span></span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Artificial Neural Networks</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">

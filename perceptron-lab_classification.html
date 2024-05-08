@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>DeepLearning x 101 - Artificial Neural Networks</title>
+<title>DeepLearning x 101 - 2&nbsp; Lab: Classification with Perceptron</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -69,6 +69,49 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script>window.backupDefine = window.define; window.define = undefined;</script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+ var mathElements = document.getElementsByClassName("math");
+ var macros = [];
+ for (var i = 0; i < mathElements.length; i++) {
+  var texText = mathElements[i].firstChild;
+  if (mathElements[i].tagName == "SPAN") {
+   katex.render(texText.data, mathElements[i], {
+    displayMode: mathElements[i].classList.contains('display'),
+    throwOnError: false,
+    macros: macros,
+    fleqn: false
+   });
+}}});
+  </script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css">
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -81,7 +124,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./ANN.html">Artificial Neural Networks</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./perceptron-intro.html">Perceptron</a></li><li class="breadcrumb-item"><a href="./perceptron-lab_classification.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Lab: Classification with Perceptron</span></a></li></ol></nav>
         <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -120,7 +163,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a href="./perceptron.html" class="sidebar-item-text sidebar-link">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
  <span class="menu-text">Perceptron</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
@@ -130,15 +173,21 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./perceptron-intro.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">What is a ‘Perceptron’?</span></span></a>
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Perceptron</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./perceptron-lab_classification.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Lab: Classification with Perceptron</span></span></a>
   </div>
 </li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a href="./ANN.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">Artificial Neural Networks</span></a>
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+ <span class="menu-text">ANN</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -147,13 +196,13 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./ANN-intro.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">What is a ’ANN?</span></span></a>
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Artificial Neural Networks</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./ANN-activation.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Activation Function</span></span></a>
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Activation Function</span></span></a>
   </div>
 </li>
       </ul>
@@ -170,14 +219,20 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#classification" id="toc-classification" class="nav-link active" data-scroll-target="#classification"><span class="header-section-number">2.1</span> Classification</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default">
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./perceptron-intro.html">Perceptron</a></li><li class="breadcrumb-item"><a href="./perceptron-lab_classification.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Lab: Classification with Perceptron</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">Artificial Neural Networks</h1>
+<h1 class="title"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Lab: Classification with Perceptron</span></h1>
 </div>
 
 
@@ -194,9 +249,58 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>ANN의 정의 활성화 함수 신경망 학습 오차 역전파</p>
+<p>퍼셉트론을 활용하여 <strong>분류</strong>(Classification) 문제를 풀어보도록 하겠습니다. 이를 해결해 가는 과정에서 다양한 정보를 학습할 수 있기를 기대하기 때문입니다.</p>
+<p>먼저, 분류는 Supervised Learning으로 미리 리벨(Label)이 붙어 있는 데이터를 분류하는 문제입니다. 우리가 사용하는 방법은 선형적인 방법과 비선형적인 방법 등등을 살펴보겠습니다.</p>
+<section id="classification" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="classification"><span class="header-section-number">2.1</span> Classification</h2>
+<p>우리가 실습할 분류 문제는 <strong>선형 판별 분석</strong>(Linear Discriminant Analysis)입니다. 수치형 입력변수를 받아 범주형 타겟 변수를 예측하는 분류 방법으로 퍼셈트론을 활용하여 해결하기 좋은 문제 입니다.</p>
+<div id="cell-fig_classification" class="cell" data-execution_count="2">
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="perceptron-lab_classification_files/figure-html/fig_classification-output-1.png" width="520" height="386" class="figure-img"></p>
+<figcaption>Example of LDA</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p><span class="citation" data-cites="fig_classification">(<a href="references.html#ref-fig_classification" role="doc-biblioref"><strong>fig_classification?</strong></a>)</span> 와 같은 산점도에서 <code>C1</code>과 <code>C0</code>을 구분하는 문제를 퍼셉트론을 이용하여 해결해 보겠습니다.</p>
+<p>전장에서 살펴본 퍼셉트론(<a href="perceptron-intro.html#fig-perceptron1" class="quarto-xref">Figure&nbsp;<span>1.2</span></a>)에 따라 설명하고자 합니다. 우선 입력받는 변수는 <span class="math inline">x</span>, 가중치는 <span class="math inline">\omega</span>로 둘수 있습니다.</p>
+$$ x =
+<span class="math display">\begin{bmatrix}x_1\\ \vdots\\ x_d \end{bmatrix}</span>
+<p>\</p>
+=
+<span class="math display">\begin{bmatrix}\omega_1\\ \vdots\\ \omega_d \end{bmatrix}</span>
+<p>$$</p>
+<p>여기서 Weighted Sum의 결과가 특정 임계치(<span class="math inline">\theta</span>)를 초과하는 지에 따라 적색 또는 청색으로 구분하고자 합니다.</p>
+<p><span class="math display">
+\begin{align}
+C1 \quad if\, \sum_{i=1}^{d}\omega_{i}x_{i} &gt; \theta \\
+C0 \quad if\, \sum_{i=1}^{d}\omega_{i}x_{i} &lt; \theta
+\end{align}
+</span></p>
+<p>이를 다시 Step function을 활용하여 <span class="quarto-unresolved-ref">?fig-perceptron1의</span> 노란색 박스(<span class="math inline">h(x)</span>)에 해당하는 노드를 다음의 식으로 변형하여 표현할 수 있습니다.</p>
+<p>여기서 임계치(<span class="math inline">\theta</span>)는 편향에 해당하는 값으로 변형하고 이를 다시 입력변수 <span class="math inline">\omega_0</span>으로 간단하게 표현할 수 있습니다.</p>
+<p>$$ <span class="math display">\begin{align}
+h(x) &amp;= \text{sign} \left(\left( \sum\limits_{i=1}^{d}\omega_ix_i \right)- \theta \right) \\
+
+&amp;= \text{sign}\left(\left( \sum\limits_{i=1}^{d}\omega_ix_i \right)+ \omega_0\right)
+\end{align}</span> $$</p>
+<p><span class="math inline">\omega_0=1</span>로 두고 이를 벡터 형식(vector form)으로 표현하고, Step function을 Sign function으로 정의하면 최종식은 같이 수정할 수 있습니다.</p>
+<p><span class="math display">
+\begin{align}
+h(x) &amp;= sign(\sum_{i=0}^{d}\omega_{i}x_{i}) \\
+&amp;=sign(\omega^{T}x) \\ \\
+sign(x) &amp;= \begin{cases}
+1, &amp;\text{if }\; x &gt; 0\\
+0, &amp;\text{if }\; x = 0\\
+-1, &amp;\text{if }\; x &lt; 0
+\end{cases}
+\end{align}
+</span></p>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -649,13 +753,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./perceptron-intro.html" class="pagination-link" aria-label="What is a 'Perceptron'?">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">What is a ‘Perceptron’?</span></span>
+      <a href="./perceptron-intro.html" class="pagination-link" aria-label="Perceptron">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Perceptron</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./ANN-intro.html" class="pagination-link" aria-label="What is a 'ANN?">
-        <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">What is a ’ANN?</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./ANN-intro.html" class="pagination-link" aria-label="Artificial Neural Networks">
+        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Artificial Neural Networks</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
