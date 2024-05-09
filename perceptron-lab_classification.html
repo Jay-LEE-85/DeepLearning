@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -224,6 +258,7 @@ window.Quarto = {
    
   <ul>
   <li><a href="#classification" id="toc-classification" class="nav-link active" data-scroll-target="#classification"><span class="header-section-number">2.1</span> Classification</a></li>
+  <li><a href="#solving-with-perceptron-algorithm" id="toc-solving-with-perceptron-algorithm" class="nav-link" data-scroll-target="#solving-with-perceptron-algorithm"><span class="header-section-number">2.2</span> Solving with perceptron algorithm</a></li>
   </ul>
 </nav>
     </div>
@@ -252,6 +287,22 @@ window.Quarto = {
 <hr>
 <p>퍼셉트론을 활용하여 <strong>분류</strong>(Classification) 문제를 풀어보도록 하겠습니다. 이를 해결해 가는 과정에서 다양한 정보를 학습할 수 있기를 기대하기 때문입니다.</p>
 <p>먼저, 분류는 Supervised Learning으로 미리 리벨(Label)이 붙어 있는 데이터를 분류하는 문제입니다. 우리가 사용하는 방법은 선형적인 방법과 비선형적인 방법 등등을 살펴보겠습니다.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Lab 작성시 참고자료
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>아래의 실습내용은 Kaist 이승철 교수님의 강의 자료를 참고하였습니다.</li>
+<li>참고자료는 <a href="https://iai.postech.ac.kr/teaching/deep-learning">DEEP LEARNING</a>에서 확인할 수 있습니다.</li>
+</ul>
+</div>
+</div>
 <section id="classification" class="level2" data-number="2.1">
 <h2 data-number="2.1" class="anchored" data-anchor-id="classification"><span class="header-section-number">2.1</span> Classification</h2>
 <p>우리가 실습할 분류 문제는 <strong>선형 판별 분석</strong>(Linear Discriminant Analysis)입니다. 수치형 입력변수를 받아 범주형 타겟 변수를 예측하는 분류 방법으로 퍼셈트론을 활용하여 해결하기 좋은 문제 입니다.</p>
@@ -273,18 +324,18 @@ Figure&nbsp;2.1: Example of LDA
 <p>전장에서 살펴본 퍼셉트론(<a href="perceptron-intro.html#fig-perceptron1" class="quarto-xref">Figure&nbsp;<span>1.2</span></a>)에 따라 설명하고자 합니다. 우선 입력받는 변수는 <span class="math inline">x</span>, 가중치는 <span class="math inline">\omega</span>로 둘수 있습니다.</p>
 <p><span id="eq-perLab1"><span class="math display">
 \begin{align}
-x = \begin{bmatrix}x_1\\ \vdots\\ x_d \end{bmatrix} \\
+x = \begin{bmatrix}x_1\\ \vdots\\ x_d \end{bmatrix} \qquad
 \omega = \begin{bmatrix}\omega_1\\ \vdots\\ \omega_d \end{bmatrix}
 \end{align}
 \tag{2.1}</span></span></p>
-<p>여기서 Weighted Sum의 결과가 특정 임계치(<span class="math inline">\theta</span>)를 초과하는 지에 따라 적색 또는 청색으로 구분하고자 합니다.</p>
+<p>여기서 Weighted Sum의 결과가 특정 임계치(<span class="math inline">\theta</span>)를 초과하는 지에 따라 <strong>클래스1</strong>(<span class="math inline">C_1</span>) 또는 <strong>클래스0</strong>(<span class="math inline">C_0</span>)으로 구분하고자 합니다.</p>
 <p><span id="eq-perLab2"><span class="math display">
 \begin{align}
-C1 \quad if\, \sum_{i=1}^{d}\omega_{i}x_{i} &gt; \theta \\
-C0 \quad if\, \sum_{i=1}^{d}\omega_{i}x_{i} &lt; \theta
+C_1 \quad if\, \sum_{i=1}^{d}\omega_{i}x_{i} &gt; \theta \\
+C_0 \quad if\, \sum_{i=1}^{d}\omega_{i}x_{i} &lt; \theta
 \end{align}
 \tag{2.2}</span></span></p>
-<p>이를 다시 Step function을 활용하여 <span class="quarto-unresolved-ref">?fig-perceptron1의</span> 노란색 박스(<span class="math inline">h(x)</span>)에 해당하는 노드를 다음의 식으로 변형하여 표현할 수 있습니다.</p>
+<p>이를 다시 Step function을 활용하여 <a href="perceptron-intro.html#fig-perceptron1" class="quarto-xref">Figure&nbsp;<span>1.2</span></a> 의 노란색 박스(<span class="math inline">h(x)</span>)에 해당하는 노드를 다음의 식으로 변형하여 표현할 수 있습니다.</p>
 <p>여기서 임계치(<span class="math inline">\theta</span>)는 편향에 해당하는 값으로 변형하고 이를 다시 입력변수 <span class="math inline">\omega_0</span>으로 간단하게 표현할 수 있습니다.</p>
 <p><span id="eq-perLab3"><span class="math display">
 \begin{align}
@@ -292,11 +343,11 @@ h(x) &amp;= \text{sign} \left(\left( \sum\limits_{i=1}^{d}\omega_ix_i \right)- \
 &amp;= \text{sign}\left(\left( \sum\limits_{i=1}^{d}\omega_ix_i \right)+ \omega_0\right)
 \end{align}
 \tag{2.3}</span></span></p>
-<p><span class="math inline">\omega_0=1</span>로 두고 이를 벡터 형식(vector form)으로 표현하고, Step function을 Sign function으로 정의하면 최종식은 아래와 같이 수정할 수 있습니다.</p>
+<p><span class="math inline">\omega_0=1</span>로 두고 이를 벡터 형식(vector form)으로 표현하고, Step function을 Sign function으로 정의하면 아래와 같이 식을 수정할 수 있습니다.</p>
 <p><span id="eq-perLab4"><span class="math display">
 \begin{align}
-h(x) &amp;= \text{sign}(\sum_{i=0}^{d}\omega_{i}x_{i}) \\
-&amp;=\text{sign}(\omega^{T}x) \\
+h(x) &amp;= \text{sign}(\sum_{i=0}^{d}\omega_{i}x_{i})
+=\text{sign}(\omega^{T}x) \\
 \text{sign}(x) &amp;= \begin{cases}
 1, &amp;\text{if }\; x &gt; 0\\
 0, &amp;\text{if }\; x = 0\\
@@ -304,6 +355,96 @@ h(x) &amp;= \text{sign}(\sum_{i=0}^{d}\omega_{i}x_{i}) \\
 \end{cases}
 \end{align}
 \tag{2.4}</span></span></p>
+<p><strong>Perceptron Learning Algorithm(PLA)</strong></p>
+<p>위의 식을 실제 퍼셉트론에 적용하기 위하여 위 산점도(<a href="#fig-classification" class="quarto-xref">Figure&nbsp;<span>2.1</span></a> )의 개별 값들을 활용하여 <span class="math inline">\text{sign}(\omega^Tx_n) = \hat{y}_n</span>을 산출하여 실제 라벨(<span class="math inline">y_n</span>)과 비교하며 두 라벨값이 다를 경우 <span class="math inline">\omega</span>를 업데이트 하도록 합니다.</p>
+<p><span id="eq-perLab5"><span class="math display">
+\begin{align}
+\omega \leftarrow
+\begin{cases}
+\omega+y_nx_n &amp; \hat{y_n} \neq y_n \\
+\omega &amp;\hat{y_n} = y_n \\
+\end{cases}
+\end{align}
+\tag{2.5}</span></span></p>
+<p>위의 절차를 Training Set을 이용하여 Iterative하게 반복하여 <span class="math inline">\omega</span>를 업데이트 하도록 하여 PLA를 수행합니다.</p>
+<p><strong>Perceptron Loss Function</strong></p>
+<p>PLA를 수행하는 과정에서 학습을 종결시키기 위하여 Loss function이 필요합니다. 산출값 <span class="math inline">\hat{y}_n</span>과 <span class="math inline">y_n</span>을 비교하여 Loss들의 합(<span class="math inline">\mathscr{L}(\omega)</span>)이 0이 되도록 하는 조건으로 설정할할 수 있습니다.</p>
+<p><span id="eq-perLab7"><span class="math display">
+\begin{align}
+\mathscr{L}(\omega) = \sum_{n =1}^{m} \max \left\{ 0, -y_n \cdot \left(\omega^T x_n \right)\right\}
+\end{align}
+\tag{2.6}</span></span></p>
+</section>
+<section id="solving-with-perceptron-algorithm" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="solving-with-perceptron-algorithm"><span class="header-section-number">2.2</span> Solving with perceptron algorithm</h2>
+<div id="2c93600e" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="annotated-cell-1"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-1-1"><a href="#annotated-cell-1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># load library</span></span>
+<span id="annotated-cell-1-2"><a href="#annotated-cell-1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="annotated-cell-1-3"><a href="#annotated-cell-1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="annotated-cell-1-4"><a href="#annotated-cell-1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-1-5"><a href="#annotated-cell-1-5" aria-hidden="true" tabindex="-1"></a><span class="co">#training data gerneration</span></span>
+<span id="annotated-cell-1-6"><a href="#annotated-cell-1-6" aria-hidden="true" tabindex="-1"></a>m <span class="op">=</span> <span class="dv">100</span></span>
+<span id="annotated-cell-1-7"><a href="#annotated-cell-1-7" aria-hidden="true" tabindex="-1"></a>x1 <span class="op">=</span> <span class="dv">8</span><span class="op">*</span>np.random.rand(m, <span class="dv">1</span>)</span>
+<span id="annotated-cell-1-8"><a href="#annotated-cell-1-8" aria-hidden="true" tabindex="-1"></a>x2 <span class="op">=</span> <span class="dv">7</span><span class="op">*</span>np.random.rand(m, <span class="dv">1</span>) <span class="op">-</span> <span class="dv">4</span></span>
+<span id="annotated-cell-1-9"><a href="#annotated-cell-1-9" aria-hidden="true" tabindex="-1"></a></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="1">1</button><span id="annotated-cell-1-10" class="code-annotation-target"><a href="#annotated-cell-1-10" aria-hidden="true" tabindex="-1"></a>g <span class="op">=</span> <span class="fl">0.8</span><span class="op">*</span>x1 <span class="op">+</span> x2 <span class="op">-</span> <span class="dv">3</span></span>
+<span id="annotated-cell-1-11"><a href="#annotated-cell-1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-1-12"><a href="#annotated-cell-1-12" aria-hidden="true" tabindex="-1"></a>C1 <span class="op">=</span> np.where(g <span class="op">&gt;=</span> <span class="dv">1</span>)[<span class="dv">0</span>]</span>
+<span id="annotated-cell-1-13"><a href="#annotated-cell-1-13" aria-hidden="true" tabindex="-1"></a>C0 <span class="op">=</span> np.where(g <span class="op">&lt;</span> <span class="op">-</span><span class="dv">1</span>)[<span class="dv">0</span>]</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-1" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-1" data-code-lines="10" data-code-annotation="1">test</span>
+</dd>
+</dl>
+</div>
+</div>
+<div id="884d51cf" class="cell" data-execution_count="4">
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="perceptron-lab_classification_files/figure-html/cell-5-output-1.png" width="520" height="386" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="56f66589" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>X1 <span class="op">=</span> np.hstack([np.ones([C1.shape[<span class="dv">0</span>],<span class="dv">1</span>]), x1[C1], x2[C1]])</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>X0 <span class="op">=</span> np.hstack([np.ones([C0.shape[<span class="dv">0</span>],<span class="dv">1</span>]), x1[C0], x2[C0]])</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> np.vstack([X1, X0])</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> np.vstack([np.ones([C1.shape[<span class="dv">0</span>],<span class="dv">1</span>]), <span class="op">-</span>np.ones([C0.shape[<span class="dv">0</span>],<span class="dv">1</span>])])</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> np.asmatrix(X)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> np.asmatrix(y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="78eac6cd" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>w <span class="op">=</span> np.ones([<span class="dv">3</span>,<span class="dv">1</span>])</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>w <span class="op">=</span> np.asmatrix(w)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>n_iter <span class="op">=</span> y.shape[<span class="dv">0</span>]</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>flag <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> flag <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    flag <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(n_iter):</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> y[i,<span class="dv">0</span>] <span class="op">!=</span> np.sign(X[i,:]<span class="op">*</span>w)[<span class="dv">0</span>,<span class="dv">0</span>]:</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>            w <span class="op">+=</span> y[i,<span class="dv">0</span>]<span class="op">*</span>X[i,:].T</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>            flag <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>x1p <span class="op">=</span> np.linspace(<span class="dv">0</span>,<span class="dv">8</span>,<span class="dv">100</span>).reshape(<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>)</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>x2p <span class="op">=</span> <span class="op">-</span> w[<span class="dv">1</span>,<span class="dv">0</span>]<span class="op">/</span>w[<span class="dv">2</span>,<span class="dv">0</span>]<span class="op">*</span>x1p <span class="op">-</span> w[<span class="dv">0</span>,<span class="dv">0</span>]<span class="op">/</span>w[<span class="dv">2</span>,<span class="dv">0</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="eeb173e9" class="cell" data-execution_count="7">
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="perceptron-lab_classification_files/figure-html/cell-8-output-1.png" width="524" height="363" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
 
 
 </section>
