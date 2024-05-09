@@ -135,7 +135,7 @@ g = 0.8*x1 + x2 - 3 # <1>
 C1 = np.where(g >= 1)[0]
 C0 = np.where(g < -1)[0]
 ```
-1.
+1. test
 
 ``` {python}
 #| echo: false
@@ -148,6 +148,7 @@ plt.xlabel(r'$x_1$', fontsize = 15)
 plt.ylabel(r'$x_2$', fontsize = 15)
 plt.show()
 ```
+
 ```{python}
 X1 = np.hstack([np.ones([C1.shape[0],1]), x1[C1], x2[C1]])
 X0 = np.hstack([np.ones([C0.shape[0],1]), x1[C0], x2[C0]])
