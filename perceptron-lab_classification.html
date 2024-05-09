@@ -368,7 +368,7 @@ h(x) &amp;= \text{sign}(\sum_{i=0}^{d}\omega_{i}x_{i})
 \tag{2.5}</span></span></p>
 <p>위의 절차를 Training Set을 이용하여 Iterative하게 반복하여 <span class="math inline">\omega</span>를 업데이트 하도록 하여 PLA를 수행합니다.</p>
 <p><strong>Perceptron Loss Function</strong></p>
-<p>PLA를 수행하는 과정에서 학습을 종결시키기 위하여 Loss function이 필요합니다. 산출값 <span class="math inline">\hat{y}_n</span>과 <span class="math inline">y_n</span>을 비교하여 Loss들의 합(<span class="math inline">\mathscr{L}(\omega)</span>)이 0이 되도록 하는 조건으로 설정할할 수 있습니다.</p>
+<p>PLA를 수행하는 과정에서 학습을 종결시키기 위하여 Loss function이 필요합니다. 산출값 <span class="math inline">\hat{y}_n</span>과 <span class="math inline">y_n</span>을 비교하여 Loss들의 합(<span class="math inline">\mathscr{L}(\omega)</span>)이 0이 되도록 하는 조건으로 설정할 수 있습니다.</p>
 <p><span id="eq-perLab7"><span class="math display">
 \begin{align}
 \mathscr{L}(\omega) = \sum_{n =1}^{m} \max \left\{ 0, -y_n \cdot \left(\omega^T x_n \right)\right\}
@@ -377,30 +377,19 @@ h(x) &amp;= \text{sign}(\sum_{i=0}^{d}\omega_{i}x_{i})
 </section>
 <section id="solving-with-perceptron-algorithm" class="level2" data-number="2.2">
 <h2 data-number="2.2" class="anchored" data-anchor-id="solving-with-perceptron-algorithm"><span class="header-section-number">2.2</span> Solving with perceptron algorithm</h2>
-<div id="2c93600e" class="cell" data-execution_count="3">
-<div class="sourceCode cell-code" id="annotated-cell-1"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-1-1"><a href="#annotated-cell-1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># load library</span></span>
-<span id="annotated-cell-1-2"><a href="#annotated-cell-1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="annotated-cell-1-3"><a href="#annotated-cell-1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="annotated-cell-1-4"><a href="#annotated-cell-1-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="annotated-cell-1-5"><a href="#annotated-cell-1-5" aria-hidden="true" tabindex="-1"></a><span class="co">#training data gerneration</span></span>
-<span id="annotated-cell-1-6"><a href="#annotated-cell-1-6" aria-hidden="true" tabindex="-1"></a>m <span class="op">=</span> <span class="dv">100</span></span>
-<span id="annotated-cell-1-7"><a href="#annotated-cell-1-7" aria-hidden="true" tabindex="-1"></a>x1 <span class="op">=</span> <span class="dv">8</span><span class="op">*</span>np.random.rand(m, <span class="dv">1</span>)</span>
-<span id="annotated-cell-1-8"><a href="#annotated-cell-1-8" aria-hidden="true" tabindex="-1"></a>x2 <span class="op">=</span> <span class="dv">7</span><span class="op">*</span>np.random.rand(m, <span class="dv">1</span>) <span class="op">-</span> <span class="dv">4</span></span>
-<span id="annotated-cell-1-9"><a href="#annotated-cell-1-9" aria-hidden="true" tabindex="-1"></a></span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="1">1</button><span id="annotated-cell-1-10" class="code-annotation-target"><a href="#annotated-cell-1-10" aria-hidden="true" tabindex="-1"></a>g <span class="op">=</span> <span class="fl">0.8</span><span class="op">*</span>x1 <span class="op">+</span> x2 <span class="op">-</span> <span class="dv">3</span></span>
-<span id="annotated-cell-1-11"><a href="#annotated-cell-1-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="annotated-cell-1-12"><a href="#annotated-cell-1-12" aria-hidden="true" tabindex="-1"></a>C1 <span class="op">=</span> np.where(g <span class="op">&gt;=</span> <span class="dv">1</span>)[<span class="dv">0</span>]</span>
-<span id="annotated-cell-1-13"><a href="#annotated-cell-1-13" aria-hidden="true" tabindex="-1"></a>C0 <span class="op">=</span> np.where(g <span class="op">&lt;</span> <span class="op">-</span><span class="dv">1</span>)[<span class="dv">0</span>]</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-annotation">
-<dl class="code-annotation-container-hidden code-annotation-container-grid">
-<dt data-target-cell="annotated-cell-1" data-target-annotation="1">1</dt>
-<dd>
-<span data-code-cell="annotated-cell-1" data-code-lines="10" data-code-annotation="1">test</span>
-</dd>
-</dl>
+<p>위에서 살펴본 내용을 이제 코드로 작성해 보겠습니다. 기본적인 입력변수 <span class="math inline">x</span>를 <code>x1</code>과 <code>x2</code>로 라벨값 <span class="math inline">y</span>를 <code>C1</code>과 <code>C0</code>로 생성하였습니다. 그에 따른 산점도 데이터는 아래와 같습니다.</p>
+<div id="132db84b" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#training data gerneration</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>m <span class="op">=</span> <span class="dv">100</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>x1 <span class="op">=</span> <span class="dv">8</span><span class="op">*</span>np.random.rand(m, <span class="dv">1</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>x2 <span class="op">=</span> <span class="dv">7</span><span class="op">*</span>np.random.rand(m, <span class="dv">1</span>) <span class="op">-</span> <span class="dv">4</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>g <span class="op">=</span> <span class="fl">0.8</span><span class="op">*</span>x1 <span class="op">+</span> x2 <span class="op">-</span><span class="dv">3</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>C1 <span class="op">=</span> np.where(g <span class="op">&gt;=</span> <span class="dv">1</span>)[<span class="dv">0</span>]</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>C0 <span class="op">=</span> np.where(g <span class="op">&lt;</span> <span class="op">-</span><span class="dv">1</span>)[<span class="dv">0</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</div>
-<div id="884d51cf" class="cell" data-execution_count="4">
+<div id="fcacadfb" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -409,40 +398,63 @@ h(x) &amp;= \text{sign}(\sum_{i=0}^{d}\omega_{i}x_{i})
 </div>
 </div>
 </div>
-<div id="56f66589" class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>X1 <span class="op">=</span> np.hstack([np.ones([C1.shape[<span class="dv">0</span>],<span class="dv">1</span>]), x1[C1], x2[C1]])</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>X0 <span class="op">=</span> np.hstack([np.ones([C0.shape[<span class="dv">0</span>],<span class="dv">1</span>]), x1[C0], x2[C0]])</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> np.vstack([X1, X0])</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> np.vstack([np.ones([C1.shape[<span class="dv">0</span>],<span class="dv">1</span>]), <span class="op">-</span>np.ones([C0.shape[<span class="dv">0</span>],<span class="dv">1</span>])])</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> np.asmatrix(X)</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> np.asmatrix(y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div id="78eac6cd" class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>w <span class="op">=</span> np.ones([<span class="dv">3</span>,<span class="dv">1</span>])</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>w <span class="op">=</span> np.asmatrix(w)</span>
+<p>각각의 입력값을 <code>numpy</code>로 연산할 수 있도록 Vectorize를 진행합니다.</p>
+<p><span class="math display">
+\begin{align}
+x &amp;= \begin{bmatrix} \left(x^{(1)}\right)^T \\ \left(x^{(2)}\right)^T \\ \left(x^{(3)}\right)^T\\ \vdots \\ \left(x^{(m)}\right)^T \end{bmatrix} = \begin{bmatrix} 1 &amp; x_1^{(1)} &amp; x_2^{(1)} \\ 1 &amp; x_1^{(2)} &amp; x_2^{(2)} \\ 1 &amp; x_1^{(3)} &amp; x_2^{(3)}\\\vdots &amp; \vdots &amp; \vdots \\ 1 &amp; x_1^{(m)} &amp; x_2^{(m)}\end{bmatrix} \\
+y &amp;= \begin{bmatrix}y^{(1)} \\ y^{(2)} \\ y^{(3)}\\ \vdots \\ y^{(m)} \end{bmatrix}
+\end{align}
+</span></p>
+<div id="8f4aeb9b" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>X1 <span class="op">=</span> np.hstack([np.ones([C1.shape[<span class="dv">0</span>],<span class="dv">1</span>]), x1[C1], x2[C1]])</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>X0 <span class="op">=</span> np.hstack([np.ones([C0.shape[<span class="dv">0</span>],<span class="dv">1</span>]), x1[C0], x2[C0]])</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>n_iter <span class="op">=</span> y.shape[<span class="dv">0</span>]</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>flag <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> np.vstack([X1, X0])</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> np.vstack([np.ones([C1.shape[<span class="dv">0</span>],<span class="dv">1</span>]), <span class="op">-</span>np.ones([C0.shape[<span class="dv">0</span>],<span class="dv">1</span>])])</span>
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> flag <span class="op">==</span> <span class="dv">0</span>:</span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    flag <span class="op">=</span> <span class="dv">1</span></span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(n_iter):</span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> y[i,<span class="dv">0</span>] <span class="op">!=</span> np.sign(X[i,:]<span class="op">*</span>w)[<span class="dv">0</span>,<span class="dv">0</span>]:</span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>            w <span class="op">+=</span> y[i,<span class="dv">0</span>]<span class="op">*</span>X[i,:].T</span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>            flag <span class="op">=</span> <span class="dv">0</span></span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>x1p <span class="op">=</span> np.linspace(<span class="dv">0</span>,<span class="dv">8</span>,<span class="dv">100</span>).reshape(<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>)</span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>x2p <span class="op">=</span> <span class="op">-</span> w[<span class="dv">1</span>,<span class="dv">0</span>]<span class="op">/</span>w[<span class="dv">2</span>,<span class="dv">0</span>]<span class="op">*</span>x1p <span class="op">-</span> w[<span class="dv">0</span>,<span class="dv">0</span>]<span class="op">/</span>w[<span class="dv">2</span>,<span class="dv">0</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> np.asmatrix(X)</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> np.asmatrix(y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="eeb173e9" class="cell" data-execution_count="7">
+<p>가중치 <span class="math inline">\omega</span>를 1로 초깃값을 설정하고, 각각의 입력값을 이용하여 PLA를 실행하며 가중치 업데이트(<span class="math inline">\omega \leftarrow \omega + yx</span>)를 실행합니다.</p>
+<div id="b4d427ad" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>w <span class="op">=</span> np.ones([<span class="dv">3</span>,<span class="dv">1</span>])</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>w <span class="op">=</span> np.asmatrix(w)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>n_iter <span class="op">=</span> y.shape[<span class="dv">0</span>]</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>flag <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> flag <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    flag <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(n_iter):</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> y[i,<span class="dv">0</span>] <span class="op">!=</span> np.sign(X[i,:]<span class="op">*</span>w)[<span class="dv">0</span>,<span class="dv">0</span>]:</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>            w <span class="op">+=</span> y[i,<span class="dv">0</span>]<span class="op">*</span>X[i,:].T</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>            flag <span class="op">=</span> <span class="dv">0</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>위의 절차를 실행하여 산출한 결정 경계(Dicision Boundary)는 아래와 같습니다.</p>
+<div id="a88b04b7" class="cell" data-execution_count="7">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
 <p><img src="perceptron-lab_classification_files/figure-html/cell-8-output-1.png" width="524" height="363" class="figure-img"></p>
 </figure>
 </div>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Perceptron과 최적화의 문제
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>여기서 중요한 것은 퍼셉트론은 구분하는 경계 산출에 촛점을 두고 있으므로 우리가 예상하는 최적 경계에 해당하지 않을 수 있습니다.</li>
+<li>가령 최적 경계는 두 그룹의 중간쯤 위치해야 할 것으로 생각이 됩니다. 그래야 향후 입력값이 추가 되었을 때 경계가 유효할 가능성이 높기 때문입니다.</li>
+<li>이를 해결하기 위하여는 내적을 통한 거리의 개념이 들어가고, Loss Function도 Logistic Regression의 방법으로 해결해야 하지 않을까라고 예상할 수 있습니다.</li>
+</ul>
 </div>
 </div>
 
