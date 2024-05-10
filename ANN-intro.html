@@ -68,7 +68,6 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
-<meta name="mermaid-theme" content="default">
 <script src="site_libs/quarto-diagram/mermaid.min.js"></script>
 <script src="site_libs/quarto-diagram/mermaid-init.js"></script>
 <link href="site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
@@ -207,6 +206,12 @@ window.Quarto = {
   <div class="sidebar-item-container"> 
   <a href="./ANN-activation.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Activation Function</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ANN-forward.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Forward Propagation</span></span></a>
   </div>
 </li>
       </ul>
@@ -361,8 +366,10 @@ Figure&nbsp;3.2: 퍼셉트론과 ANN의 비교
 </div>
 <div class="callout-body-container callout-body">
 <ul>
-<li>퍼셉트론에 사용되는 선형판별식에 가중치 및 임계치의 조합은 무수히 많고, 가중치 및 임계치는 <strong>인간</strong>이 설정해야 함</li>
+<li>퍼셉트론에 사용되는 선형판별식에 가중치 및 임계치의 조합은 무수히 많고, 가중치 및 임계치는 <strong>인간</strong>이 설정해야 함. 결국 Domain Knowledge를 갖고 있어야 한다는 의미임</li>
 <li>Deeplearning의 경우 가중치 및 임계치를 <strong>컴퓨터</strong>가 <strong>학습</strong>하여 설정해게 됨</li>
+<li>또한. Activation Function의 경우 미분가능해야 하고, Loss Function의 결과 <strong>Back propagation</strong>의 활용하여 <span class="math inline">\omega</span>를 최적화하는 절차가 존재함<br>
+</li>
 </ul>
 </div>
 </div>

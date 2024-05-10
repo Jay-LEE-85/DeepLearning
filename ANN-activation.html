@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -30,7 +64,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./references.html" rel="next">
+<link href="./ANN-forward.html" rel="next">
 <link href="./ANN-intro.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -68,7 +102,6 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
-<meta name="mermaid-theme" content="default">
 <script src="site_libs/quarto-diagram/mermaid.min.js"></script>
 <script src="site_libs/quarto-diagram/mermaid-init.js"></script>
 <link href="site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
@@ -209,6 +242,12 @@ window.Quarto = {
  <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Activation Function</span></span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ANN-forward.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Forward Propagation</span></span></a>
+  </div>
+</li>
       </ul>
   </li>
         <li class="sidebar-item">
@@ -229,7 +268,7 @@ window.Quarto = {
   <ul>
   <li><a href="#sigmoid-function" id="toc-sigmoid-function" class="nav-link active" data-scroll-target="#sigmoid-function"><span class="header-section-number">4.1</span> Sigmoid Function</a></li>
   <li><a href="#relu-function" id="toc-relu-function" class="nav-link" data-scroll-target="#relu-function"><span class="header-section-number">4.2</span> ReLU Function</a></li>
-  <li><a href="#softmax-function" id="toc-softmax-function" class="nav-link" data-scroll-target="#softmax-function"><span class="header-section-number">4.3</span> Softmax Function</a></li>
+  <li><a href="#others" id="toc-others" class="nav-link" data-scroll-target="#others"><span class="header-section-number">4.3</span> others</a></li>
   </ul>
 </nav>
     </div>
@@ -285,15 +324,70 @@ Figure&nbsp;4.1: Processing of the activation function
 </div>
 </div>
 </div>
-<p>퍼셉트론에서는 활성화 함수로 <strong>계단함수</strong>(Sign function)를 사용하였느나, ANN에서는 활성화 함수로 미분가능한 함수들을 사용합니다. 다음은 ANN에서 사용하는 활성화 함수에 대하여 소개하겠습니다.</p>
+<p>퍼셉트론에서는 활성화 함수로 <strong>계단함수</strong>(Sign function)를 사용하였느나, ANN에서는 활성화 함수로 <strong>미분가능한 함수</strong>들을 사용합니다. 다음은 ANN에서 사용하는 활성화 함수에 대하여 소개하겠습니다.</p>
 <section id="sigmoid-function" class="level2" data-number="4.1">
 <h2 data-number="4.1" class="anchored" data-anchor-id="sigmoid-function"><span class="header-section-number">4.1</span> Sigmoid Function</h2>
+<p><strong>시그모이드 함수</strong>(sigmoid function)는 계단함수와 달리 ’<em>S자 모양</em>’으로 Non-linear한 함수이고 그 식은 아래와 같습니다.</p>
+<p><span class="math display">
+\begin{align}
+h(x) = \frac{1}{1+exp(-x)}
+\end{align}
+</span></p>
+<p>시그모이드 함수를 <code>python</code> 코드로 아래와 같이 간다하게 구현할 수 있습니다. 이를 활용하여 시그모이드 함수를 실행하면 <span class="quarto-unresolved-ref">?fig-annAct1</span> 와 같은 그래프를 볼 수 있습니다.</p>
+<div id="cdc3044d" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> sigmoid(x):</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> <span class="dv">1</span> <span class="op">/</span> (<span class="dv">1</span> <span class="op">+</span> np.exp(<span class="op">-</span>x))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-fig-annAct1" class="cell" data-execution_count="3">
+<div class="cell-output cell-output-display">
+<div id="fig-annact1" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-annact1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="ANN-activation_files/figure-html/fig-annact1-output-1.png" width="571" height="411" class="figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-annact1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4.2: Plot of Sigmoid Function
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
 </section>
 <section id="relu-function" class="level2" data-number="4.2">
 <h2 data-number="4.2" class="anchored" data-anchor-id="relu-function"><span class="header-section-number">4.2</span> ReLU Function</h2>
+<p>**ReLU 함수<em>(Rectified Linear Unit funcion)</em>는 시그모이드를 넘어 최근에 많이 사용되는 함수 입니다. 입력값을 0을 넘으면 그 입력값을 그대로 출력하고 그 이하이면 0을 출력하는 함수로 그 식은 아래와 같습니다.</p>
+<p><span class="math display">
+\begin{align}
+h(x) =
+\begin{cases}
+x &amp; (x &gt; 0) \\
+0 &amp; (x \leq 0)
+\end{cases}
+\end{align}
+</span></p>
+<p>ReLU 함수를 <code>python</code> 코드로 아래와 같이 간다하게 구현할 수 있습니다. 이를 활용하여 시그모이드 함수를 실행하면 <span class="quarto-unresolved-ref">?fig-annAct2</span> 와 같은 그래프를 볼 수 있습니다.</p>
+<div id="05abc76e" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> relu(x):</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> np.maximum(<span class="dv">0</span>, x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-fig-annAct2" class="cell" data-execution_count="5">
+<div class="cell-output cell-output-display">
+<div id="fig-annact2" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-annact2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="ANN-activation_files/figure-html/fig-annact2-output-1.png" width="569" height="416" class="figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-annact2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4.3: Plot of ReLU Function
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
 </section>
-<section id="softmax-function" class="level2" data-number="4.3">
-<h2 data-number="4.3" class="anchored" data-anchor-id="softmax-function"><span class="header-section-number">4.3</span> Softmax Function</h2>
+<section id="others" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="others"><span class="header-section-number">4.3</span> others</h2>
+<p>위에 소개한 활성화 함수 외에도 많은 종류의 활성화 함수가 존재합니다. 이에 대하여 자세한 사항은 <a href="https://en.wikipedia.org/wiki/Activation_function">Wiki</a>페이지를 참고하시기 바랍니다.</p>
 
 
 </section>
@@ -754,8 +848,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./references.html" class="pagination-link" aria-label="References">
-        <span class="nav-page-text">References</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./ANN-forward.html" class="pagination-link" aria-label="Forward Propagation">
+        <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Forward Propagation</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
