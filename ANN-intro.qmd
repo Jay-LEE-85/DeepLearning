@@ -70,6 +70,7 @@ $$ {#eq-ann}
 
 ::: {.callout-note}
 ## 펴셉트론과 Deeplearning의 차이
--   퍼셉트론에 사용되는 선형판별식에 가중치 및 임계치의 조합은 무수히 많고, 가중치 및 임계치는 **인간**이 설정해야 함
+-   퍼셉트론에 사용되는 선형판별식에 가중치 및 임계치의 조합은 무수히 많고, 가중치 및 임계치는 **인간**이 설정해야 함. 결국 Domain Knowledge를 갖고 있어야 한다는 의미임
 -   Deeplearning의 경우 가중치 및 임계치를 **컴퓨터**가 **학습**하여 설정해게 됨
+-   또한. Activation Function의 경우 미분가능해야 하고, Loss Function의 결과 **Back propagation**의 활용하여 $\omega$를 최적화하는 절차가 존재함   
 :::

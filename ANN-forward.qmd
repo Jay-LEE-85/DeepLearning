@@ -1,0 +1,14 @@
+# Forward Propagation
+---
+``` {python}
+#| echo: false
+import numpy as np
+import matplotlib.pyplot as plt
+```
+``` {mermaid}
+%%| label: fig-annFor1
+%%| fig-cap: "Notation of NN"
+flowchart LR
+  x1((x1)) --> a1(("$a_1$"))
+```
+
