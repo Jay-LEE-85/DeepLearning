@@ -13,7 +13,7 @@
 
 ## Classification
 
-우리가 실습할 분류 문제는 **선형 판별 분석**(Linear Discriminant Analysis)입니다. 수치형 입력변수를 받아 범주형 타겟 변수를 예측하는 분류 방법으로 퍼셈트론을 활용하여 해결하기 좋은 문제 입니다.
+우리가 실습할 분류 문제는 **선형 판별 분석**(LDA, Linear Discriminant Analysis)입니다. 수치형 입력변수를 받아 범주형 타겟 변수를 예측하는 분류 방법으로 퍼셈트론을 활용하여 해결하기 좋은 문제 입니다.
 
 ``` {python}
 #| echo: false
@@ -136,6 +136,7 @@ C0 = np.where(g < -1)[0]
 
 ``` {python}
 #| echo: false
+#| fig-cap: "Linearly Separable Classes with no dicision boundary"
 plt.figure(figsize = (6, 4))
 plt.plot(x1[C1], x2[C1], 'ro', alpha = 0.4, label = 'C1')
 plt.plot(x1[C0], x2[C0], 'bo', alpha = 0.4, label = 'C0')
@@ -187,6 +188,8 @@ while flag == 0:
 
 ``` {python}
 #| echo: false
+#| 
+#| fig-cap: "Linearly Separable Classes with dicision boundary"
 x1p = np.linspace(0,8,100).reshape(-1,1)
 x2p = - w[1,0]/w[2,0]*x1p - w[0,0]/w[2,0]
 

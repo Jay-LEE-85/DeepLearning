@@ -22,9 +22,11 @@ graph LR
   classDef bias fill:#f96
 ```
 
-퍼셉트론에서는 활성화 함수로 **계단함수**(Sign function)를 사용하였느나, ANN에서는 활성화 함수로 미분가능한 함수들을 사용합니다. 다음은 ANN에서 사용하는 활성화 함수에 대하여 소개하겠습니다.
+퍼셉트론에서는 활성화 함수로 **계단함수**(Sign function)를 사용하였느나, ANN에서는 활성화 함수로 **미분가능한 함수**들을 사용합니다. 다음은 ANN에서 사용하는 활성화 함수에 대하여 소개하겠습니다.
 
 ## Sigmoid Function
+
+**시그모이드 함수**(sigmoid function)은 
 
 ``` {python}
 
