@@ -1,0 +1,12 @@
+{
+  "hash": "e2fd29978bd30d8eb160329c780db3db",
+  "result": {
+    "engine": "jupyter",
+    "markdown": "# Forward Propagation\n\n---\n\n\n\n``` {mermaid}\n%%| label: fig-annFor1\n%%| fig-cap: \"Notation of NN\"\nflowchart LR\n  x1((x1)) --> a1((\"$a_1$\"))\n```\n\n",
+    "supporting": [
+      "ANN-forward_files"
+    ],
+    "filters": [],
+    "includes": {}
+  }
+}
