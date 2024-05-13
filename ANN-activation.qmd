@@ -94,3 +94,5 @@ plt.show()
 ## others
 
 위에 소개한 활성화 함수 외에도 많은 종류의 활성화 함수가 존재합니다. 이에 대하여 자세한 사항은 [Wiki](https://en.wikipedia.org/wiki/Activation_function)페이지를 참고하시기 바랍니다.
+
+학습을 진행하는 과정에서 필요한 내용들을 지속적으로 업데이트 할 예정입니다.
