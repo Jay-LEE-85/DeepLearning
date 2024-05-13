@@ -334,7 +334,7 @@ h(x) = \frac{1}{1+exp(-x)}
 \end{align}
 </span></p>
 <p>시그모이드 함수를 <code>python</code> 코드로 아래와 같이 간다하게 구현할 수 있습니다. 이를 활용하여 시그모이드 함수를 실행하면 <span class="quarto-unresolved-ref">?fig-annAct1</span> 와 같은 그래프를 볼 수 있습니다.</p>
-<div id="cdc3044d" class="cell" data-execution_count="2">
+<div id="bee8369a" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> sigmoid(x):</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> <span class="dv">1</span> <span class="op">/</span> (<span class="dv">1</span> <span class="op">+</span> np.exp(<span class="op">-</span>x))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -366,7 +366,7 @@ x &amp; (x &gt; 0) \\
 \end{align}
 </span></p>
 <p>ReLU 함수를 <code>python</code> 코드로 아래와 같이 간다하게 구현할 수 있습니다. 이를 활용하여 시그모이드 함수를 실행하면 <span class="quarto-unresolved-ref">?fig-annAct2</span> 와 같은 그래프를 볼 수 있습니다.</p>
-<div id="05abc76e" class="cell" data-execution_count="4">
+<div id="357a0ca3" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> relu(x):</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> np.maximum(<span class="dv">0</span>, x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -388,6 +388,7 @@ Figure&nbsp;4.3: Plot of ReLU Function
 <section id="others" class="level2" data-number="4.3">
 <h2 data-number="4.3" class="anchored" data-anchor-id="others"><span class="header-section-number">4.3</span> others</h2>
 <p>위에 소개한 활성화 함수 외에도 많은 종류의 활성화 함수가 존재합니다. 이에 대하여 자세한 사항은 <a href="https://en.wikipedia.org/wiki/Activation_function">Wiki</a>페이지를 참고하시기 바랍니다.</p>
+<p>학습을 진행하는 과정에서 필요한 내용들을 지속적으로 업데이트 할 예정입니다.</p>
 
 
 </section>

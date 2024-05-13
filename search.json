@@ -174,7 +174,7 @@
     "href": "ANN-activation.html#others",
     "title": "4  Activation Function",
     "section": "4.3 others",
-    "text": "4.3 others\n위에 소개한 활성화 함수 외에도 많은 종류의 활성화 함수가 존재합니다. 이에 대하여 자세한 사항은 Wiki페이지를 참고하시기 바랍니다.",
+    "text": "4.3 others\n위에 소개한 활성화 함수 외에도 많은 종류의 활성화 함수가 존재합니다. 이에 대하여 자세한 사항은 Wiki페이지를 참고하시기 바랍니다.\n학습을 진행하는 과정에서 필요한 내용들을 지속적으로 업데이트 할 예정입니다.",
     "crumbs": [
       "ANN",
       "<span class='chapter-number'>4</span>  <span class='chapter-title'>Activation Function</span>"
@@ -185,7 +185,18 @@
     "href": "ANN-forward.html",
     "title": "5  Forward Propagation",
     "section": "",
-    "text": "flowchart LR\n  x1((x1)) --&gt; a1((\"$a_1$\"))\n\n\n\n\nFigure 5.1: Notation of NN",
+    "text": "5.1 Layer-by-Layer signaling\n3층 신경망의 신호 전달과정은 아래와 같이 Weighted Sum에 기반하며 그 값을 다시 화성화 함수(가령 Sigmoid)를 통하여 노드의 값이 최종 산출됩니다.\n또한, 이전층의 값들을 받아 산출된 값은 다시 입력값으로 하여 다음층으로 전달되는 과정을 거쳐 최종적으로 출력층까지 이 과정을 반복하게 됩니다. 이 과정이 신호 전달 또는 Forward propagation 입니다.\ninput to hidden\n최초 입력층(0층)의 신호 전달 체계는 입력값(노드)은 2개인 1차원 배열이고 다음의 은닉층(1층)은 노드 3계로 이루어진 1차원 배열입니다. 2개의 노드 값을 받아 3개의 노드로 전달해야 하므로 노드간의 간선은 총 6개(6 = 2 \\times 3)입니다.\n입력값 및 편향값을 a에 전달하고 a값을 활성화 함수(Sigmoid 함수를 사용) h()를 이용하여 신호 z를 산출하도록 합니다. 결과적으로 은닉층(1층)에 해당하는 3개의 노드의 신호를 확인할 수 있습닏.\n# 입력값, 편향, 가중치\nX  = np.array([1.0, 0.5])\nB1 = np.array([0.1,0.2,0.3])\nW1 = np.array([[0.1,0.3,0.5], [0.2,0.4,0.6]])\n\n# Weighted Sum\nA1 = np.dot(X, W1) + B1\n\n# Activation Function\nZ1 = sigmoid(A1)\n\nprint(A1)\nprint(Z1)\n\n[0.3 0.7 1.1]\n[0.57444252 0.66818777 0.75026011]\nhidden to hidden\n은닉층(1층)이 다시 입력층으로 하여 다음의 은닉층(2층)으로 신호를 전달하도록 해야 합니다. 앞서 진행한 신호 전달 과정과 동일합니다.\n다만, 입력 노드가 편향을 포함하여 4개가 다음 층인 2개의 노드로 전달됨에 따라 이전 과정과 달리 간선은 총 8개 입니다. 편향은 2개 간선을 갖고 가중치는 입력 노드별 2개 총 6개로 이루어 집니다.\n# 편향, 가중치\nB2 = np.array([0.1,0.2])\nW2 = np.array([[0.1,0.4], [0.2,0.5], [0.3,0.6]])\n\n# Weighted Sum & Activation Function\nA2 = np.dot(Z1, W2) + B2\nZ2 = sigmoid(A2)\n\nprint(A2)\nprint(Z2)\n\n[0.51615984 1.21402696]\n[0.62624937 0.7710107 ]\nhidden to output\n은닉층(2층)이 다시 입력층으로 하여 다음의 출력층(3층)으로 신호를 전달하도록 해야 합니다. 앞서 진행한 신호 전달 과정과 동일합니다.\n주의할 것은 노드별\n# 편향, 가중치\nB2 = np.array([0.1,0.2])\nW2 = np.array([[0.1,0.4], [0.2,0.5], [0.3,0.6]])\n\n# Weighted Sum & Activation Function\nA2 = np.dot(Z1, W2) + B2\nZ2 = sigmoid(A2)\n\nprint(A2)\nprint(Z2)\n\n[0.51615984 1.21402696]\n[0.62624937 0.7710107 ]",
+    "crumbs": [
+      "ANN",
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Forward Propagation</span>"
+    ]
+  },
+  {
+    "objectID": "ANN-forward.html#layer-by-layer-signaling",
+    "href": "ANN-forward.html#layer-by-layer-signaling",
+    "title": "5  Forward Propagation",
+    "section": "",
+    "text": "(a) input-hidden\n\n\n\n\n\n\n\n\n\n\n\n(b) hidden-hidden\n\n\n\n\n\n\n\n\n\n\n\n(c) hidden-output\n\n\n\n\n\n\n\nFigure 5.2: Process of Forward Propagation",
     "crumbs": [
       "ANN",
       "<span class='chapter-number'>5</span>  <span class='chapter-title'>Forward Propagation</span>"
