@@ -102,6 +102,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-label": "Search"
   }
 }</script>
+<meta name="mermaid-theme" content="neutral">
 <script src="site_libs/quarto-diagram/mermaid.min.js"></script>
 <script src="site_libs/quarto-diagram/mermaid-init.js"></script>
 <link href="site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
@@ -382,7 +383,7 @@ Figure&nbsp;5.2: Process of Forward Propagation(souce: Deeplearning from Scratch
 <p><strong>input to hidden</strong></p>
 <p>최초 입력층(0층)의 신호 전달 체계는 입력값(노드)은 2개인 1차원 배열이고 다음의 은닉층(1층)은 노드 3계로 이루어진 1차원 배열입니다. 2개의 노드 값을 받아 3개의 노드로 전달해야 하므로 노드간의 간선은 총 6개(<span class="math inline">6 = 2 \times 3</span>)입니다.</p>
 <p>입력값 및 편향값을 <code>a</code>에 전달하고 <code>a</code>값을 활성화 함수(Sigmoid 함수를 사용) <code>h()</code>를 이용하여 신호 <code>z</code>를 산출하도록 합니다. 결과적으로 은닉층(1층)에 해당하는 3개의 노드의 신호를 확인할 수 있습닏.</p>
-<div id="2fc47161" class="cell" data-execution_count="2">
+<div id="3cf68c8b" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 입력값, 편향, 가중치</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>X  <span class="op">=</span> np.array([<span class="fl">1.0</span>, <span class="fl">0.5</span>])</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>B1 <span class="op">=</span> np.array([<span class="fl">0.1</span>,<span class="fl">0.2</span>,<span class="fl">0.3</span>])</span>
@@ -404,7 +405,7 @@ Figure&nbsp;5.2: Process of Forward Propagation(souce: Deeplearning from Scratch
 <p><strong>hidden to hidden</strong></p>
 <p>은닉층(1층)이 다시 입력층으로 하여 다음의 은닉층(2층)으로 신호를 전달하도록 해야 합니다. 앞서 진행한 신호 전달 과정과 동일합니다.</p>
 <p>다만, 입력 노드가 편향을 포함하여 4개가 다음 층인 2개의 노드로 전달됨에 따라 이전 과정과 달리 간선은 총 8개 입니다. 편향은 2개 간선을 갖고 가중치는 입력 노드별 2개 총 6개로 이루어 집니다.</p>
-<div id="efa26352" class="cell" data-execution_count="3">
+<div id="eb75ef27" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 편향, 가중치</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>B2 <span class="op">=</span> np.array([<span class="fl">0.1</span>,<span class="fl">0.2</span>])</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>W2 <span class="op">=</span> np.array([[<span class="fl">0.1</span>,<span class="fl">0.4</span>], [<span class="fl">0.2</span>,<span class="fl">0.5</span>], [<span class="fl">0.3</span>,<span class="fl">0.6</span>]])</span>
@@ -423,7 +424,7 @@ Figure&nbsp;5.2: Process of Forward Propagation(souce: Deeplearning from Scratch
 <p><strong>hidden to output</strong></p>
 <p>은닉층(2층)이 다시 입력층으로 하여 다음의 출력층(3층)으로 신호를 전달하도록 해야 합니다. 앞서 진행한 신호 전달 과정과 동일합니다.</p>
 <p>주의할 것은 출력층의 경우 해결하고자 하는 문제의 성질에 맞게 설정되어야 합니다. 여기서는 입력되는 값을 그대로 출력하는 항등함수(Identity Function)알 사용하도록 하겠습니다.</p>
-<div id="7d937b39" class="cell" data-execution_count="4">
+<div id="4272e40b" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 항등함수</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> identity_function(x):</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> x</span>
@@ -460,8 +461,8 @@ Figure&nbsp;5.2: Process of Forward Propagation(souce: Deeplearning from Scratch
 </div>
 <p><strong>Wrap-up</strong></p>
 <p>앞서 정리한 내용을 하나의 모듈로 작성하도록 하겠습니다. 이 신경망의 신호 전달 과정은 순방향의 연산 과정만을 익히기 위함이고 가장 처음에 실행되는 과정입니다.</p>
-<div id="39e339ce" class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="annotated-cell-4"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><button class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="1">1</button><span id="annotated-cell-4-1" class="code-annotation-target"><a href="#annotated-cell-4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> init_network():</span>
+<div id="fb6df961" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="annotated-cell-4"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><a class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-4-1" class="code-annotation-target"><a href="#annotated-cell-4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> init_network():</span>
 <span id="annotated-cell-4-2"><a href="#annotated-cell-4-2" aria-hidden="true" tabindex="-1"></a>  network <span class="op">=</span> {}</span>
 <span id="annotated-cell-4-3"><a href="#annotated-cell-4-3" aria-hidden="true" tabindex="-1"></a>  network[<span class="st">'W1'</span>] <span class="op">=</span> np.array([[<span class="fl">0.1</span>,<span class="fl">0.3</span>,<span class="fl">0.5</span>], [<span class="fl">0.2</span>,<span class="fl">0.4</span>,<span class="fl">0.6</span>]]) <span class="co"># 입력2 출력3</span></span>
 <span id="annotated-cell-4-4"><a href="#annotated-cell-4-4" aria-hidden="true" tabindex="-1"></a>  network[<span class="st">'b1'</span>] <span class="op">=</span> np.array([<span class="fl">0.1</span>,<span class="fl">0.2</span>,<span class="fl">0.3</span>])</span>
@@ -472,7 +473,7 @@ Figure&nbsp;5.2: Process of Forward Propagation(souce: Deeplearning from Scratch
 <span id="annotated-cell-4-9"><a href="#annotated-cell-4-9" aria-hidden="true" tabindex="-1"></a></span>
 <span id="annotated-cell-4-10"><a href="#annotated-cell-4-10" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> network</span>
 <span id="annotated-cell-4-11"><a href="#annotated-cell-4-11" aria-hidden="true" tabindex="-1"></a></span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="2">2</button><span id="annotated-cell-4-12" class="code-annotation-target"><a href="#annotated-cell-4-12" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> forward(network, x):</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-4-12" class="code-annotation-target"><a href="#annotated-cell-4-12" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> forward(network, x):</span>
 <span id="annotated-cell-4-13"><a href="#annotated-cell-4-13" aria-hidden="true" tabindex="-1"></a>  W1, W2, W3 <span class="op">=</span> network[<span class="st">'W1'</span>], network[<span class="st">'W2'</span>], network[<span class="st">'W3'</span>]</span>
 <span id="annotated-cell-4-14"><a href="#annotated-cell-4-14" aria-hidden="true" tabindex="-1"></a>  b1, b2, b3 <span class="op">=</span> network[<span class="st">'b1'</span>], network[<span class="st">'b2'</span>], network[<span class="st">'b3'</span>]</span>
 <span id="annotated-cell-4-15"><a href="#annotated-cell-4-15" aria-hidden="true" tabindex="-1"></a></span>
@@ -491,7 +492,7 @@ Figure&nbsp;5.2: Process of Forward Propagation(souce: Deeplearning from Scratch
 <span id="annotated-cell-4-28"><a href="#annotated-cell-4-28" aria-hidden="true" tabindex="-1"></a></span>
 <span id="annotated-cell-4-29"><a href="#annotated-cell-4-29" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(y)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-annotation">
-<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dl class="code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-4" data-target-annotation="1">1</dt>
 <dd>
 <span data-code-cell="annotated-cell-4" data-code-lines="1" data-code-annotation="1">가중치와 편향을 초기화하고 이들을 닉셔너리 변수인 network에 저장</span>
@@ -545,7 +546,7 @@ y_k = \frac{exp(a_k)}{\sum^{n}_{i=1}exp(a_i)} &amp;= \frac{C\,exp(a_k)}{C\,\sum^
 \end{align}
 \tag{5.3}</span></span></p>
 <p>위의 식에 따라 출력층에 사용할 소프트맥스 함수를 아래와 같이 구현할 수 있으며, 개선된 식의 <span class="math inline">C</span>는 통상 입력값의 최대값으로 설정하도록 하겠습니다.</p>
-<div id="cbe1faf1" class="cell" data-execution_count="6">
+<div id="0569ba50" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> softmax(a):</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  c <span class="op">=</span> np.<span class="bu">max</span>(a)</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  exp_a <span class="op">=</span> np.exp(a<span class="op">-</span>c)</span>
@@ -591,7 +592,7 @@ MNIST 데이터셋
 </ul>
 </div>
 </div>
-<div id="e4366990" class="cell" data-execution_count="7">
+<div id="dc81db65" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="annotated-cell-6"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-6-1"><a href="#annotated-cell-6-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sys, os</span>
 <span id="annotated-cell-6-2"><a href="#annotated-cell-6-2" aria-hidden="true" tabindex="-1"></a>sys.path.append(os.pardir)  <span class="co"># 부모 디렉터리의 파일을 가져올 수 있도록 설정</span></span>
 <span id="annotated-cell-6-3"><a href="#annotated-cell-6-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -601,9 +602,9 @@ MNIST 데이터셋
 <span id="annotated-cell-6-7"><a href="#annotated-cell-6-7" aria-hidden="true" tabindex="-1"></a><span class="co"># MNIST 데이터셋 로드</span></span>
 <span id="annotated-cell-6-8"><a href="#annotated-cell-6-8" aria-hidden="true" tabindex="-1"></a>(x_train, t_train), (x_test, t_test) <span class="op">=</span> <span class="op">\</span></span>
 <span id="annotated-cell-6-9"><a href="#annotated-cell-6-9" aria-hidden="true" tabindex="-1"></a>  load_mnist(</span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="1">1</button><span id="annotated-cell-6-10" class="code-annotation-target"><a href="#annotated-cell-6-10" aria-hidden="true" tabindex="-1"></a>    flatten <span class="op">=</span> <span class="va">True</span>,</span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="2">2</button><span id="annotated-cell-6-11" class="code-annotation-target"><a href="#annotated-cell-6-11" aria-hidden="true" tabindex="-1"></a>    normalize <span class="op">=</span> <span class="va">False</span>,</span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="3">3</button><span id="annotated-cell-6-12" class="code-annotation-target"><a href="#annotated-cell-6-12" aria-hidden="true" tabindex="-1"></a>    one_hot_label <span class="op">=</span> <span class="va">False</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-6-10" class="code-annotation-target"><a href="#annotated-cell-6-10" aria-hidden="true" tabindex="-1"></a>    flatten <span class="op">=</span> <span class="va">True</span>,</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-6-11" class="code-annotation-target"><a href="#annotated-cell-6-11" aria-hidden="true" tabindex="-1"></a>    normalize <span class="op">=</span> <span class="va">False</span>,</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="3" onclick="event.preventDefault();">3</a><span id="annotated-cell-6-12" class="code-annotation-target"><a href="#annotated-cell-6-12" aria-hidden="true" tabindex="-1"></a>    one_hot_label <span class="op">=</span> <span class="va">False</span></span>
 <span id="annotated-cell-6-13"><a href="#annotated-cell-6-13" aria-hidden="true" tabindex="-1"></a>    ) </span>
 <span id="annotated-cell-6-14"><a href="#annotated-cell-6-14" aria-hidden="true" tabindex="-1"></a></span>
 <span id="annotated-cell-6-15"><a href="#annotated-cell-6-15" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> img_show(img):</span>
@@ -620,7 +621,7 @@ MNIST 데이터셋
 <span id="annotated-cell-6-26"><a href="#annotated-cell-6-26" aria-hidden="true" tabindex="-1"></a></span>
 <span id="annotated-cell-6-27"><a href="#annotated-cell-6-27" aria-hidden="true" tabindex="-1"></a>img_show(img)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-annotation">
-<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dl class="code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-6" data-target-annotation="1">1</dt>
 <dd>
 <span data-code-cell="annotated-cell-6" data-code-lines="10" data-code-annotation="1"><code>flatten</code>은 28x28의 2D-배열을 784x1 1D배열로 만들지 말지 결정하는 변수</span>
@@ -996,64 +997,25 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         }
       };
     }
-      const annoteTargets = window.document.querySelectorAll('.code-annotation-anchor');
-      for (let i=0; i<annoteTargets.length; i++) {
-        const annoteTarget = annoteTargets[i];
-        const targetCell = annoteTarget.getAttribute("data-target-cell");
-        const targetAnnotation = annoteTarget.getAttribute("data-target-annotation");
-        const contentFn = () => {
-          const content = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
-          if (content) {
-            const tipContent = content.cloneNode(true);
-            tipContent.classList.add("code-annotation-tip-content");
-            return tipContent.outerHTML;
-          }
-        }
-        const config = {
-          allowHTML: true,
-          content: contentFn,
-          onShow: (instance) => {
-            selectCodeLines(instance.reference);
-            instance.reference.classList.add('code-annotation-active');
-            window.tippy.hideAll();
-          },
-          onHide: (instance) => {
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
             unselectCodeLines();
-            instance.reference.classList.remove('code-annotation-active');
-          },
-          maxWidth: 300,
-          delay: [50, 0],
-          duration: [200, 0],
-          offset: [5, 10],
-          arrow: true,
-          appendTo: function(el) {
-            return el.parentElement.parentElement.parentElement;
-          },
-          interactive: true,
-          interactiveBorder: 10,
-          theme: 'quarto',
-          placement: 'right',
-          popperOptions: {
-            modifiers: [
-            {
-              name: 'flip',
-              options: {
-                flipVariations: false, // true by default
-                allowedAutoPlacements: ['right'],
-                fallbackPlacements: ['right', 'top', 'top-start', 'top-end', 'bottom', 'bottom-start', 'bottom-end', 'left'],
-              },
-            },
-            {
-              name: 'preventOverflow',
-              options: {
-                mainAxis: false,
-                altAxis: false
-              }
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
             }
-            ]        
-          }      
-        };
-        window.tippy(annoteTarget, config); 
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
       }
   const findCites = (el) => {
     const parentEl = el.parentElement;
