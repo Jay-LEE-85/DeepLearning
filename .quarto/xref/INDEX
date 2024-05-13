@@ -1,0 +1,26 @@
+{
+  "ANN-forward.qmd": {
+    "ANN-forward.html": "7f991626"
+  },
+  "index.qmd": {
+    "index.html": "916670ac"
+  },
+  "intro.qmd": {
+    "intro.html": "19677200"
+  },
+  "perceptron-intro.qmd": {
+    "perceptron-intro.html": "d7e54ae9"
+  },
+  "perceptron-lab_classification.qmd": {
+    "perceptron-lab_classification.html": "b2366bbf"
+  },
+  "ANN-intro.qmd": {
+    "ANN-intro.html": "fc98e256"
+  },
+  "ANN-activation.qmd": {
+    "ANN-activation.html": "cdb199de"
+  },
+  "references.qmd": {
+    "references.html": "b2425d4c"
+  }
+}
