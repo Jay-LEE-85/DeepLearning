@@ -1,4 +1,4 @@
-# Activation Function
+# Activation Function {#sec-actANN}
 ---
 ``` {python}
 #| echo: false
