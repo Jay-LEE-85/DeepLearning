@@ -249,6 +249,12 @@ window.Quarto = {
  <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Forward Propagation</span></span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ANN-learning.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Learning process(update weight) of ANN을</span></span></a>
+  </div>
+</li>
       </ul>
   </li>
         <li class="sidebar-item">
@@ -270,7 +276,8 @@ window.Quarto = {
   <li><a href="#what-is-a-perceptron" id="toc-what-is-a-perceptron" class="nav-link active" data-scroll-target="#what-is-a-perceptron"><span class="header-section-number">1.1</span> What is a ‘Perceptron’?</a></li>
   <li><a href="#bit-wise-operator단순-논리-회로" id="toc-bit-wise-operator단순-논리-회로" class="nav-link" data-scroll-target="#bit-wise-operator단순-논리-회로"><span class="header-section-number">1.2</span> Bit-wise operator(단순 논리 회로)</a></li>
   <li><a href="#perceptron-으로-구현" id="toc-perceptron-으로-구현" class="nav-link" data-scroll-target="#perceptron-으로-구현"><span class="header-section-number">1.3</span> Perceptron 으로 구현</a></li>
-  <li><a href="#다층-퍼셉트론" id="toc-다층-퍼셉트론" class="nav-link" data-scroll-target="#다층-퍼셉트론"><span class="header-section-number">1.4</span> 다층 퍼셉트론</a></li>
+  <li><a href="#mlp" id="toc-mlp" class="nav-link" data-scroll-target="#mlp"><span class="header-section-number">1.4</span> MLP</a></li>
+  <li><a href="#wrap-up" id="toc-wrap-up" class="nav-link" data-scroll-target="#wrap-up">Wrap up</a></li>
   </ul>
 </nav>
     </div>
@@ -603,7 +610,7 @@ y = \begin{cases}
 \end{cases}
 \tag{1.4}</span></span></p>
 </div></div><p>변형된 수식(<a href="#eq-eqAndGate2" class="quarto-xref">Equation&nbsp;<span>1.4</span></a> )에 기초하여 진리표(<a href="#tbl-bitwise" class="quarto-xref">Table&nbsp;<span>1.1</span></a> )상의 게이트를 코드로 구현하면 아래와 같습니다.</p>
-<div id="509aaae8" class="cell" data-execution_count="2">
+<div id="f3046835" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="annotated-cell-1"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><a class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-1-1" class="code-annotation-target"><a href="#annotated-cell-1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="annotated-cell-1-2"><a href="#annotated-cell-1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="annotated-cell-1-3"><a href="#annotated-cell-1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># AND gate</span></span>
@@ -656,8 +663,8 @@ y = \begin{cases}
 </div>
 </div>
 </section>
-<section id="다층-퍼셉트론" class="level2" data-number="1.4">
-<h2 data-number="1.4" class="anchored" data-anchor-id="다층-퍼셉트론"><span class="header-section-number">1.4</span> 다층 퍼셉트론</h2>
+<section id="mlp" class="level2" data-number="1.4">
+<h2 data-number="1.4" class="anchored" data-anchor-id="mlp"><span class="header-section-number">1.4</span> MLP</h2>
 <p>다중 퍼셉트론은 퍼셉트론이 여러층으로 구현된 형태를 말합니다. 층을 여러개 쌓아서 보다 복잡한 문제를 해결할 수 있고, 추후 Deeplearning에서 여러층의 신경망을 쌓는 방식의 기초라고만 이해해 두겠습니다.</p>
 <p>앞서 1층 퍼셉트론으로는 <em>단순 논리 회로</em> 중 선형적인 게이트만을 구현할 수 있었습니다. 그렇다면 <code>XOR</code>게이트는 해결할 수 없을까요? 이를 해결하기 위한 것이 다층 퍼셉트론 입니다.</p>
 <p>가령 <code>XOR</code>게이트 문제를 <code>NAND</code>와 <code>OR</code>게이트를 조합한 출력값을 <code>AND</code>게이트의 입력값으로 받게 된다면 <code>XOR</code>게이트를 구현할 수 있습니다. 국소적인 문제해결을 결합하여 전체 문제를 해결하는 방식으로 이해됩니다.</p>
@@ -733,13 +740,24 @@ Table&nbsp;1.2: <code>XOR</code>게이트의 진리표
 </figure>
 </div>
 <p>위의 진리표(<a href="#tbl-XOR2" class="quarto-xref">Table&nbsp;<span>1.2</span></a> )를 코드로 구현하면 아래와 같습니다. 앞서 구현한 게이트들을 코드내에서 사용하여 단순하게 구현할 수 있습니다.</p>
-<div id="169bb90c" class="cell" data-execution_count="3">
+<div id="37fbb050" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> XOR(x1, x2):</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  s1 <span class="op">=</span> NAND(x1, x2)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  s2 <span class="op">=</span> OR(x1, x2)</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  y <span class="op">=</span> AND(s1, s2)</span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> y</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+</section>
+<section id="wrap-up" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="wrap-up">Wrap up</h2>
+<p>지금까지 퍼셈트론에 대하여 살펴 보았습니다. 단순히 퍼셥트론이 뭐다라는 단순한 이야기 이지만, 딥러닝에 있어 가장 기초가 되는 부분입니다. 다만, 퍼셉트론 자체를 더 깊이 알아보기 보다 하나의 뉴런이 여러개의 뉴런이 되는 MLP(Multi-Layers Perceptron)가 여러개의 층으로 이루어 지는 NN(Neural Network)으로 발전된다 정도로 이해해 보도록 하겠습니다.</p>
+<p>자세한 사항은 다음장에서 여러개의 뉴런들이 층을 이루는 인공신경망(ANN, Articial Neural Network)에서 설명하도록 하며 주요 주제는 아래와 같습니다.</p>
+<ul>
+<li>Activation function &amp; Forward Propagation</li>
+<li>Loss Function(Loss Optimization) &amp; Back Propagation</li>
+<li>NN in Practice: Adaptive Learning, Mini-batches, Overfitting(Regularization)</li>
+</ul>
+<p>이후 ANN을 Foundation으로 Sequential Data Modelling을 위한 RNN 및 이미 처리를 위한 CNN 등에 대하여 학습할 예정입니다.</p>
 
 
 </section>

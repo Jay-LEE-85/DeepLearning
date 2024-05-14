@@ -104,11 +104,22 @@
     ]
   },
   {
-    "objectID": "perceptron-intro.html#다층-퍼셉트론",
-    "href": "perceptron-intro.html#다층-퍼셉트론",
+    "objectID": "perceptron-intro.html#mlp",
+    "href": "perceptron-intro.html#mlp",
     "title": "1  Perceptron",
-    "section": "1.4 다층 퍼셉트론",
-    "text": "1.4 다층 퍼셉트론\n다중 퍼셉트론은 퍼셉트론이 여러층으로 구현된 형태를 말합니다. 층을 여러개 쌓아서 보다 복잡한 문제를 해결할 수 있고, 추후 Deeplearning에서 여러층의 신경망을 쌓는 방식의 기초라고만 이해해 두겠습니다.\n앞서 1층 퍼셉트론으로는 단순 논리 회로 중 선형적인 게이트만을 구현할 수 있었습니다. 그렇다면 XOR게이트는 해결할 수 없을까요? 이를 해결하기 위한 것이 다층 퍼셉트론 입니다.\n가령 XOR게이트 문제를 NAND와 OR게이트를 조합한 출력값을 AND게이트의 입력값으로 받게 된다면 XOR게이트를 구현할 수 있습니다. 국소적인 문제해결을 결합하여 전체 문제를 해결하는 방식으로 이해됩니다.\n\n\n\n\n\n\nflowchart LR\n  x1((x1)) & x2((x2)) ---&gt; nand[NAND] & or[OR] \n  nand --s1---&gt; AND ---&gt; y[y]\n  or --s2---&gt; AND\n\n\n\n\nFigure 1.4: XOR Gate: Composition of NAND, OR, AND\n\n\n\n\n\nXOR의 게이트를 다른 게이트의 조합을 활용한 진리표는 아래와 같습니다. 위의 그림에서 보듯이 x1과 x2의 입력값을 받아 NAND게이트는 s1의 출력값을 OR게이트는 s2의 출력값을 생성하며, 다시 s1과 s2를 입력값으로 받아 AND를 통과시켜 최종적으로 XOR게이트의 진리표를 다시 그릴 수 있습니다.\n\n\n\n\n\n\nx_1\nx_2\ns_1\ns_2\ny\n\n\n\n\n0\n0\n1\n0\n0\n\n\n1\n0\n1\n1\n1\n\n\n0\n1\n1\n1\n1\n\n\n1\n1\n0\n1\n0\n\n\n\n\n\nTable 1.2: XOR게이트의 진리표\n\n\n\n위의 진리표(Table 1.2 )를 코드로 구현하면 아래와 같습니다. 앞서 구현한 게이트들을 코드내에서 사용하여 단순하게 구현할 수 있습니다.\n\ndef XOR(x1, x2):\n  s1 = NAND(x1, x2)\n  s2 = OR(x1, x2)\n  y = AND(s1, s2)\n  return y",
+    "section": "1.4 MLP",
+    "text": "1.4 MLP\n다중 퍼셉트론은 퍼셉트론이 여러층으로 구현된 형태를 말합니다. 층을 여러개 쌓아서 보다 복잡한 문제를 해결할 수 있고, 추후 Deeplearning에서 여러층의 신경망을 쌓는 방식의 기초라고만 이해해 두겠습니다.\n앞서 1층 퍼셉트론으로는 단순 논리 회로 중 선형적인 게이트만을 구현할 수 있었습니다. 그렇다면 XOR게이트는 해결할 수 없을까요? 이를 해결하기 위한 것이 다층 퍼셉트론 입니다.\n가령 XOR게이트 문제를 NAND와 OR게이트를 조합한 출력값을 AND게이트의 입력값으로 받게 된다면 XOR게이트를 구현할 수 있습니다. 국소적인 문제해결을 결합하여 전체 문제를 해결하는 방식으로 이해됩니다.\n\n\n\n\n\n\nflowchart LR\n  x1((x1)) & x2((x2)) ---&gt; nand[NAND] & or[OR] \n  nand --s1---&gt; AND ---&gt; y[y]\n  or --s2---&gt; AND\n\n\n\n\nFigure 1.4: XOR Gate: Composition of NAND, OR, AND\n\n\n\n\n\nXOR의 게이트를 다른 게이트의 조합을 활용한 진리표는 아래와 같습니다. 위의 그림에서 보듯이 x1과 x2의 입력값을 받아 NAND게이트는 s1의 출력값을 OR게이트는 s2의 출력값을 생성하며, 다시 s1과 s2를 입력값으로 받아 AND를 통과시켜 최종적으로 XOR게이트의 진리표를 다시 그릴 수 있습니다.\n\n\n\n\n\n\nx_1\nx_2\ns_1\ns_2\ny\n\n\n\n\n0\n0\n1\n0\n0\n\n\n1\n0\n1\n1\n1\n\n\n0\n1\n1\n1\n1\n\n\n1\n1\n0\n1\n0\n\n\n\n\n\nTable 1.2: XOR게이트의 진리표\n\n\n\n위의 진리표(Table 1.2 )를 코드로 구현하면 아래와 같습니다. 앞서 구현한 게이트들을 코드내에서 사용하여 단순하게 구현할 수 있습니다.\n\ndef XOR(x1, x2):\n  s1 = NAND(x1, x2)\n  s2 = OR(x1, x2)\n  y = AND(s1, s2)\n  return y",
+    "crumbs": [
+      "Perceptron",
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Perceptron</span>"
+    ]
+  },
+  {
+    "objectID": "perceptron-intro.html#wrap-up",
+    "href": "perceptron-intro.html#wrap-up",
+    "title": "1  Perceptron",
+    "section": "Wrap up",
+    "text": "Wrap up\n지금까지 퍼셈트론에 대하여 살펴 보았습니다. 단순히 퍼셥트론이 뭐다라는 단순한 이야기 이지만, 딥러닝에 있어 가장 기초가 되는 부분입니다. 다만, 퍼셉트론 자체를 더 깊이 알아보기 보다 하나의 뉴런이 여러개의 뉴런이 되는 MLP(Multi-Layers Perceptron)가 여러개의 층으로 이루어 지는 NN(Neural Network)으로 발전된다 정도로 이해해 보도록 하겠습니다.\n자세한 사항은 다음장에서 여러개의 뉴런들이 층을 이루는 인공신경망(ANN, Articial Neural Network)에서 설명하도록 하며 주요 주제는 아래와 같습니다.\n\nActivation function & Forward Propagation\nLoss Function(Loss Optimization) & Back Propagation\nNN in Practice: Adaptive Learning, Mini-batches, Overfitting(Regularization)\n\n이후 ANN을 Foundation으로 Sequential Data Modelling을 위한 RNN 및 이미 처리를 위한 CNN 등에 대하여 학습할 예정입니다.",
     "crumbs": [
       "Perceptron",
       "<span class='chapter-number'>1</span>  <span class='chapter-title'>Perceptron</span>"
@@ -218,10 +229,32 @@
     "href": "ANN-forward.html#lab-number-recognition-with-mnist",
     "title": "5  Forward Propagation",
     "section": "5.3 Lab : Number recognition with MNIST",
-    "text": "5.3 Lab : Number recognition with MNIST\n현재 우리가 진행하고 있는 과정은 학습과 추론 중 추론(inference)에 해당하는 순전파(forward propagation)입니다. 학습의 경우 역전파(back propagation)를 통하여 가중치를 업데이트 하나 추론의 경우는 설정된 가중치를 이용하여 문제를 해결하는 과정입니다.\n\n\n\n\n\n\nMNIST 데이터셋\n\n\n\nMNIST 데이터셋은 기계 학습 분야에서 널리 사용되는 손으로 쓴 숫자 이미지 데이터셋입니다. 이 데이터셋은 0부터 9까지의 숫자를 손으로 쓴 28x28 픽셀 크기의 이미지로 구성되어 있습니다. 주로 숫자 인식 및 분류 알고리즘의 테스트 및 훈련에 사용됩니다.\n\n크기: 28x28 픽셀\n포맷: 흑백 이미지(1채널)\n이미지 개수: - 훈련 데이터: 60,000개 - 테스트 데이터: 10,000개\n픽셀 값 범위: 0부터 255까지\n\n\n\n\nimport sys, os\nsys.path.append(os.pardir)  # 부모 디렉터리의 파일을 가져올 수 있도록 설정\nimport numpy as np\nfrom dataset.mnist import load_mnist\nfrom PIL import Image\n\n# MNIST 데이터셋 로드\n(x_train, t_train), (x_test, t_test) = \\\n  load_mnist(\n1    flatten = True,\n2    normalize = False,\n3    one_hot_label = False\n    ) \n\ndef img_show(img):\n    pil_img = Image.fromarray(np.uint8(img))\n    pil_img.show()\n\nimg = x_train[0]\nlabel = t_train[0]\nprint(label)  # 5\n\nprint(img.shape)  # (784,)\nimg = img.reshape(28, 28)  # 형상을 원래 이미지의 크기로 변형\nprint(img.shape)  # (28, 28)\n\nimg_show(img)\n\n\n1\n\nflatten은 28x28의 2D-배열을 784x1 1D배열로 만들지 말지 결정하는 변수\n\n2\n\nnormalize는 픽셀값의 범위를 기존 [0, 255]에서 [0.0, 1.0]으로 변환할지 말지를 결정하는 변수\n\n3\n\none_hot_label은 레이블의 값을 정수(False, 예:5)로 할지, 한 원소만을 1로 갖는 배열(True, 예:[0,0,0,0,0,1,0,0,0,0,0])로 할지 결정하는 변수\n\n\n\n\n5\n(784,)\n(28, 28)",
+    "text": "5.3 Lab : Number recognition with MNIST\n현재 우리가 진행하고 있는 과정은 학습과 추론 중 추론(inference)에 해당하는 순전파(forward propagation)입니다. 학습의 경우 역전파(back propagation)를 통하여 가중치를 업데이트 하나 추론의 경우는 설정된 가중치를 이용하여 문제를 해결하는 과정입니다.\n\n\n\n\n\n\nMNIST 데이터셋\n\n\n\nMNIST1 데이터셋은 기계 학습 분야에서 널리 사용되는 손으로 쓴 숫자 이미지 데이터셋입니다. 이 데이터셋은 0부터 9까지의 숫자를 손으로 쓴 28x28 픽셀 크기의 이미지로 구성되어 있습니다. 주로 숫자 인식 및 분류 알고리즘의 테스트 및 훈련에 사용됩니다.\n\n크기: 28x28 픽셀\n포맷: 흑백 이미지(1채널)\n이미지 개수: - 훈련 데이터: 60,000개 - 테스트 데이터: 10,000개\n픽셀 값 범위: 0부터 255까지\n\n\n\n\nimport sys, os\nsys.path.append(os.pardir)  # 부모 디렉터리의 파일을 가져올 수 있도록 설정\nimport numpy as np\nfrom dataset.mnist import load_mnist\nfrom PIL import Image\n\n# MNIST 데이터셋 로드\n(x_train, t_train), (x_test, t_test) = \\\n  load_mnist(\n1    flatten = True,\n2    normalize = False,\n3    one_hot_label = False\n    ) \n\ndef img_show(img):\n    pil_img = Image.fromarray(np.uint8(img))\n    pil_img.show()\n\nimg = x_train[0]\nlabel = t_train[0]\nprint(label)  # 5\n\nprint(img.shape)  # (784,)\nimg = img.reshape(28, 28)  # 형상을 원래 이미지의 크기로 변형\nprint(img.shape)  # (28, 28)\n\nimg_show(img)\n\n\n1\n\nflatten은 28x28의 2D-배열을 784x1 1D배열로 만들지 말지 결정하는 변수\n\n2\n\nnormalize는 픽셀값의 범위를 기존 [0, 255]에서 [0.0, 1.0]으로 변환할지 말지를 결정하는 변수\n\n3\n\none_hot_label은 레이블의 값을 정수(False, 예:5)로 할지, 한 원소만을 1로 갖는 배열(True, 예:[0,0,0,0,0,1,0,0,0,0,0])로 할지 결정하는 변수\n\n\n\n\n5\n(784,)\n(28, 28)\n\n\n\n5.3.1 Inference processing\nANN을 활용하여 MNIST 데이터셋을 가지고 추론과정을 신경망으로 구현하면 아래와 같습니다. 입력층의 뉴런은 28\\times28의 데이터를 받아 Fully-conneted하게 784개의 뉴런으로 갖도록 합니다. 그리고 출력층의 뉴런은 0~9까지 10개로 분류해야 하므로 10개의 뉴런을 갖도록 합니다.\n입력과 출력사이의 은닉층은 2개의 층으로 구성하도록 하고 각각 50개 100개의 뉴런을 갖도록 합니다. 은닉층의 뉴런의 갯수는 임의로 정한 것이고 본 사전에 학습된 \\omega 를 사용하여 추론의 정확도를 평가해 보도록 하겠습니다.\n\n# coding: utf-8\nimport sys, os\nsys.path.append(os.pardir)  # 부모 디렉터리의 파일을 가져올 수 있도록 설정\nimport numpy as np\nimport pickle\nfrom dataset.mnist import load_mnist\nfrom common.functions import sigmoid, softmax\n\n\ndef get_data():\n    (x_train, t_train), (x_test, t_test) = load_mnist(\n4      normalize=True,\n      flatten=True, \n      one_hot_label=False)\n    return x_test, t_test\n\n\ndef init_network():\n    with open(\"dataset/sample_weight.pkl\", 'rb') as f:\n        network = pickle.load(f)\n    return network\n\n\ndef predict(network, x):\n    W1, W2, W3 = network['W1'], network['W2'], network['W3']\n    b1, b2, b3 = network['b1'], network['b2'], network['b3']\n\n    a1 = np.dot(x, W1) + b1\n    z1 = sigmoid(a1)\n    a2 = np.dot(z1, W2) + b2\n    z2 = sigmoid(a2)\n    a3 = np.dot(z2, W3) + b3\n    y = softmax(a3)\n\n    return y\n\n\nx, t = get_data()\nnetwork = init_network()\naccuracy_cnt = 0\n1for i in range(len(x)):\n    y = predict(network, x[i])\n2    p= np.argmax(y)\n3    if p == t[i]:\n        accuracy_cnt += 1\n\nprint(\"Accuracy:\" + str(float(accuracy_cnt) / len(x)))\n\n\n1\n\nfor문 안에서 이미지 1장씩 꺼내어 predict()함수로 분류(0~9)를 실행하여 레이블의 확률을 Numpy 배열로 반환\n\n2\n\nnp.argmax로 반환된 레이블 배열에서 가장 높은 값(확률)의 인덱스를 산출\n\n3\n\n정답 레이블과 산출 레이블의 비교하여 일치하면 accuracy_cnt로 정답 갯수 업데이트\n\n4\n\nload_mnist함수의 인자 중 normalize가 True는 데이터를 0~1사이의 값으로 정규화 한다는 의미\n\n\n\n\nAccuracy:0.9352\n\n\n위의 과정을 통해 분류의 정확도는 93.52%임을 확인 할 수 있습니다. 이후에 이 정확도를 향상시키기 위한 신경망의 학습 등에 대하여 살펴볼 예정입니다.",
     "crumbs": [
       "ANN",
       "<span class='chapter-number'>5</span>  <span class='chapter-title'>Forward Propagation</span>"
+    ]
+  },
+  {
+    "objectID": "ANN-forward.html#footnotes",
+    "href": "ANN-forward.html#footnotes",
+    "title": "5  Forward Propagation",
+    "section": "",
+    "text": "ANN 및 CNN 까지 다양한 예제에 활용될 예정↩︎",
+    "crumbs": [
+      "ANN",
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Forward Propagation</span>"
+    ]
+  },
+  {
+    "objectID": "ANN-learning.html",
+    "href": "ANN-learning.html",
+    "title": "6  Learning process(update weight) of ANN을",
+    "section": "",
+    "text": "6.1",
+    "crumbs": [
+      "ANN",
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Learning process(update weight) of ANN을</span>"
     ]
   }
 ]
