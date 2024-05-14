@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>DeepLearning x 101 - 6&nbsp; Learning process(update weight) of ANN을</title>
+<title>DeepLearning x 101 - 6&nbsp; Learning process of ANN</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -68,6 +68,10 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
+<meta name="mermaid-theme" content="neutral">
+<script src="site_libs/quarto-diagram/mermaid.min.js"></script>
+<script src="site_libs/quarto-diagram/mermaid-init.js"></script>
+<link href="site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
 
   <script>window.backupDefine = window.define; window.define = undefined;</script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js"></script>
   <script>document.addEventListener("DOMContentLoaded", function () {
@@ -124,7 +128,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./ANN-intro.html">ANN</a></li><li class="breadcrumb-item"><a href="./ANN-learning.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Learning process(update weight) of ANN을</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./ANN-intro.html">ANN</a></li><li class="breadcrumb-item"><a href="./ANN-learning.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Learning process of ANN</span></a></li></ol></nav>
         <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -214,7 +218,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./ANN-learning.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Learning process(update weight) of ANN을</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Learning process of ANN</span></span></a>
   </div>
 </li>
       </ul>
@@ -235,16 +239,21 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#section" id="toc-section" class="nav-link active" data-scroll-target="#section"><span class="header-section-number">6.1</span> </a></li>
+  <li><a href="#loss-function" id="toc-loss-function" class="nav-link active" data-scroll-target="#loss-function"><span class="header-section-number">6.1</span> Loss Function</a>
+  <ul class="collapse">
+  <li><a href="#ssesum-of-squares-for-error" id="toc-ssesum-of-squares-for-error" class="nav-link" data-scroll-target="#ssesum-of-squares-for-error"><span class="header-section-number">6.1.1</span> SSE(sum of squares for error)</a></li>
+  <li><a href="#ceecross-entropy-error" id="toc-ceecross-entropy-error" class="nav-link" data-scroll-target="#ceecross-entropy-error"><span class="header-section-number">6.1.2</span> CEE(cross entropy error)</a></li>
+  </ul></li>
+  <li><a href="#gradient-descent" id="toc-gradient-descent" class="nav-link" data-scroll-target="#gradient-descent"><span class="header-section-number">6.2</span> Gradient Descent</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./ANN-intro.html">ANN</a></li><li class="breadcrumb-item"><a href="./ANN-learning.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Learning process(update weight) of ANN을</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./ANN-intro.html">ANN</a></li><li class="breadcrumb-item"><a href="./ANN-learning.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Learning process of ANN</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Learning process(update weight) of ANN을</span></h1>
+<h1 class="title"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Learning process of ANN</span></h1>
 </div>
 
 
@@ -267,15 +276,51 @@ window.Quarto = {
 <p>그리고 학습을 통해 매개변수를 기계가 찾는 다는 것은 주어진 데이터의 특성(Features)를 추출하여 특정 패턴을 찾는 것입니다. 물론 사람의 개입없이 말입니다.</p>
 <p>우리가 집중할 것은 이러환 과정이 어떻게 구현되는가 입니다. 그래서 다음의 주제에 대하여 집중하여 살펴보도록 하겠습니다.</p>
 <ol type="1">
-<li>출력값과 실제값을 비교하여 성능을 측정하는 <strong>손실함수</strong>(loss function)</li>
-<li>손실값을 활용한 가중치 갱신을 위한 <strong>학습률</strong>(learing rate) <span class="math inline">\omega = \omega - \eta\frac{\partial{f}}{\partial{\omega}}</span>
+<li>출력값과 실제값을 비교하여 정확도를 측정하는 <strong>손실함수</strong>(loss function)</li>
+<li>손실값을 활용한 가중치 갱신을 위한 <strong>경사하강법</strong>(gradient descent)
 <ul>
-<li>pre-requisite: 수치미분을 통한</li>
-<li>applicatoin: Gradient Descent</li>
+<li>pre-requisite: 수치미분을 통한 기울기 산출</li>
+<li>applicatoin: 학습률(learing rate <span class="math inline">\eta</span>: <span class="math inline">\omega = \omega - \eta\frac{\partial{f}}{\partial{\omega}}</span>)을 이용한 매개변수 갱신</li>
 </ul></li>
 </ol>
-<section id="section" class="level2" data-number="6.1">
-<h2 data-number="6.1" class="anchored" data-anchor-id="section"><span class="header-section-number">6.1</span> </h2>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div id="fig-annLearn" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-annLearn-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div>
+<pre class="mermaid mermaid-js" data-label="fig-annLearn">flowchart LR
+  input[input] --"forward" ---&gt; loss[loss]
+  loss[loss] --"backward" ---&gt; input[input]
+</pre>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-annLearn-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6.1: Forward and Backward propagation
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>손실함수는 추론(?)에 해당하는 순전파 과정에서 그 정확도를 산출하기 위한 내용이고, 경사하강법은 산출된 Loss를 입력까지의 역전파하여 매개변수인 가중치를 업데이트 하는 과정에 대한 내용으로 단순하게 이해할 수 있고 자세한 사항을 아래에 섦영하도로고 하겠습니다.</p>
+<section id="loss-function" class="level2" data-number="6.1">
+<h2 data-number="6.1" class="anchored" data-anchor-id="loss-function"><span class="header-section-number">6.1</span> Loss Function</h2>
+<p>손실함수는 ANN에 입력되어 산출되는 값과 실제 값을 비교하여 <strong>정확도</strong>를 측정하는 하나의 <strong>지표</strong>라고 할 수 있다. ANN은 이러한 지표를 기준으로 최적의 가중치를 탐색하여 하나의 모델을 구성하게 됩니다.</p>
+<p>손실함수로는 일반적으로 <strong>오차제곱합</strong>(SSE, sum of squares for error)과 <strong>교차 엔트로피 오차</strong>(CEE, cross entropy error)를 사용합니다.</p>
+<section id="ssesum-of-squares-for-error" class="level3" data-number="6.1.1">
+<h3 data-number="6.1.1" class="anchored" data-anchor-id="ssesum-of-squares-for-error"><span class="header-section-number">6.1.1</span> SSE(sum of squares for error)</h3>
+<p>오차제곱합(<a href="#eq-annSSE" class="quarto-xref">Equation&nbsp;<span>6.1</span></a> )은 신경말의 출력값(<span class="math inline">y_k</span>)과 실제값(<span class="math inline">t_k</span>) 사이의 차이인 오차를 계산하고 이 오차를 제곱하여 모두 더한 값을 말하며 이 값이 작아질 수록 모델이 더 좋은 예측능력을 보유한다고 판단합니다.</p>
+<p><span id="eq-annSSE"><span class="math display">
+E = \frac{1}{2}\sum^{}_{k}(y_k - t_k)^2
+\tag{6.1}</span></span></p>
+<p><strong><em>원-핫 인코딩</em></strong>을 통하여</p>
+</section>
+<section id="ceecross-entropy-error" class="level3" data-number="6.1.2">
+<h3 data-number="6.1.2" class="anchored" data-anchor-id="ceecross-entropy-error"><span class="header-section-number">6.1.2</span> CEE(cross entropy error)</h3>
+</section>
+</section>
+<section id="gradient-descent" class="level2" data-number="6.2">
+<h2 data-number="6.2" class="anchored" data-anchor-id="gradient-descent"><span class="header-section-number">6.2</span> Gradient Descent</h2>
 
 
 </section>
