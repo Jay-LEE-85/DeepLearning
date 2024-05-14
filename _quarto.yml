@@ -4,7 +4,7 @@ project:
 
 book:
   title: "DeepLearning x 101"
-  author: "Jay & Luis"
+  author: "Jay & Luis & Soo"
   date: "2024. 4."
   chapters:
     - index.qmd
@@ -20,6 +20,7 @@ book:
       - ANN-intro.qmd
       - ANN-activation.qmd
       - ANN-forward.qmd
+      - ANN-learning.qmd
 
     - references.qmd
 
@@ -27,12 +28,9 @@ bibliography: references.bib
 
 format:
   html:
-    mermaid-format: js
+    mermaid: 
+      theme: neutral
     theme: cosmo  
     html-math-method: katex
-    code-annotations: hover
     fig-cap-location: bottom
     tbl-cap-location: bottom
-
-
-

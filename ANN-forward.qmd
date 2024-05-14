@@ -226,7 +226,7 @@ np.sum(y)
 
 ::: {.callout-note}
 ## MNIST 데이터셋
-MNIST 데이터셋은 기계 학습 분야에서 널리 사용되는 손으로 쓴 숫자 이미지 데이터셋입니다. 이 데이터셋은 0부터 9까지의 숫자를 손으로 쓴 28x28 픽셀 크기의 이미지로 구성되어 있습니다. 주로 숫자 인식 및 분류 알고리즘의 테스트 및 훈련에 사용됩니다.
+MNIST^[ANN 및 CNN 까지 다양한 예제에 활용될 예정] 데이터셋은 기계 학습 분야에서 널리 사용되는 손으로 쓴 숫자 이미지 데이터셋입니다. 이 데이터셋은 0부터 9까지의 숫자를 손으로 쓴 28x28 픽셀 크기의 이미지로 구성되어 있습니다. 주로 숫자 인식 및 분류 알고리즘의 테스트 및 훈련에 사용됩니다.
 
 -   **크기**: 28x28 픽셀
 -   **포맷**: 흑백 이미지(1채널)
@@ -268,3 +268,65 @@ img_show(img)
 1. `flatten`은 28x28의 2D-배열을 784x1 1D배열로 만들지 말지 결정하는 변수
 2. `normalize`는 픽셀값의 범위를 기존 [0, 255]에서 [0.0, 1.0]으로 변환할지 말지를 결정하는 변수
 3. `one_hot_label`은 레이블의 값을 정수(False, 예:5)로 할지, 한 원소만을 1로 갖는 배열(True, 예:[0,0,0,0,0,1,0,0,0,0,0])로 할지 결정하는 변수
+
+### Inference processing
+
+ANN을 활용하여 MNIST 데이터셋을 가지고 추론과정을 신경망으로 구현하면 아래와 같습니다. 입력층의 뉴런은 $28\times28$의 데이터를 받아 Fully-conneted하게 $784$개의 뉴런으로 갖도록 합니다. 그리고 출력층의 뉴런은 0~9까지 10개로 분류해야 하므로 10개의 뉴런을 갖도록 합니다.
+
+입력과 출력사이의 은닉층은 2개의 층으로 구성하도록 하고 각각 50개 100개의 뉴런을 갖도록 합니다. 은닉층의 뉴런의 갯수는 임의로 정한 것이고 본 사전에 학습된 $\omega$ 를 사용하여 추론의 정확도를 평가해 보도록 하겠습니다.
+
+``` {python}
+# coding: utf-8
+import sys, os
+sys.path.append(os.pardir)  # 부모 디렉터리의 파일을 가져올 수 있도록 설정
+import numpy as np
+import pickle
+from dataset.mnist import load_mnist
+from common.functions import sigmoid, softmax
+
+
+def get_data():
+    (x_train, t_train), (x_test, t_test) = load_mnist(
+      normalize=True, # <4>
+      flatten=True, 
+      one_hot_label=False)
+    return x_test, t_test
+
+
+def init_network():
+    with open("dataset/sample_weight.pkl", 'rb') as f:
+        network = pickle.load(f)
+    return network
+
+
+def predict(network, x):
+    W1, W2, W3 = network['W1'], network['W2'], network['W3']
+    b1, b2, b3 = network['b1'], network['b2'], network['b3']
+
+    a1 = np.dot(x, W1) + b1
+    z1 = sigmoid(a1)
+    a2 = np.dot(z1, W2) + b2
+    z2 = sigmoid(a2)
+    a3 = np.dot(z2, W3) + b3
+    y = softmax(a3)
+
+    return y
+
+
+x, t = get_data()
+network = init_network()
+accuracy_cnt = 0
+for i in range(len(x)): # <1>
+    y = predict(network, x[i]) # <1>
+    p= np.argmax(y) # <2>
+    if p == t[i]: # <3>
+        accuracy_cnt += 1 # <3>
+
+print("Accuracy:" + str(float(accuracy_cnt) / len(x)))
+```
+1. `for`문 안에서 이미지 1장씩 꺼내어 `predict()`함수로 분류(0~9)를 실행하여 레이블의 확률을 Numpy 배열로 반환
+2. `np.argmax`로 반환된 레이블 배열에서 가장 높은 값(확률)의 인덱스를 산출
+3. 정답 레이블과 산출 레이블의 비교하여 일치하면 `accuracy_cnt`로 정답 갯수 업데이트
+4. `load_mnist`함수의 인자 중 `normalize`가 `True`는 데이터를 0~1사이의 값으로 정규화 한다는 의미
+
+위의 과정을 통해 분류의 정확도는 93.52%임을 확인 할 수 있습니다. 이후에 이 정확도를 향상시키기 위한 신경망의 학습 등에 대하여 살펴볼 예정입니다.

@@ -214,7 +214,7 @@ def OR(x1, x2):
 2. `w`와 `b`는 임의로 할당한다. 다만, `NAND` 및 `OR` 는 `AND`의 부호와 다름에 주의하자.
 3. **weighted sum**은 가중치를 곱하여 더한 값으로 **내적**과 유사함을 유의하자.
 
-## 다층 퍼셉트론
+## MLP
 
 다중 퍼셉트론은 퍼셉트론이 여러층으로 구현된 형태를 말합니다. 층을 여러개 쌓아서 보다 복잡한 문제를 해결할 수 있고, 추후 Deeplearning에서 여러층의 신경망을 쌓는 방식의 기초라고만 이해해 두겠습니다.
 
@@ -255,3 +255,17 @@ def XOR(x1, x2):
   y = AND(s1, s2)
   return y
 ```
+
+## Wrap up {.unnumbered}
+
+지금까지 퍼셈트론에 대하여 살펴 보았습니다. 단순히 퍼셥트론이 뭐다라는 단순한 이야기 이지만, 딥러닝에 있어 가장 기초가 되는 부분입니다. 다만, 퍼셉트론 자체를 더 깊이 알아보기 보다 하나의 뉴런이 여러개의 뉴런이 되는 MLP(Multi-Layers Perceptron)가 여러개의 층으로 이루어 지는 NN(Neural Network)으로 발전된다 정도로 이해해 보도록 하겠습니다.
+
+자세한 사항은 다음장에서 여러개의 뉴런들이 층을 이루는 인공신경망(ANN, Articial Neural Network)에서 설명하도록 하며 주요 주제는 아래와 같습니다.
+
+-   Activation function & Forward Propagation
+-   Loss Function(Loss Optimization) & Back Propagation
+-   NN in Practice: Adaptive Learning, Mini-batches, Overfitting(Regularization)
+
+
+
+이후 ANN을 Foundation으로 Sequential Data Modelling을 위한 RNN 및 이미 처리를 위한 CNN 등에 대하여 학습할 예정입니다.
