@@ -31,6 +31,9 @@ format:
     mermaid: 
       theme: neutral
     theme: cosmo  
+    self-contained: true
     html-math-method: katex
     fig-cap-location: bottom
     tbl-cap-location: bottom
+    reference-location: margin
+    citation-location: margin
