@@ -1,5 +1,10 @@
 # Learning process of ANN
 ---
+``` {python}
+#| echo: false
+import numpy as np
+import matplotlib.pyplot as plt
+```
 
 인공싱경망은 학습과 추론 과정으로 구분할 수 있습니다. 인공신경망을 만든다(?)는 관점은 학습을 의미하며 이는 신경망의 출력값과 실제값의 차이를 줄이는 방향으로 신경망을 이루는 가중치(매개변수)를 찾는 과정이라고 단순히 말할 수 있습니다.
 
@@ -39,9 +44,60 @@ $$
 E = \frac{1}{2}\sum^{}_{k}(y_k - t_k)^2
 $$ {#eq-annSSE}
 
-***원-핫 인코딩***을 통하여 
+오차제곱합의 작동원리를 이해하기 위하여 임의로 **원-핫 인코딩**된 레이블($t_k$)과 임의로 **소프트맥수 합수**의 출력값($y_k$)을 생성하여 코드로 구현해 보겠습니다.^[CEE에서도 동일한 예제를 사용 예정]
+
+``` {python}
+# 정답 레이블은 2
+t = [0, 0, 1, 0, 0, 0, 0, 0, 0, 0]
+
+def sum_squres_error(y, t):
+  return 0.5 * np.sum((y-t)**2)
+
+# 예1: 2일 확률이 제일 높음(60%)
+y = [0.1, 0.05, 0.6, 0.0, 0.05, 0.1, 0.0, 0.1, 0.0, 0.0]
+l1 = sum_squres_error(np.array(y), np.array(t))
+
+# 예2: 7일 확률이 제일 높음(60%)
+y = [0.1, 0.05, 0.1, 0.0, 0.05, 0.1, 0.0, 0.6, 0.0, 0.0]
+l2 = sum_squres_error(np.array(y), np.array(t))
+
+print("1번예제: %3f, 2번예제:%3f" % (l1, l2))
+```
+
+정답 레이블인 `2`를 높은 확률로 산출한 1번 예제의 손실값이 0.09로 0에 근접하고, `7`를 높은 확률로 산출한 2번 예제의 손실값이 0.59로 0에 멀게 산출됨을 확인 할 수 있습니다.
 
 ### CEE(cross entropy error)
+
+교차 엔트로피(@eq-annCEE )는 신경망의 출력값($y_k$)이 소프트 맥스 함수를 거쳐 확률로 [0.0, 1.0]의 값을 갖는 다는 점을 고려하여 확률값이 높을 수록 0에 수렴하는 손실값을 산출합니다.
+
+$$
+E = -\sum^{}_{k}t_k\log{y_k}
+$$ {#eq-annCEE}
+
+``` {python}
+#| echo: False
+#| label: fig-annPlotLog
+#| fig-cap: Graph of y=lox(x)
+
+# x 값의 범위를 설정합니다.
+x = np.linspace(0.001, 1.0, 400)
+
+# 자연로그 값을 계산합니다.
+y = np.log(x)
+
+# 그래프를 그립니다.
+plt.figure(figsize=(8, 6))
+plt.plot(x, y, label='y = log(x)')
+plt.axhline(0, color='black',linewidth=0.5)
+plt.axvline(0, color='black',linewidth=0.5)
+plt.grid(color = 'gray', linestyle = '--', linewidth = 0.5)
+plt.xlabel('x')
+plt.ylabel('y')
+plt.legend()
+plt.show()
+```
+
+
 
 ## Gradient Descent
 
