@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>DeepLearning x 101 - 6&nbsp; Learning process of ANN</title>
+<title>DeepLearning x 101 - 6&nbsp; Learning process</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -162,7 +162,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./ANN-intro.html">ANN</a></li><li class="breadcrumb-item"><a href="./ANN-learning.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Learning process of ANN</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./ANN-intro.html">ANN</a></li><li class="breadcrumb-item"><a href="./ANN-learning.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Learning process</span></a></li></ol></nav>
         <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -252,7 +252,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./ANN-learning.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Learning process of ANN</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Learning process</span></span></a>
   </div>
 </li>
       </ul>
@@ -277,6 +277,7 @@ window.Quarto = {
   <ul class="collapse">
   <li><a href="#ssesum-of-squares-for-error" id="toc-ssesum-of-squares-for-error" class="nav-link" data-scroll-target="#ssesum-of-squares-for-error"><span class="header-section-number">6.1.1</span> SSE(sum of squares for error)</a></li>
   <li><a href="#ceecross-entropy-error" id="toc-ceecross-entropy-error" class="nav-link" data-scroll-target="#ceecross-entropy-error"><span class="header-section-number">6.1.2</span> CEE(cross entropy error)</a></li>
+  <li><a href="#cee-with-mini-batch" id="toc-cee-with-mini-batch" class="nav-link" data-scroll-target="#cee-with-mini-batch"><span class="header-section-number">6.1.3</span> CEE with Mini-batch</a></li>
   </ul></li>
   <li><a href="#gradient-descent" id="toc-gradient-descent" class="nav-link" data-scroll-target="#gradient-descent"><span class="header-section-number">6.2</span> Gradient Descent</a></li>
   </ul>
@@ -285,9 +286,9 @@ window.Quarto = {
 <!-- main -->
 <main class="content page-columns page-full" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./ANN-intro.html">ANN</a></li><li class="breadcrumb-item"><a href="./ANN-learning.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Learning process of ANN</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./ANN-intro.html">ANN</a></li><li class="breadcrumb-item"><a href="./ANN-learning.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Learning process</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Learning process of ANN</span></h1>
+<h1 class="title"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Learning process</span></h1>
 </div>
 
 
@@ -349,7 +350,7 @@ Figure&nbsp;6.1: Forward and Backward propagation
 E = \frac{1}{2}\sum^{}_{k}(y_k - t_k)^2
 \tag{6.1}</span></span></p>
 <p>오차제곱합의 작동원리를 이해하기 위하여 임의로 <strong>원-핫 인코딩</strong>된 레이블(<span class="math inline">t_k</span>)과 임의로 <strong>소프트맥수 합수</strong>의 출력값(<span class="math inline">y_k</span>)을 생성하여 코드로 구현해 보겠습니다.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
-<div class="no-row-height column-margin column-container"><div id="fn1"><p><sup>1</sup>&nbsp;CEE에서도 동일한 예제를 사용 예정</p></div></div><div id="3ea6879c" class="cell" data-execution_count="2">
+<div class="no-row-height column-margin column-container"><div id="fn1"><p><sup>1</sup>&nbsp;CEE에서도 동일한 예제를 사용 예정</p></div></div><div id="9917ec1e" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 정답 레이블은 2</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>t <span class="op">=</span> [<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>]</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -393,7 +394,7 @@ Figure&nbsp;6.2: Graph of y=lox(x)
 </div>
 <p>위의 그래프(<span class="quarto-unresolved-ref">?fig-annPlotLog</span> )에서 보듯 <span class="math inline">x</span>가 1일때 <span class="math inline">y</span>는 0이 되고 <span class="math inline">x</span>가 0에 근접시 <span class="math inline">y</span>는 점점 작아집니다. 교차 엔트로피는 여기에 음(<code>-</code>)의 부호를 붙여 활률값인 <code>x</code>가 작아질수록 손실값인 <code>y</code>가 크게 나오도록 하였습니다.</p>
 <p>위의 식(<a href="#eq-annCEE" class="quarto-xref">Equation&nbsp;<span>6.2</span></a> )을 코드로 구현해 보겠습니다.</p>
-<div id="6c78f45e" class="cell" data-execution_count="4">
+<div id="bf40b27b" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="annotated-cell-2"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-2-1"><a href="#annotated-cell-2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 정답 레이블은 2</span></span>
 <span id="annotated-cell-2-2"><a href="#annotated-cell-2-2" aria-hidden="true" tabindex="-1"></a>t <span class="op">=</span> [<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>]</span>
 <span id="annotated-cell-2-3"><a href="#annotated-cell-2-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -423,6 +424,65 @@ Figure&nbsp;6.2: Graph of y=lox(x)
 </div>
 </div>
 <p>1번 예제의 손실값이 <code>0.51</code>로 2번 예제의 손실값보다 낮은 값을 출력하여 오차제곱합의 결과와 일치함을 확인할 수 있습니다.</p>
+</section>
+<section id="cee-with-mini-batch" class="level3 page-columns page-full" data-number="6.1.3">
+<h3 data-number="6.1.3" class="anchored" data-anchor-id="cee-with-mini-batch"><span class="header-section-number">6.1.3</span> CEE with Mini-batch</h3>
+<p>손실함수는 주어진 데이터에 대한 모든 손실값의 합을 모델의 평가지료로 산출합니다. 가령 훈련 데이터가 100개이 60,000개 인경우 60,000개의 손실값을 산출해야 합니다.</p>
+<p>이렇게 훈련데이터 모두에 대한 손실값을 산출하는 경우 데이터가 증가할 수록 산출시간이 오래 걸리는 문제가 있습니다. 그렇다면 이를 보다 효율적으로 할 수 있는 방법은 무엇이 있을까요?</p>
+<p>일부 데이터를 추려 <strong>근사치</strong>를 계산하는 방법을 생각할 수 있습니다. 이러한 방법을 <strong>미니배치</strong>(mini-batch)라고 하며 훈련데이터 전체에서 임의로 특정 데이터를 뽑아 학습하는 방법입니다.</p>
+<p>우리는 이러한 <strong>미니배치 학습</strong>을 위해 몇개를 임의 추출할지(<code>batch-size</code>)와 이러한 과정을 몇번 수행할 것인지(<code>number of iteration</code>)에 대한 고민을 해야 합니다, 그 이유는 배치는 전체데이터의 일부만을 대상으로 하기 때문입니다.<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></p>
+<div class="no-row-height column-margin column-container"><div id="fn2"><p><sup>2</sup>&nbsp;본 문제는 hyper parameter의 설정에 대한 내용으로 overfitting을 방지하려는 문제와 관련이 있습니다.</p></div></div><div id="46da539f" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="annotated-cell-3"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-3-1"><a href="#annotated-cell-3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sys, os</span>
+<span id="annotated-cell-3-2"><a href="#annotated-cell-3-2" aria-hidden="true" tabindex="-1"></a>sys.path.append(os.pardir)  <span class="co"># 부모 디렉터리의 파일을 가져올 수 있도록 설정</span></span>
+<span id="annotated-cell-3-3"><a href="#annotated-cell-3-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> dataset.mnist <span class="im">import</span> load_mnist</span>
+<span id="annotated-cell-3-4"><a href="#annotated-cell-3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-3-5"><a href="#annotated-cell-3-5" aria-hidden="true" tabindex="-1"></a><span class="co"># MNIST 데이터셋 로드</span></span>
+<span id="annotated-cell-3-6"><a href="#annotated-cell-3-6" aria-hidden="true" tabindex="-1"></a>(x_train, t_train), (x_test, t_test) <span class="op">=</span> load_mnist(normalize <span class="op">=</span> <span class="va">True</span>, one_hot_label <span class="op">=</span> <span class="va">True</span>)</span>
+<span id="annotated-cell-3-7"><a href="#annotated-cell-3-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-3-8"><a href="#annotated-cell-3-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Mini-batch 설정</span></span>
+<span id="annotated-cell-3-9"><a href="#annotated-cell-3-9" aria-hidden="true" tabindex="-1"></a>train_size <span class="op">=</span> x_train.shape[<span class="dv">0</span>]</span>
+<span id="annotated-cell-3-10"><a href="#annotated-cell-3-10" aria-hidden="true" tabindex="-1"></a>batch_size <span class="op">=</span> <span class="dv">10</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-3-11" class="code-annotation-target"><a href="#annotated-cell-3-11" aria-hidden="true" tabindex="-1"></a>batch_mask <span class="op">=</span> np.random.choice(train_size, batch_size)</span>
+<span id="annotated-cell-3-12"><a href="#annotated-cell-3-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-3-13"><a href="#annotated-cell-3-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Batch용 데이터 설정</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-3-14" class="code-annotation-target"><a href="#annotated-cell-3-14" aria-hidden="true" tabindex="-1"></a>x_batch <span class="op">=</span> x_train[batch_mask]</span>
+<span id="annotated-cell-3-15"><a href="#annotated-cell-3-15" aria-hidden="true" tabindex="-1"></a>t_batch <span class="op">=</span> t_train[batch_mask]</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-3" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-3" data-code-lines="11" data-code-annotation="1"><code>np.randon.choice</code>는 전체 N개의 데이터(<code>train_size</code>)에서 임의로 몇개(<code>batch_size</code>)를 추출할 것인지 결정</span>
+</dd>
+<dt data-target-cell="annotated-cell-3" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-3" data-code-lines="14,15" data-code-annotation="2"><code>batch_mask</code>는 임의 뽑힌 데이터의 인덱스 값</span>
+</dd>
+</dl>
+</div>
+</div>
+<p>위에서 우리는 학습을 효율적으로 실시하기 위하여 미니배치를 설정하였습니다. 그렇다면 미니배치로 손실을 어떻게 구해야 할까고민입니다. 앞서 구현한 교차 엔트로피 오차를 아래의 코드와 같이 일부만 수정하면 간단히 해결할 수 있습니다.</p>
+<div id="ecf41d4f" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="annotated-cell-4"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-4-1"><a href="#annotated-cell-4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> corss_entropy_error(y, t):</span>
+<span id="annotated-cell-4-2"><a href="#annotated-cell-4-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> y.ndim <span class="op">==</span> <span class="dv">1</span>:</span>
+<span id="annotated-cell-4-3"><a href="#annotated-cell-4-3" aria-hidden="true" tabindex="-1"></a>    t <span class="op">=</span> t.reshape(<span class="dv">1</span>, t.size)</span>
+<span id="annotated-cell-4-4"><a href="#annotated-cell-4-4" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> y.reshape(<span class="dv">1</span>, y.size)</span>
+<span id="annotated-cell-4-5"><a href="#annotated-cell-4-5" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="annotated-cell-4-6"><a href="#annotated-cell-4-6" aria-hidden="true" tabindex="-1"></a>  batch_size <span class="op">=</span> y.shape[<span class="dv">0</span>]</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-4-7" class="code-annotation-target"><a href="#annotated-cell-4-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> <span class="op">-</span>np.<span class="bu">sum</span>(t <span class="op">*</span> np.log(y <span class="op">+</span> <span class="fl">1e-7</span>)) <span class="op">/</span> batch_size</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-4-8" class="code-annotation-target"><a href="#annotated-cell-4-8" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> <span class="op">-</span>np.<span class="bu">sum</span>(t <span class="op">*</span> np.log(y[np.arange(batch_size), t] <span class="op">+</span> <span class="fl">1e-7</span>)) <span class="op">/</span> batch_size</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-4" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-4" data-code-lines="7" data-code-annotation="1">정답 레이블이 <strong>원-핫 인코딩</strong> 형상인 경우</span>
+</dd>
+<dt data-target-cell="annotated-cell-4" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-4" data-code-lines="8" data-code-annotation="2">정답 레이블이 <strong>숫자 레이블</strong>인 경우</span>
+</dd>
+</dl>
+</div>
+</div>
 </section>
 </section>
 <section id="gradient-descent" class="level2" data-number="6.2">
