@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -119,7 +153,7 @@ window.Quarto = {
 
 </head>
 
-<body class="nav-sidebar floating">
+<body class="nav-sidebar floating slimcontent">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -249,7 +283,7 @@ window.Quarto = {
 </nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
+<main class="content page-columns page-full" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./ANN-intro.html">ANN</a></li><li class="breadcrumb-item"><a href="./ANN-learning.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Learning process of ANN</span></a></li></ol></nav>
 <div class="quarto-title">
@@ -303,20 +337,59 @@ Figure&nbsp;6.1: Forward and Backward propagation
 </div>
 </div>
 <p>손실함수는 추론(?)에 해당하는 순전파 과정에서 그 정확도를 산출하기 위한 내용이고, 경사하강법은 산출된 Loss를 입력까지의 역전파하여 매개변수인 가중치를 업데이트 하는 과정에 대한 내용으로 단순하게 이해할 수 있고 자세한 사항을 아래에 섦영하도로고 하겠습니다.</p>
-<section id="loss-function" class="level2" data-number="6.1">
+<section id="loss-function" class="level2 page-columns page-full" data-number="6.1">
 <h2 data-number="6.1" class="anchored" data-anchor-id="loss-function"><span class="header-section-number">6.1</span> Loss Function</h2>
 <p>손실함수는 ANN에 입력되어 산출되는 값과 실제 값을 비교하여 <strong>정확도</strong>를 측정하는 하나의 <strong>지표</strong>라고 할 수 있다. ANN은 이러한 지표를 기준으로 최적의 가중치를 탐색하여 하나의 모델을 구성하게 됩니다.</p>
 <p>손실함수로는 일반적으로 <strong>오차제곱합</strong>(SSE, sum of squares for error)과 <strong>교차 엔트로피 오차</strong>(CEE, cross entropy error)를 사용합니다.</p>
-<section id="ssesum-of-squares-for-error" class="level3" data-number="6.1.1">
+<section id="ssesum-of-squares-for-error" class="level3 page-columns page-full" data-number="6.1.1">
 <h3 data-number="6.1.1" class="anchored" data-anchor-id="ssesum-of-squares-for-error"><span class="header-section-number">6.1.1</span> SSE(sum of squares for error)</h3>
 <p>오차제곱합(<a href="#eq-annSSE" class="quarto-xref">Equation&nbsp;<span>6.1</span></a> )은 신경말의 출력값(<span class="math inline">y_k</span>)과 실제값(<span class="math inline">t_k</span>) 사이의 차이인 오차를 계산하고 이 오차를 제곱하여 모두 더한 값을 말하며 이 값이 작아질 수록 모델이 더 좋은 예측능력을 보유한다고 판단합니다.</p>
 <p><span id="eq-annSSE"><span class="math display">
 E = \frac{1}{2}\sum^{}_{k}(y_k - t_k)^2
 \tag{6.1}</span></span></p>
-<p><strong><em>원-핫 인코딩</em></strong>을 통하여</p>
+<p>오차제곱합의 작동원리를 이해하기 위하여 임의로 <strong>원-핫 인코딩</strong>된 레이블(<span class="math inline">t_k</span>)과 임의로 <strong>소프트맥수 합수</strong>의 출력값(<span class="math inline">y_k</span>)을 생성하여 코드로 구현해 보겠습니다.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
+<div class="no-row-height column-margin column-container"><div id="fn1"><p><sup>1</sup>&nbsp;CEE에서도 동일한 예제를 사용 예정</p></div></div><div id="42f203e7" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 정답 레이블은 2</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>t <span class="op">=</span> [<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>]</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> sum_squres_error(y, t):</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> <span class="fl">0.5</span> <span class="op">*</span> np.<span class="bu">sum</span>((y<span class="op">-</span>t)<span class="op">**</span><span class="dv">2</span>)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 예1: 2일 확률이 제일 높음(60%)</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> [<span class="fl">0.1</span>, <span class="fl">0.05</span>, <span class="fl">0.6</span>, <span class="fl">0.0</span>, <span class="fl">0.05</span>, <span class="fl">0.1</span>, <span class="fl">0.0</span>, <span class="fl">0.1</span>, <span class="fl">0.0</span>, <span class="fl">0.0</span>]</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>l1 <span class="op">=</span> sum_squres_error(np.array(y), np.array(t))</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co"># 예2: 7일 확률이 제일 높음(60%)</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> [<span class="fl">0.1</span>, <span class="fl">0.05</span>, <span class="fl">0.1</span>, <span class="fl">0.0</span>, <span class="fl">0.05</span>, <span class="fl">0.1</span>, <span class="fl">0.0</span>, <span class="fl">0.6</span>, <span class="fl">0.0</span>, <span class="fl">0.0</span>]</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>l2 <span class="op">=</span> sum_squres_error(np.array(y), np.array(t))</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"1번예제: </span><span class="sc">%3f</span><span class="st">, 2번예제:</span><span class="sc">%3f</span><span class="st">"</span> <span class="op">%</span> (l1, l2))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>1번예제: 0.097500, 2번예제:0.597500</code></pre>
+</div>
+</div>
+<p>정답 레이블인 <code>2</code>를 높은 확률로 산출한 1번 예제의 손실값이 0.09로 0에 근접하고, <code>7</code>를 높은 확률로 산출한 2번 예제의 손실값이 0.59로 0에 멀게 산출됨을 확인 할 수 있습니다.</p>
 </section>
 <section id="ceecross-entropy-error" class="level3" data-number="6.1.2">
 <h3 data-number="6.1.2" class="anchored" data-anchor-id="ceecross-entropy-error"><span class="header-section-number">6.1.2</span> CEE(cross entropy error)</h3>
+<p>교차 엔트로피(<a href="#eq-annCEE" class="quarto-xref">Equation&nbsp;<span>6.2</span></a> )는 신경망의 출력값(<span class="math inline">y_k</span>)이 소프트 맥스 함수를 거쳐 확률로 [0.0, 1.0]의 값을 갖는 다는 점을 고려하여 확률값이 높을 수록 0에 수렴하는 손실값을 산출합니다.</p>
+<p><span id="eq-annCEE"><span class="math display">
+E = -\sum^{}_{k}t_k\log{y_k}
+\tag{6.2}</span></span></p>
+<div id="cell-fig-annPlotLog" class="cell" data-execution_count="3">
+<div class="cell-output cell-output-display">
+<div id="fig-annplotlog" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-annplotlog-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="ANN-learning_files/figure-html/fig-annplotlog-output-1.png" width="662" height="503" class="figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-annplotlog-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6.2: Graph of y=lox(x)
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
 </section>
 </section>
 <section id="gradient-descent" class="level2" data-number="6.2">
@@ -324,6 +397,7 @@ E = \frac{1}{2}\sum^{}_{k}(y_k - t_k)^2
 
 
 </section>
+
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
