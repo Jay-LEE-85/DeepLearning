@@ -306,7 +306,8 @@ window.Quarto = {
 
 <hr>
 <p>인공싱경망은 학습과 추론 과정으로 구분할 수 있습니다. 인공신경망을 만든다(?)는 관점은 학습을 의미하며 이는 신경망의 출력값과 실제값의 차이를 줄이는 방향으로 신경망을 이루는 가중치(매개변수)를 찾는 과정이라고 단순히 말할 수 있습니다.</p>
-<p>여기서 중요한 것은 인간이 매개변수를 설정하지 않고 기계가 스스로 찾는 다는 점에서 매우 의미가 있습니다. 퍼셉트론에서 진리표의 매개변수는 3개에 불과하여 수작업이 가능했지만 매개변수가 1000개라고 하면 수작업이 불가할 것 입니다. 이 과정을 기계가 스스로 학습하여 해결한다니 매우 놀라운 일입니다.</p>
+<p>여기서 중요한 것은 인간이 매개변수를 설정하지 않고 기계가 스스로 찾는 다는 점에서 매우 의미가 있습니다.</p>
+<p>퍼셉트론에서 진리표의 매개변수는 3개에 불과하여 수작업이 가능했지만 매개변수가 1000개라고 하면 수작업이 불가할 것 입니다. 이 과정을 기계가 스스로 학습하여 해결한다니 매우 놀라운 일입니다.</p>
 <p>그리고 학습을 통해 매개변수를 기계가 찾는 다는 것은 주어진 데이터의 특성(Features)를 추출하여 특정 패턴을 찾는 것입니다. 물론 사람의 개입없이 말입니다.</p>
 <p>우리가 집중할 것은 이러환 과정이 어떻게 구현되는가 입니다. 그래서 다음의 주제에 대하여 집중하여 살펴보도록 하겠습니다.</p>
 <ol type="1">
@@ -348,7 +349,7 @@ Figure&nbsp;6.1: Forward and Backward propagation
 E = \frac{1}{2}\sum^{}_{k}(y_k - t_k)^2
 \tag{6.1}</span></span></p>
 <p>오차제곱합의 작동원리를 이해하기 위하여 임의로 <strong>원-핫 인코딩</strong>된 레이블(<span class="math inline">t_k</span>)과 임의로 <strong>소프트맥수 합수</strong>의 출력값(<span class="math inline">y_k</span>)을 생성하여 코드로 구현해 보겠습니다.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
-<div class="no-row-height column-margin column-container"><div id="fn1"><p><sup>1</sup>&nbsp;CEE에서도 동일한 예제를 사용 예정</p></div></div><div id="42f203e7" class="cell" data-execution_count="2">
+<div class="no-row-height column-margin column-container"><div id="fn1"><p><sup>1</sup>&nbsp;CEE에서도 동일한 예제를 사용 예정</p></div></div><div id="3ea6879c" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 정답 레이블은 2</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>t <span class="op">=</span> [<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>]</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -381,7 +382,7 @@ E = -\sum^{}_{k}t_k\log{y_k}
 <div id="fig-annplotlog" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-annplotlog-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="ANN-learning_files/figure-html/fig-annplotlog-output-1.png" width="662" height="503" class="figure-img">
+<img src="ANN-learning_files/figure-html/fig-annplotlog-output-1.png" width="587" height="429" class="figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-annplotlog-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;6.2: Graph of y=lox(x)
@@ -390,6 +391,38 @@ Figure&nbsp;6.2: Graph of y=lox(x)
 </div>
 </div>
 </div>
+<p>위의 그래프(<span class="quarto-unresolved-ref">?fig-annPlotLog</span> )에서 보듯 <span class="math inline">x</span>가 1일때 <span class="math inline">y</span>는 0이 되고 <span class="math inline">x</span>가 0에 근접시 <span class="math inline">y</span>는 점점 작아집니다. 교차 엔트로피는 여기에 음(<code>-</code>)의 부호를 붙여 활률값인 <code>x</code>가 작아질수록 손실값인 <code>y</code>가 크게 나오도록 하였습니다.</p>
+<p>위의 식(<a href="#eq-annCEE" class="quarto-xref">Equation&nbsp;<span>6.2</span></a> )을 코드로 구현해 보겠습니다.</p>
+<div id="6c78f45e" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="annotated-cell-2"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-2-1"><a href="#annotated-cell-2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 정답 레이블은 2</span></span>
+<span id="annotated-cell-2-2"><a href="#annotated-cell-2-2" aria-hidden="true" tabindex="-1"></a>t <span class="op">=</span> [<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>]</span>
+<span id="annotated-cell-2-3"><a href="#annotated-cell-2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-2-4"><a href="#annotated-cell-2-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> corss_entropy_error(y, t):</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-2" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-2-5" class="code-annotation-target"><a href="#annotated-cell-2-5" aria-hidden="true" tabindex="-1"></a>  delta <span class="op">=</span> <span class="fl">1e-7</span></span>
+<span id="annotated-cell-2-6"><a href="#annotated-cell-2-6" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> <span class="op">-</span>np.<span class="bu">sum</span>(t <span class="op">*</span> np.log(y <span class="op">+</span> delta))</span>
+<span id="annotated-cell-2-7"><a href="#annotated-cell-2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-2-8"><a href="#annotated-cell-2-8" aria-hidden="true" tabindex="-1"></a><span class="co"># 예1: 2일 확률이 제일 높음(60%)</span></span>
+<span id="annotated-cell-2-9"><a href="#annotated-cell-2-9" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> [<span class="fl">0.1</span>, <span class="fl">0.05</span>, <span class="fl">0.6</span>, <span class="fl">0.0</span>, <span class="fl">0.05</span>, <span class="fl">0.1</span>, <span class="fl">0.0</span>, <span class="fl">0.1</span>, <span class="fl">0.0</span>, <span class="fl">0.0</span>]</span>
+<span id="annotated-cell-2-10"><a href="#annotated-cell-2-10" aria-hidden="true" tabindex="-1"></a>l1 <span class="op">=</span> corss_entropy_error(np.array(y), np.array(t))</span>
+<span id="annotated-cell-2-11"><a href="#annotated-cell-2-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-2-12"><a href="#annotated-cell-2-12" aria-hidden="true" tabindex="-1"></a><span class="co"># 예2: 7일 확률이 제일 높음(60%)</span></span>
+<span id="annotated-cell-2-13"><a href="#annotated-cell-2-13" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> [<span class="fl">0.1</span>, <span class="fl">0.05</span>, <span class="fl">0.1</span>, <span class="fl">0.0</span>, <span class="fl">0.05</span>, <span class="fl">0.1</span>, <span class="fl">0.0</span>, <span class="fl">0.6</span>, <span class="fl">0.0</span>, <span class="fl">0.0</span>]</span>
+<span id="annotated-cell-2-14"><a href="#annotated-cell-2-14" aria-hidden="true" tabindex="-1"></a>l2 <span class="op">=</span> corss_entropy_error(np.array(y), np.array(t))</span>
+<span id="annotated-cell-2-15"><a href="#annotated-cell-2-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-2-16"><a href="#annotated-cell-2-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"1번예제: </span><span class="sc">%3f</span><span class="st">, 2번예제:</span><span class="sc">%3f</span><span class="st">"</span> <span class="op">%</span> (l1, l2))</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-2" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-2" data-code-lines="5,6" data-code-annotation="1"><code>delta</code>를 설정한 이유는 <code>y</code>가 <code>0</code>이면 <code>np,log</code>함수는 무한대인 <code>inf</code>값을 출력하는데 이를 방지하기 위함</span>
+</dd>
+</dl>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>1번예제: 0.510825, 2번예제:2.302584</code></pre>
+</div>
+</div>
+<p>1번 예제의 손실값이 <code>0.51</code>로 2번 예제의 손실값보다 낮은 값을 출력하여 오차제곱합의 결과와 일치함을 확인할 수 있습니다.</p>
 </section>
 </section>
 <section id="gradient-descent" class="level2" data-number="6.2">
