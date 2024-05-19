@@ -78,7 +78,7 @@ $$ {#eq-annCEE}
 
 ``` {python}
 #| echo: False
-#| label: fig-annPlotLog
+#| label: #fig-annPlotLog
 #| fig-cap: Graph of y=lox(x)
 
 # x 값의 범위를 설정합니다.
