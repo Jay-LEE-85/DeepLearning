@@ -34,7 +34,7 @@ flowchart LR
 
 ## Loss Function
 
-손실함수는 ANN에 입력되어 산출되는 값과 실제 값을 비교하여 **정확도**를 측정하는 하나의 **지표**라고 할 수 있다. ANN은 이러한 지표를 기준으로 최적의 가중치를 탐색하여 하나의 모델을 구성하게 됩니다.
+손실함수는 인공신경에 입력되어 산출되는 값과 실제 값을 비교하여 **정확도**를 측정하는 하나의 **지표**라고 할 수 있다. ANN은 이러한 지표를 기준으로 최적의 가중치와 편향을 탐색하는 방식으로 학습을 진행합니다.
 
 손실함수로는 일반적으로 **오차제곱합**(SSE, sum of squares for error)과 **교차 엔트로피 오차**(CEE, cross entropy error)를 사용합니다.
 
@@ -126,7 +126,7 @@ print("1번예제: %3f, 2번예제:%3f" % (l1, l2))
 
 ### CEE with Mini-batch
 
-손실함수는 주어진 데이터에 대한 모든 손실값의 합을 모델의 평가지료로 산출합니다. 가령 훈련 데이터가 100개이 60,000개 인경우 60,000개의 손실값을 산출해야 합니다.
+손실함수는 주어진 데이터에 대한 모든 손실값의 합을 모델의 평가지표로 산출합니다. 가령 훈련 데이터가 100개이 60,000개 인경우 60,000개의 손실값을 산출해야 합니다.
 
 이렇게 훈련데이터 모두에 대한 손실값을 산출하는 경우 데이터가 증가할 수록 산출시간이 오래 걸리는 문제가 있습니다. 그렇다면 이를 보다 효율적으로 할 수 있는 방법은 무엇이 있을까요?
 
@@ -171,3 +171,142 @@ def corss_entropy_error(y, t):
 
 ## Gradient Descent
 
+ANN은 손실함수의 값을 최소화 하는 방향으로 학습을 진행한다고 하였습니다. 이를 다시 말하면 손실함수가 최소값을 갖도록 하는 최적의 매개변수(가중치와 편향)를 탐색하는 문제입니다.
+
+그러나 매개변수의 공간은 방대하여 이를 찾는 문제는 쉽지 않습니다. 그래서 기울기를 사용한 최적화 알고리즘인 **경사하강법**(gradient descent)을 이해할 필요가 있습니다.
+
+경사하강법은 현재의 위치에서 모든 방향으로 기울기^[경사하강법은 기울기를 구한다는 점에서 **미분**에 대한 이해, 특히 매개변수별 기울기(모든 방향으로의 기울기)를 구한다는 점에서 **편미분**이 사용됩니다.]를 구하고, 기울기의 반대방향으로 일정거리(학습률, learning rate)만큼 이동합니다. 이를 반복수행하면서 함수의 기울기(경사)를 줄여나가는 방법입니다. 이를 식으로 나타내보겠습니다.
+
+$$
+\begin{align}
+x_0 &= x_0 - \eta \frac{\partial{f}}{\partial{x_0}}
+x_1 &= x_1 - \eta \frac{\partial{f}}{\partial{x_1}}
+\end{align}
+$$ {#eq-annGD}
+
+위의 식을 도식화 하면 아래와 같고 아래의 표에서 학습을 시작한 초기점은 등고선의 1사분면 쪽에서 시작하여 기울기의 반대방향으로 매개변수를 업데이트해 나가는 과정을 보여줍니다.
+
+``` {python}
+#| echo: False
+import numpy as np
+import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
+
+# 2차 함수 정의
+def f(x1, x2):
+    return x1**2 + x2**2
+
+# Gradient 계산
+def gradient(x1, x2):
+    return np.array([2*x1, 2*x2])
+
+# Gradient Descent 파라미터
+learning_rate = 0.1
+initial_point = np.array([4.0, 3.0])
+num_iterations = 20
+
+# Gradient Descent 수행
+points = [initial_point]
+for _ in range(num_iterations):
+    grad = gradient(*points[-1])
+    new_point = points[-1] - learning_rate * grad
+    points.append(new_point)
+
+points = np.array(points)
+
+# 그래프 그리기
+x1_vals = np.linspace(-5, 5, 400)
+x2_vals = np.linspace(-5, 5, 400)
+X1, X2 = np.meshgrid(x1_vals, x2_vals)
+Z = f(X1, X2)
+
+fig = plt.figure(figsize=(16, 6))
+
+# 3D 그래프
+ax1 = fig.add_subplot(121, projection='3d')
+ax1.plot_surface(X1, X2, Z, cmap='jet', alpha=0.8)
+ax1.plot(points[:, 0], points[:, 1], f(points[:, 0], points[:, 1]), 'ro-', markersize=8, label='Gradient Descent Path')
+ax1.set_title('3D Surface of $f(x0, x1) = x0^2 + X1^2$')
+ax1.set_xlabel('$x0$')
+ax1.set_ylabel('$x1$')
+ax1.set_zlabel('$f(x0, x1)$')
+ax1.legend()
+
+# 2D 등고선 그래프
+ax2 = fig.add_subplot(122)
+contour = ax2.contour(X1, X2, Z, levels=np.logspace(0, 3, 35), cmap='jet')
+ax2.plot(points[:, 0], points[:, 1], 'ro-', markersize=8, label='Gradient Descent Path')
+ax2.scatter([initial_point[0]], [initial_point[1]], color='red', zorder=5, label='Start Point')
+ax2.scatter([0], [0], color='blue', zorder=5, label='Optimal Point (Minima)')
+ax2.set_title('2D Contour of $f(x0, x1) = x0^2 + x1^2$')
+ax2.set_xlabel('$x0$')
+ax2.set_ylabel('$x1$')
+ax2.legend()
+ax2.grid(True)
+
+plt.show()
+```
+::: {.callout-note}
+## 경사하강법의 한계
+
+경사하강법은 함수의 기울기는 `0`인 곳을 찾아가는 최적화 알고리즘입니다. 그러나 함수의 기울기아 0이 되는 곳이 항상 최솟값에 해당하지 않습니다. 가령 함수가 복접하고 찌그러진 모양인 경우 그곳이 최솟값인지 아니면 극솟값인지 또는 안정점인지 알고리즘은 알지 못합니다.
+
+물론 이러한 문제를 해결하기 위하여 다양한 방법을 사용합니다. 가령 확률의 개념을 도입하거나 배치를 설정할 수 있습니다, 또한, 업데이트 하는 정도인 학습률(learning rate)와 같은 하이퍼파라미터의 설정의 조정하는 방법도 있습니다. 자세한 사항은 뒤에서 설명하겠습니다.
+:::
+
+아래는 경사하강법을 구현한 예시입니다. 
+
+``` {python}
+# 기울기 계산
+def numerical_gradient(f, x): # <1>
+  h = 1e-4 # <2>
+  grad = np.zeros_like(x) # <3>
+
+  for idx in range(x.size):
+    tmp_val = x[idx]
+    # f(x) 계산
+    x[idx] = tmp_val + h
+    fxh1 = f(x)
+    # f(x-h) 계산
+    x[idx] = tmp_val - h
+    fxh2 = f(x)
+
+    grad[idx] = (fxh1 - fxh2) / (2*h) # <4>
+    x[idx] = tmp_val
+  
+  return grad
+
+# 경사하강
+def gradient_descent(f, init_x, lr = 0.01, step_num=100): # <5>
+  x = init_x
+
+  for i in range(step_num):
+    grad = numerical_gradient(f, x) # <6>
+    x -= lr * grad
+  return x
+
+# 실전 풀이
+def function_2(x):
+  return x[0]**2 + x[1]**2
+  
+result = []
+# 학습률이 적정
+init_x = np.array([-3.0, 4.0])
+result.append(gradient_descent(function_2, init_x=init_x, lr=0.1, step_num=100))
+# 학습률이 과다
+init_x = np.array([-3.0, 4.0])
+result.append(gradient_descent(function_2, init_x=init_x, lr=10.0, step_num=100))
+# 학습률이 과소
+init_x = np.array([-3.0, 4.0])
+result.append(gradient_descent(function_2, init_x=init_x, lr=1e-10, step_num=100))
+
+print("학습률별 결과:")
+for i in range(3):
+    print(f"Result {i+1}:", result[i])
+```
+1. `numerical_gradien`는 기울기를 구하는 함수. 해석적으로 구하지 않고 수치미분의 방법을 사용
+2. `h`는 수치미분을 위한 아주 작은 크기의 변화량
+3. `grad = np.zeros_list(x)`는 x와 형상기 같은 배열을 생성
+4. `fxh1`과 `fxh2` 사이의 기울기를 구한다는 의미가
+5. `f`는 최적화하려는 함수, `init_x`는 초깃값, `lr`은 학습률, `step_num`은 반복시행 횟수
+6. 1번의 수치미분 함수
