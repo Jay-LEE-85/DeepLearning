@@ -188,6 +188,7 @@ $$ {#eq-annGD}
 
 ``` {python}
 #| echo: False
+#| column: screen-inset-shaded
 import numpy as np
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
@@ -310,3 +311,6 @@ for i in range(3):
 4. `fxh1`과 `fxh2` 사이의 기울기를 구한다는 의미가
 5. `f`는 최적화하려는 함수, `init_x`는 초깃값, `lr`은 학습률, `step_num`은 반복시행 횟수
 6. 1번의 수치미분 함수
+
+![Results by learning rate](image/annLR.png){#fig-annLR}
+
