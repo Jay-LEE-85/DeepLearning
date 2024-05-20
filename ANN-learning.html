@@ -350,7 +350,7 @@ Figure&nbsp;6.1: Forward and Backward propagation
 E = \frac{1}{2}\sum^{}_{k}(y_k - t_k)^2
 \tag{6.1}</span></span></p>
 <p>오차제곱합의 작동원리를 이해하기 위하여 임의로 <strong>원-핫 인코딩</strong>된 레이블(<span class="math inline">t_k</span>)과 임의로 <strong>소프트맥수 합수</strong>의 출력값(<span class="math inline">y_k</span>)을 생성하여 코드로 구현해 보겠습니다.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
-<div class="no-row-height column-margin column-container"><div id="fn1"><p><sup>1</sup>&nbsp;CEE에서도 동일한 예제를 사용 예정</p></div></div><div id="3925cc73" class="cell" data-execution_count="2">
+<div class="no-row-height column-margin column-container"><div id="fn1"><p><sup>1</sup>&nbsp;CEE에서도 동일한 예제를 사용 예정</p></div></div><div id="6e484885" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 정답 레이블은 2</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>t <span class="op">=</span> [<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>]</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -394,7 +394,7 @@ Figure&nbsp;6.2: Graph of y=lox(x)
 </div>
 <p>위의 그래프(<span class="quarto-unresolved-ref">?fig-annPlotLog</span> )에서 보듯 <span class="math inline">x</span>가 1일때 <span class="math inline">y</span>는 0이 되고 <span class="math inline">x</span>가 0에 근접시 <span class="math inline">y</span>는 점점 작아집니다. 교차 엔트로피는 여기에 음(<code>-</code>)의 부호를 붙여 활률값인 <code>x</code>가 작아질수록 손실값인 <code>y</code>가 크게 나오도록 하였습니다.</p>
 <p>위의 식(<a href="#eq-annCEE" class="quarto-xref">Equation&nbsp;<span>6.2</span></a> )을 코드로 구현해 보겠습니다.</p>
-<div id="08c48108" class="cell" data-execution_count="4">
+<div id="7bd31c3d" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="annotated-cell-2"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-2-1"><a href="#annotated-cell-2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 정답 레이블은 2</span></span>
 <span id="annotated-cell-2-2"><a href="#annotated-cell-2-2" aria-hidden="true" tabindex="-1"></a>t <span class="op">=</span> [<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>]</span>
 <span id="annotated-cell-2-3"><a href="#annotated-cell-2-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -431,7 +431,7 @@ Figure&nbsp;6.2: Graph of y=lox(x)
 <p>이렇게 훈련데이터 모두에 대한 손실값을 산출하는 경우 데이터가 증가할 수록 산출시간이 오래 걸리는 문제가 있습니다. 그렇다면 이를 보다 효율적으로 할 수 있는 방법은 무엇이 있을까요?</p>
 <p>일부 데이터를 추려 <strong>근사치</strong>를 계산하는 방법을 생각할 수 있습니다. 이러한 방법을 <strong>미니배치</strong>(mini-batch)라고 하며 훈련데이터 전체에서 임의로 특정 데이터를 뽑아 학습하는 방법입니다.</p>
 <p>우리는 이러한 <strong>미니배치 학습</strong>을 위해 몇개를 임의 추출할지(<code>batch-size</code>)와 이러한 과정을 몇번 수행할 것인지(<code>number of iteration</code>)에 대한 고민을 해야 합니다, 그 이유는 배치는 전체데이터의 일부만을 대상으로 하기 때문입니다.<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></p>
-<div class="no-row-height column-margin column-container"><div id="fn2"><p><sup>2</sup>&nbsp;본 문제는 hyper parameter의 설정에 대한 내용으로 overfitting을 방지하려는 문제와 관련이 있습니다.</p></div></div><div id="88846044" class="cell" data-execution_count="5">
+<div class="no-row-height column-margin column-container"><div id="fn2"><p><sup>2</sup>&nbsp;본 문제는 hyper parameter의 설정에 대한 내용으로 overfitting을 방지하려는 문제와 관련이 있습니다.</p></div></div><div id="d648b896" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="annotated-cell-3"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-3-1"><a href="#annotated-cell-3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sys, os</span>
 <span id="annotated-cell-3-2"><a href="#annotated-cell-3-2" aria-hidden="true" tabindex="-1"></a>sys.path.append(os.pardir)  <span class="co"># 부모 디렉터리의 파일을 가져올 수 있도록 설정</span></span>
 <span id="annotated-cell-3-3"><a href="#annotated-cell-3-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> dataset.mnist <span class="im">import</span> load_mnist</span>
@@ -461,7 +461,7 @@ Figure&nbsp;6.2: Graph of y=lox(x)
 </div>
 </div>
 <p>위에서 우리는 학습을 효율적으로 실시하기 위하여 미니배치를 설정하였습니다. 그렇다면 미니배치로 손실을 어떻게 구해야 할까고민입니다. 앞서 구현한 교차 엔트로피 오차를 아래의 코드와 같이 일부만 수정하면 간단히 해결할 수 있습니다.</p>
-<div id="ffee4093" class="cell" data-execution_count="6">
+<div id="5694a5e2" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="annotated-cell-4"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-4-1"><a href="#annotated-cell-4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> corss_entropy_error(y, t):</span>
 <span id="annotated-cell-4-2"><a href="#annotated-cell-4-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> y.ndim <span class="op">==</span> <span class="dv">1</span>:</span>
 <span id="annotated-cell-4-3"><a href="#annotated-cell-4-3" aria-hidden="true" tabindex="-1"></a>    t <span class="op">=</span> t.reshape(<span class="dv">1</span>, t.size)</span>
@@ -497,11 +497,11 @@ x_1 &amp;= x_1 - \eta \frac{\partial{f}}{\partial{x_1}}
 \end{align}
 \tag{6.3}</span></span></p>
 <p>위의 식을 도식화 하면 아래와 같고 아래의 표에서 학습을 시작한 초기점은 등고선의 1사분면 쪽에서 시작하여 기울기의 반대방향으로 매개변수를 업데이트해 나가는 과정을 보여줍니다.</p>
-<div id="d9a8902d" class="cell" data-execution_count="7">
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="ANN-learning_files/figure-html/cell-8-output-1.png" width="1161" height="526" class="figure-img"></p>
+<div id="5bbb6f10" class="cell page-columns page-full" data-execution_count="7">
+<div class="cell-output cell-output-display page-columns page-full">
+<div class="page-columns page-full">
+<figure class="figure page-columns page-full">
+<p class="page-columns page-full"><img src="ANN-learning_files/figure-html/cell-8-output-1.png" width="1161" height="526" class="figure-img column-screen-inset-shaded"></p>
 </figure>
 </div>
 </div>
@@ -521,7 +521,7 @@ x_1 &amp;= x_1 - \eta \frac{\partial{f}}{\partial{x_1}}
 </div>
 </div>
 <p>아래는 경사하강법을 구현한 예시입니다.</p>
-<div id="9955c881" class="cell" data-execution_count="8">
+<div id="7a91336b" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="annotated-cell-5"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-5-1"><a href="#annotated-cell-5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 기울기 계산</span></span>
 <a class="code-annotation-anchor" data-target-cell="annotated-cell-5" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-5-2" class="code-annotation-target"><a href="#annotated-cell-5-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> numerical_gradient(f, x):</span>
 <a class="code-annotation-anchor" data-target-cell="annotated-cell-5" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-5-3" class="code-annotation-target"><a href="#annotated-cell-5-3" aria-hidden="true" tabindex="-1"></a>  h <span class="op">=</span> <span class="fl">1e-4</span></span>
@@ -602,6 +602,16 @@ Result 1: [-6.11110793e-10  8.14814391e-10]
 Result 2: [-2.58983747e+13 -1.29524862e+12]
 Result 3: [-2.99999994  3.99999992]</code></pre>
 </div>
+</div>
+<div id="fig-annLR" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-annLR-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="image/annLR.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-annLR-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6.3: Results by learning rate
+</figcaption>
+</figure>
 </div>
 
 

@@ -610,7 +610,7 @@ y = \begin{cases}
 \end{cases}
 \tag{1.4}</span></span></p>
 </div></div><p>변형된 수식(<a href="#eq-eqAndGate2" class="quarto-xref">Equation&nbsp;<span>1.4</span></a> )에 기초하여 진리표(<a href="#tbl-bitwise" class="quarto-xref">Table&nbsp;<span>1.1</span></a> )상의 게이트를 코드로 구현하면 아래와 같습니다.</p>
-<div id="9d79a27e" class="cell" data-execution_count="2">
+<div id="e55a1df7" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="annotated-cell-1"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><a class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-1-1" class="code-annotation-target"><a href="#annotated-cell-1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="annotated-cell-1-2"><a href="#annotated-cell-1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="annotated-cell-1-3"><a href="#annotated-cell-1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># AND gate</span></span>
@@ -740,7 +740,7 @@ Table&nbsp;1.2: <code>XOR</code>게이트의 진리표
 </figure>
 </div>
 <p>위의 진리표(<a href="#tbl-XOR2" class="quarto-xref">Table&nbsp;<span>1.2</span></a> )를 코드로 구현하면 아래와 같습니다. 앞서 구현한 게이트들을 코드내에서 사용하여 단순하게 구현할 수 있습니다.</p>
-<div id="4af97ecd" class="cell" data-execution_count="3">
+<div id="489bccbc" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> XOR(x1, x2):</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  s1 <span class="op">=</span> NAND(x1, x2)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  s2 <span class="op">=</span> OR(x1, x2)</span>
