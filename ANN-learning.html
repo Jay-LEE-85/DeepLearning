@@ -341,7 +341,7 @@ Figure&nbsp;6.1: Forward and Backward propagation
 <p>손실함수는 추론(?)에 해당하는 순전파 과정에서 그 정확도를 산출하기 위한 내용이고, 경사하강법은 산출된 Loss를 입력까지의 역전파하여 매개변수인 가중치를 업데이트 하는 과정에 대한 내용으로 단순하게 이해할 수 있고 자세한 사항을 아래에 섦영하도로고 하겠습니다.</p>
 <section id="loss-function" class="level2 page-columns page-full" data-number="6.1">
 <h2 data-number="6.1" class="anchored" data-anchor-id="loss-function"><span class="header-section-number">6.1</span> Loss Function</h2>
-<p>손실함수는 ANN에 입력되어 산출되는 값과 실제 값을 비교하여 <strong>정확도</strong>를 측정하는 하나의 <strong>지표</strong>라고 할 수 있다. ANN은 이러한 지표를 기준으로 최적의 가중치를 탐색하여 하나의 모델을 구성하게 됩니다.</p>
+<p>손실함수는 인공신경에 입력되어 산출되는 값과 실제 값을 비교하여 <strong>정확도</strong>를 측정하는 하나의 <strong>지표</strong>라고 할 수 있다. ANN은 이러한 지표를 기준으로 최적의 가중치와 편향을 탐색하는 방식으로 학습을 진행합니다.</p>
 <p>손실함수로는 일반적으로 <strong>오차제곱합</strong>(SSE, sum of squares for error)과 <strong>교차 엔트로피 오차</strong>(CEE, cross entropy error)를 사용합니다.</p>
 <section id="ssesum-of-squares-for-error" class="level3 page-columns page-full" data-number="6.1.1">
 <h3 data-number="6.1.1" class="anchored" data-anchor-id="ssesum-of-squares-for-error"><span class="header-section-number">6.1.1</span> SSE(sum of squares for error)</h3>
@@ -350,7 +350,7 @@ Figure&nbsp;6.1: Forward and Backward propagation
 E = \frac{1}{2}\sum^{}_{k}(y_k - t_k)^2
 \tag{6.1}</span></span></p>
 <p>오차제곱합의 작동원리를 이해하기 위하여 임의로 <strong>원-핫 인코딩</strong>된 레이블(<span class="math inline">t_k</span>)과 임의로 <strong>소프트맥수 합수</strong>의 출력값(<span class="math inline">y_k</span>)을 생성하여 코드로 구현해 보겠습니다.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
-<div class="no-row-height column-margin column-container"><div id="fn1"><p><sup>1</sup>&nbsp;CEE에서도 동일한 예제를 사용 예정</p></div></div><div id="348e883e" class="cell" data-execution_count="2">
+<div class="no-row-height column-margin column-container"><div id="fn1"><p><sup>1</sup>&nbsp;CEE에서도 동일한 예제를 사용 예정</p></div></div><div id="3925cc73" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 정답 레이블은 2</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>t <span class="op">=</span> [<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>]</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -394,7 +394,7 @@ Figure&nbsp;6.2: Graph of y=lox(x)
 </div>
 <p>위의 그래프(<span class="quarto-unresolved-ref">?fig-annPlotLog</span> )에서 보듯 <span class="math inline">x</span>가 1일때 <span class="math inline">y</span>는 0이 되고 <span class="math inline">x</span>가 0에 근접시 <span class="math inline">y</span>는 점점 작아집니다. 교차 엔트로피는 여기에 음(<code>-</code>)의 부호를 붙여 활률값인 <code>x</code>가 작아질수록 손실값인 <code>y</code>가 크게 나오도록 하였습니다.</p>
 <p>위의 식(<a href="#eq-annCEE" class="quarto-xref">Equation&nbsp;<span>6.2</span></a> )을 코드로 구현해 보겠습니다.</p>
-<div id="0321c3c3" class="cell" data-execution_count="4">
+<div id="08c48108" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="annotated-cell-2"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-2-1"><a href="#annotated-cell-2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 정답 레이블은 2</span></span>
 <span id="annotated-cell-2-2"><a href="#annotated-cell-2-2" aria-hidden="true" tabindex="-1"></a>t <span class="op">=</span> [<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>]</span>
 <span id="annotated-cell-2-3"><a href="#annotated-cell-2-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -427,11 +427,11 @@ Figure&nbsp;6.2: Graph of y=lox(x)
 </section>
 <section id="cee-with-mini-batch" class="level3 page-columns page-full" data-number="6.1.3">
 <h3 data-number="6.1.3" class="anchored" data-anchor-id="cee-with-mini-batch"><span class="header-section-number">6.1.3</span> CEE with Mini-batch</h3>
-<p>손실함수는 주어진 데이터에 대한 모든 손실값의 합을 모델의 평가지료로 산출합니다. 가령 훈련 데이터가 100개이 60,000개 인경우 60,000개의 손실값을 산출해야 합니다.</p>
+<p>손실함수는 주어진 데이터에 대한 모든 손실값의 합을 모델의 평가지표로 산출합니다. 가령 훈련 데이터가 100개이 60,000개 인경우 60,000개의 손실값을 산출해야 합니다.</p>
 <p>이렇게 훈련데이터 모두에 대한 손실값을 산출하는 경우 데이터가 증가할 수록 산출시간이 오래 걸리는 문제가 있습니다. 그렇다면 이를 보다 효율적으로 할 수 있는 방법은 무엇이 있을까요?</p>
 <p>일부 데이터를 추려 <strong>근사치</strong>를 계산하는 방법을 생각할 수 있습니다. 이러한 방법을 <strong>미니배치</strong>(mini-batch)라고 하며 훈련데이터 전체에서 임의로 특정 데이터를 뽑아 학습하는 방법입니다.</p>
 <p>우리는 이러한 <strong>미니배치 학습</strong>을 위해 몇개를 임의 추출할지(<code>batch-size</code>)와 이러한 과정을 몇번 수행할 것인지(<code>number of iteration</code>)에 대한 고민을 해야 합니다, 그 이유는 배치는 전체데이터의 일부만을 대상으로 하기 때문입니다.<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></p>
-<div class="no-row-height column-margin column-container"><div id="fn2"><p><sup>2</sup>&nbsp;본 문제는 hyper parameter의 설정에 대한 내용으로 overfitting을 방지하려는 문제와 관련이 있습니다.</p></div></div><div id="94eff7b7" class="cell" data-execution_count="5">
+<div class="no-row-height column-margin column-container"><div id="fn2"><p><sup>2</sup>&nbsp;본 문제는 hyper parameter의 설정에 대한 내용으로 overfitting을 방지하려는 문제와 관련이 있습니다.</p></div></div><div id="88846044" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="annotated-cell-3"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-3-1"><a href="#annotated-cell-3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sys, os</span>
 <span id="annotated-cell-3-2"><a href="#annotated-cell-3-2" aria-hidden="true" tabindex="-1"></a>sys.path.append(os.pardir)  <span class="co"># 부모 디렉터리의 파일을 가져올 수 있도록 설정</span></span>
 <span id="annotated-cell-3-3"><a href="#annotated-cell-3-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> dataset.mnist <span class="im">import</span> load_mnist</span>
@@ -461,7 +461,7 @@ Figure&nbsp;6.2: Graph of y=lox(x)
 </div>
 </div>
 <p>위에서 우리는 학습을 효율적으로 실시하기 위하여 미니배치를 설정하였습니다. 그렇다면 미니배치로 손실을 어떻게 구해야 할까고민입니다. 앞서 구현한 교차 엔트로피 오차를 아래의 코드와 같이 일부만 수정하면 간단히 해결할 수 있습니다.</p>
-<div id="a66cc20f" class="cell" data-execution_count="6">
+<div id="ffee4093" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="annotated-cell-4"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-4-1"><a href="#annotated-cell-4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> corss_entropy_error(y, t):</span>
 <span id="annotated-cell-4-2"><a href="#annotated-cell-4-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> y.ndim <span class="op">==</span> <span class="dv">1</span>:</span>
 <span id="annotated-cell-4-3"><a href="#annotated-cell-4-3" aria-hidden="true" tabindex="-1"></a>    t <span class="op">=</span> t.reshape(<span class="dv">1</span>, t.size)</span>
@@ -485,8 +485,124 @@ Figure&nbsp;6.2: Graph of y=lox(x)
 </div>
 </section>
 </section>
-<section id="gradient-descent" class="level2" data-number="6.2">
+<section id="gradient-descent" class="level2 page-columns page-full" data-number="6.2">
 <h2 data-number="6.2" class="anchored" data-anchor-id="gradient-descent"><span class="header-section-number">6.2</span> Gradient Descent</h2>
+<p>ANN은 손실함수의 값을 최소화 하는 방향으로 학습을 진행한다고 하였습니다. 이를 다시 말하면 손실함수가 최소값을 갖도록 하는 최적의 매개변수(가중치와 편향)를 탐색하는 문제입니다.</p>
+<p>그러나 매개변수의 공간은 방대하여 이를 찾는 문제는 쉽지 않습니다. 그래서 기울기를 사용한 최적화 알고리즘인 <strong>경사하강법</strong>(gradient descent)을 이해할 필요가 있습니다.</p>
+<p>경사하강법은 현재의 위치에서 모든 방향으로 기울기<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>를 구하고, 기울기의 반대방향으로 일정거리(학습률, learning rate)만큼 이동합니다. 이를 반복수행하면서 함수의 기울기(경사)를 줄여나가는 방법입니다. 이를 식으로 나타내보겠습니다.</p>
+<div class="no-row-height column-margin column-container"><div id="fn3"><p><sup>3</sup>&nbsp;경사하강법은 기울기를 구한다는 점에서 <strong>미분</strong>에 대한 이해, 특히 매개변수별 기울기(모든 방향으로의 기울기)를 구한다는 점에서 <strong>편미분</strong>이 사용됩니다.</p></div></div><p><span id="eq-annGD"><span class="math display">
+\begin{align}
+x_0 &amp;= x_0 - \eta \frac{\partial{f}}{\partial{x_0}}
+x_1 &amp;= x_1 - \eta \frac{\partial{f}}{\partial{x_1}}
+\end{align}
+\tag{6.3}</span></span></p>
+<p>위의 식을 도식화 하면 아래와 같고 아래의 표에서 학습을 시작한 초기점은 등고선의 1사분면 쪽에서 시작하여 기울기의 반대방향으로 매개변수를 업데이트해 나가는 과정을 보여줍니다.</p>
+<div id="d9a8902d" class="cell" data-execution_count="7">
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="ANN-learning_files/figure-html/cell-8-output-1.png" width="1161" height="526" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+경사하강법의 한계
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>경사하강법은 함수의 기울기는 <code>0</code>인 곳을 찾아가는 최적화 알고리즘입니다. 그러나 함수의 기울기아 0이 되는 곳이 항상 최솟값에 해당하지 않습니다. 가령 함수가 복접하고 찌그러진 모양인 경우 그곳이 최솟값인지 아니면 극솟값인지 또는 안정점인지 알고리즘은 알지 못합니다.</p>
+<p>물론 이러한 문제를 해결하기 위하여 다양한 방법을 사용합니다. 가령 확률의 개념을 도입하거나 배치를 설정할 수 있습니다, 또한, 업데이트 하는 정도인 학습률(learning rate)와 같은 하이퍼파라미터의 설정의 조정하는 방법도 있습니다. 자세한 사항은 뒤에서 설명하겠습니다.</p>
+</div>
+</div>
+<p>아래는 경사하강법을 구현한 예시입니다.</p>
+<div id="9955c881" class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="annotated-cell-5"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-5-1"><a href="#annotated-cell-5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 기울기 계산</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-5" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-5-2" class="code-annotation-target"><a href="#annotated-cell-5-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> numerical_gradient(f, x):</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-5" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-5-3" class="code-annotation-target"><a href="#annotated-cell-5-3" aria-hidden="true" tabindex="-1"></a>  h <span class="op">=</span> <span class="fl">1e-4</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-5" data-target-annotation="3" onclick="event.preventDefault();">3</a><span id="annotated-cell-5-4" class="code-annotation-target"><a href="#annotated-cell-5-4" aria-hidden="true" tabindex="-1"></a>  grad <span class="op">=</span> np.zeros_like(x)</span>
+<span id="annotated-cell-5-5"><a href="#annotated-cell-5-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-5-6"><a href="#annotated-cell-5-6" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> idx <span class="kw">in</span> <span class="bu">range</span>(x.size):</span>
+<span id="annotated-cell-5-7"><a href="#annotated-cell-5-7" aria-hidden="true" tabindex="-1"></a>    tmp_val <span class="op">=</span> x[idx]</span>
+<span id="annotated-cell-5-8"><a href="#annotated-cell-5-8" aria-hidden="true" tabindex="-1"></a>    <span class="co"># f(x) 계산</span></span>
+<span id="annotated-cell-5-9"><a href="#annotated-cell-5-9" aria-hidden="true" tabindex="-1"></a>    x[idx] <span class="op">=</span> tmp_val <span class="op">+</span> h</span>
+<span id="annotated-cell-5-10"><a href="#annotated-cell-5-10" aria-hidden="true" tabindex="-1"></a>    fxh1 <span class="op">=</span> f(x)</span>
+<span id="annotated-cell-5-11"><a href="#annotated-cell-5-11" aria-hidden="true" tabindex="-1"></a>    <span class="co"># f(x-h) 계산</span></span>
+<span id="annotated-cell-5-12"><a href="#annotated-cell-5-12" aria-hidden="true" tabindex="-1"></a>    x[idx] <span class="op">=</span> tmp_val <span class="op">-</span> h</span>
+<span id="annotated-cell-5-13"><a href="#annotated-cell-5-13" aria-hidden="true" tabindex="-1"></a>    fxh2 <span class="op">=</span> f(x)</span>
+<span id="annotated-cell-5-14"><a href="#annotated-cell-5-14" aria-hidden="true" tabindex="-1"></a></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-5" data-target-annotation="4" onclick="event.preventDefault();">4</a><span id="annotated-cell-5-15" class="code-annotation-target"><a href="#annotated-cell-5-15" aria-hidden="true" tabindex="-1"></a>    grad[idx] <span class="op">=</span> (fxh1 <span class="op">-</span> fxh2) <span class="op">/</span> (<span class="dv">2</span><span class="op">*</span>h)</span>
+<span id="annotated-cell-5-16"><a href="#annotated-cell-5-16" aria-hidden="true" tabindex="-1"></a>    x[idx] <span class="op">=</span> tmp_val</span>
+<span id="annotated-cell-5-17"><a href="#annotated-cell-5-17" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="annotated-cell-5-18"><a href="#annotated-cell-5-18" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> grad</span>
+<span id="annotated-cell-5-19"><a href="#annotated-cell-5-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-5-20"><a href="#annotated-cell-5-20" aria-hidden="true" tabindex="-1"></a><span class="co"># 경사하강</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-5" data-target-annotation="5" onclick="event.preventDefault();">5</a><span id="annotated-cell-5-21" class="code-annotation-target"><a href="#annotated-cell-5-21" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> gradient_descent(f, init_x, lr <span class="op">=</span> <span class="fl">0.01</span>, step_num<span class="op">=</span><span class="dv">100</span>):</span>
+<span id="annotated-cell-5-22"><a href="#annotated-cell-5-22" aria-hidden="true" tabindex="-1"></a>  x <span class="op">=</span> init_x</span>
+<span id="annotated-cell-5-23"><a href="#annotated-cell-5-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-5-24"><a href="#annotated-cell-5-24" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(step_num):</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-5" data-target-annotation="6" onclick="event.preventDefault();">6</a><span id="annotated-cell-5-25" class="code-annotation-target"><a href="#annotated-cell-5-25" aria-hidden="true" tabindex="-1"></a>    grad <span class="op">=</span> numerical_gradient(f, x)</span>
+<span id="annotated-cell-5-26"><a href="#annotated-cell-5-26" aria-hidden="true" tabindex="-1"></a>    x <span class="op">-=</span> lr <span class="op">*</span> grad</span>
+<span id="annotated-cell-5-27"><a href="#annotated-cell-5-27" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> x</span>
+<span id="annotated-cell-5-28"><a href="#annotated-cell-5-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-5-29"><a href="#annotated-cell-5-29" aria-hidden="true" tabindex="-1"></a><span class="co"># 실전 풀이</span></span>
+<span id="annotated-cell-5-30"><a href="#annotated-cell-5-30" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> function_2(x):</span>
+<span id="annotated-cell-5-31"><a href="#annotated-cell-5-31" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> x[<span class="dv">0</span>]<span class="op">**</span><span class="dv">2</span> <span class="op">+</span> x[<span class="dv">1</span>]<span class="op">**</span><span class="dv">2</span></span>
+<span id="annotated-cell-5-32"><a href="#annotated-cell-5-32" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="annotated-cell-5-33"><a href="#annotated-cell-5-33" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> []</span>
+<span id="annotated-cell-5-34"><a href="#annotated-cell-5-34" aria-hidden="true" tabindex="-1"></a><span class="co"># 학습률이 적정</span></span>
+<span id="annotated-cell-5-35"><a href="#annotated-cell-5-35" aria-hidden="true" tabindex="-1"></a>init_x <span class="op">=</span> np.array([<span class="op">-</span><span class="fl">3.0</span>, <span class="fl">4.0</span>])</span>
+<span id="annotated-cell-5-36"><a href="#annotated-cell-5-36" aria-hidden="true" tabindex="-1"></a>result.append(gradient_descent(function_2, init_x<span class="op">=</span>init_x, lr<span class="op">=</span><span class="fl">0.1</span>, step_num<span class="op">=</span><span class="dv">100</span>))</span>
+<span id="annotated-cell-5-37"><a href="#annotated-cell-5-37" aria-hidden="true" tabindex="-1"></a><span class="co"># 학습률이 과다</span></span>
+<span id="annotated-cell-5-38"><a href="#annotated-cell-5-38" aria-hidden="true" tabindex="-1"></a>init_x <span class="op">=</span> np.array([<span class="op">-</span><span class="fl">3.0</span>, <span class="fl">4.0</span>])</span>
+<span id="annotated-cell-5-39"><a href="#annotated-cell-5-39" aria-hidden="true" tabindex="-1"></a>result.append(gradient_descent(function_2, init_x<span class="op">=</span>init_x, lr<span class="op">=</span><span class="fl">10.0</span>, step_num<span class="op">=</span><span class="dv">100</span>))</span>
+<span id="annotated-cell-5-40"><a href="#annotated-cell-5-40" aria-hidden="true" tabindex="-1"></a><span class="co"># 학습률이 과소</span></span>
+<span id="annotated-cell-5-41"><a href="#annotated-cell-5-41" aria-hidden="true" tabindex="-1"></a>init_x <span class="op">=</span> np.array([<span class="op">-</span><span class="fl">3.0</span>, <span class="fl">4.0</span>])</span>
+<span id="annotated-cell-5-42"><a href="#annotated-cell-5-42" aria-hidden="true" tabindex="-1"></a>result.append(gradient_descent(function_2, init_x<span class="op">=</span>init_x, lr<span class="op">=</span><span class="fl">1e-10</span>, step_num<span class="op">=</span><span class="dv">100</span>))</span>
+<span id="annotated-cell-5-43"><a href="#annotated-cell-5-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-5-44"><a href="#annotated-cell-5-44" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"학습률별 결과:"</span>)</span>
+<span id="annotated-cell-5-45"><a href="#annotated-cell-5-45" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">3</span>):</span>
+<span id="annotated-cell-5-46"><a href="#annotated-cell-5-46" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Result </span><span class="sc">{</span>i<span class="op">+</span><span class="dv">1</span><span class="sc">}</span><span class="ss">:"</span>, result[i])</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-5" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-5" data-code-lines="2" data-code-annotation="1"><code>numerical_gradien</code>는 기울기를 구하는 함수. 해석적으로 구하지 않고 수치미분의 방법을 사용</span>
+</dd>
+<dt data-target-cell="annotated-cell-5" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-5" data-code-lines="3" data-code-annotation="2"><code>h</code>는 수치미분을 위한 아주 작은 크기의 변화량</span>
+</dd>
+<dt data-target-cell="annotated-cell-5" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-cell="annotated-cell-5" data-code-lines="4" data-code-annotation="3"><code>grad = np.zeros_list(x)</code>는 x와 형상기 같은 배열을 생성</span>
+</dd>
+<dt data-target-cell="annotated-cell-5" data-target-annotation="4">4</dt>
+<dd>
+<span data-code-cell="annotated-cell-5" data-code-lines="15" data-code-annotation="4"><code>fxh1</code>과 <code>fxh2</code> 사이의 기울기를 구한다는 의미가</span>
+</dd>
+<dt data-target-cell="annotated-cell-5" data-target-annotation="5">5</dt>
+<dd>
+<span data-code-cell="annotated-cell-5" data-code-lines="21" data-code-annotation="5"><code>f</code>는 최적화하려는 함수, <code>init_x</code>는 초깃값, <code>lr</code>은 학습률, <code>step_num</code>은 반복시행 횟수</span>
+</dd>
+<dt data-target-cell="annotated-cell-5" data-target-annotation="6">6</dt>
+<dd>
+<span data-code-cell="annotated-cell-5" data-code-lines="25" data-code-annotation="6">1번의 수치미분 함수</span>
+</dd>
+</dl>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>학습률별 결과:
+Result 1: [-6.11110793e-10  8.14814391e-10]
+Result 2: [-2.58983747e+13 -1.29524862e+12]
+Result 3: [-2.99999994  3.99999992]</code></pre>
+</div>
+</div>
 
 
 </section>
