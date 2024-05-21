@@ -21,6 +21,7 @@ book:
       - ANN-activation.qmd
       - ANN-forward.qmd
       - ANN-learning.qmd
+      - ANN-lab_MNIST.qmd
 
     - references.qmd
 
