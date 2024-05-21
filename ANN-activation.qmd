@@ -46,10 +46,10 @@ def sigmoid(x):
   return 1 / (1 + np.exp(-x))
 ```
 
+![Plot of Sigmoid Function](image/annAct1.png){#fig-annAct1}
 ``` {python}
 #| echo: false
-#| label: fig-annAct1
-#| fig-cap: "Plot of Sigmoid Function"
+#| include: False
 x =  np.arange(-5.0, 5.0, 0.1)
 y = sigmoid(x)
 
@@ -79,10 +79,10 @@ def relu(x):
   return np.maximum(0, x)
 ```
 
+![Plot of ReLU Function](image/annAct2.png){#fig-annAct2}
 ``` {python}
 #| echo: false
-#| label: fig-annAct2
-#| fig-cap: "Plot of ReLU Function"
+#| include: False
 x =  np.arange(-5.0, 5.0, 0.1)
 y = relu(x)
 

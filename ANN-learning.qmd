@@ -76,10 +76,10 @@ $$
 E = -\sum^{}_{k}t_k\log{y_k}
 $$ {#eq-annCEE}
 
+![Graph of y=lox(x)](image/annPlotLog.png){#fig-annPlotLog}
 ``` {python}
 #| echo: False
-#| label: fig-annPlotLog
-#| fig-cap: Graph of y=lox(x)
+#| include: False
 
 # x 값의 범위를 설정합니다.
 x = np.linspace(0.001, 1.0, 400)
@@ -184,10 +184,12 @@ x_1 &= x_1 - \eta \frac{\partial{f}}{\partial{x_1}}
 \end{align}
 $$ {#eq-annGD}
 
-위의 식을 도식화 하면 아래와 같고 아래의 표에서 학습을 시작한 초기점은 등고선의 1사분면 쪽에서 시작하여 기울기의 반대방향으로 매개변수를 업데이트해 나가는 과정을 보여줍니다.
+위의 식을 도식화 하면 아래(@fig-annGD )와 같고 아래의 표에서 학습을 시작한 초기점은 등고선의 1사분면 쪽에서 시작하여 기울기의 반대방향으로 매개변수를 업데이트해 나가는 과정을 보여줍니다.
 
+![Example of Gradient Descent](image/annGD.png){#fig-annGD}
 ``` {python}
 #| echo: False
+#| include: False
 #| column: screen-inset-shaded
 import numpy as np
 import matplotlib.pyplot as plt
@@ -247,6 +249,7 @@ ax2.grid(True)
 
 plt.show()
 ```
+
 ::: {.callout-note}
 ## 경사하강법의 한계
 
@@ -305,12 +308,28 @@ print("학습률별 결과:")
 for i in range(3):
     print(f"Result {i+1}:", result[i])
 ```
-1. `numerical_gradien`는 기울기를 구하는 함수. 해석적으로 구하지 않고 수치미분의 방법을 사용
+1. `numerical_gradien`는 기울기를 구하는 함수(수치미분 사용)
 2. `h`는 수치미분을 위한 아주 작은 크기의 변화량
 3. `grad = np.zeros_list(x)`는 x와 형상기 같은 배열을 생성
 4. `fxh1`과 `fxh2` 사이의 기울기를 구한다는 의미가
-5. `f`는 최적화하려는 함수, `init_x`는 초깃값, `lr`은 학습률, `step_num`은 반복시행 횟수
+5. `f` 최적화 대상 함수, `init_x` 초깃값, `lr` 학습률, `step_num` 반복시행 횟수
 6. 1번의 수치미분 함수
 
 ![Results by learning rate](image/annLR.png){#fig-annLR}
+
+@fig-annLR 에서 보듯이 학습률의 설정은 ANN 등 신경망의 학습시 하이퍼파라미터 설정의 중요성^[ANN의 효율성 및 신뢰성을 높이기 위한 기법 및 하이퍼파라미터 설정에 대한 이슈는 개별 이슈가 발생시 추가적으로 정리할 예정입니다.]을 잘 보여주는 사례입니다. 
+
+가령 학습률을 적정하게(1번) 설정시 학습이 원활하게 이루어지지만 학습률이 매우 큰경우(2번) 오버슈팅으로 의도한바와 전혀 다른 결과가 나오게 됩니다. 반면 학습률을 너무 작게 설정한 경우(3번) 학습이 잘 이루어지지 않는 문제를 확인할 수 있습니다.
+
+## Applying gradient descent to ANN은
+
+## Lab: Implementing ANN {.unnumbered}
+
+### STEP1: Tow Layer Net
+
+### STEP2: Mini Batch
+
+### STEP3: Evaludating with test data
+
+
 
