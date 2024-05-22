@@ -22,6 +22,7 @@ book:
       - ANN-forward.qmd
       - ANN-learning.qmd
       - ANN-lab_MNIST.qmd
+      - ANN-backward.qmd
 
     - references.qmd
 
