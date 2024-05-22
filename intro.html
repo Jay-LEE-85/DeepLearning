@@ -330,34 +330,14 @@ window.Quarto = {
 <div aria-describedby="fig-LearningPath-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div>
 <pre class="mermaid mermaid-js" data-label="fig-LearningPath">flowchart LR
-  opt[Optimazation]:::ch --&gt; opt1[Solving Problems]
-  opt --&gt; opt2[Gradient Descent] 
-
-  opt1 --&gt; opt_l{{Lab1: Linear Regression}}
-  opt2 --&gt; opt_l:::lab
-
   per[Perceptron]:::ch --&gt; per1[Classification]
   per --&gt; per2[Logistic Regression]
 
-  per1 --&gt; per_l1{{Lab2: Classification}}:::lab
-  per2 --&gt; per_l2{{Lab2: Logistic Regression}}:::lab
+  per1 --&gt; per_l1{{Lab1: Classification}}:::lab
 
-  %% ann[ANN]:::ch --&gt; ann1[Multi Layer Perceptron] --&gt; ann_l{{Lab3:}}:::lab
-  %% ann --&gt; ann2[Artificial NN?]
+  ann(Artificial Neural Net):::ch --&gt; ann1[Intro of ANN] &amp; ann2[Activation Function] &amp; ann3[Forward Propagation] &amp; ann4[Learning Process] &amp; ann5[Back Propagation]
 
-  %% ann2 --&gt; ann2_1[Recursive Algorithm]
-  %% ann2 --&gt; ann2_2[Dynamic Programing]
-  %% ann2 --&gt; ann2_3[Neural Networks]
-  
-  %% ann2_3 --&gt; ann2_3_3[Loss Function]
-  %% ann2_3 --&gt; ann2_3_1[Optimization]
-  %% ann2_3 --&gt; ann2_3_2[Activation Function]
-
-  %% ann2_1 &amp; ann2_2 &amp; ann2_3_1 &amp; ann2_3_2 &amp; ann2_3_3 --&gt; ann_l{{Lab3: MNIST Classification}}:::lab
-  
-  %% cnn[Convolution-NN]:::ch --&gt; cnn1[NA]
-
-  %% rnn[Recurrent-NN]:::ch --&gt; rnn[NA]
+  ann1 &amp; ann2 &amp; ann3 &amp; ann4 --&gt; ann_l{{Lab2: Classification with MNIST}}:::lab
 
   classDef ch fill:#ccccff
   classDef lab fill:#ccffcc
@@ -428,7 +408,7 @@ Table&nbsp;1: List of Packages
 Listing&nbsp;1: Code Block
 </figcaption>
 <div aria-describedby="lst-codeExample-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div id="b4a2f000" class="cell" data-execution_count="1">
+<div id="8c19bf5c" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="annotated-cell-1"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-1-1"><a href="#annotated-cell-1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> add(num1, num2):</span>
 <a class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-1-2" class="code-annotation-target"><a href="#annotated-cell-1-2" aria-hidden="true" tabindex="-1"></a>  result <span class="op">=</span> num1 <span class="op">+</span> num2</span>
 <span id="annotated-cell-1-3"><a href="#annotated-cell-1-3" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span>  result</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>

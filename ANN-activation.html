@@ -353,7 +353,7 @@ h(x) = \frac{1}{1+exp(-x)}
 \end{align}
 </span></p>
 <p>시그모이드 함수를 <code>python</code> 코드로 아래와 같이 간다하게 구현할 수 있습니다. 이를 활용하여 시그모이드 함수를 실행하면 아래와 같은 그래프(<a href="#fig-annAct1" class="quarto-xref">Figure&nbsp;<span>4.2</span></a> )를 볼 수 있습니다.</p>
-<div id="c46454a9" class="cell" data-execution_count="2">
+<div id="91c46219" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> sigmoid(x):</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> <span class="dv">1</span> <span class="op">/</span> (<span class="dv">1</span> <span class="op">+</span> np.exp(<span class="op">-</span>x))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -381,7 +381,7 @@ x &amp; (x &gt; 0) \\
 \end{align}
 </span></p>
 <p>ReLU 함수를 <code>python</code> 코드로 아래와 같이 간다하게 구현할 수 있습니다. 이를 활용하여 시그모이드 함수를 실행하면 아래와 같은 그래프(<a href="#fig-annAct2" class="quarto-xref">Figure&nbsp;<span>4.3</span></a> )를 볼 수 있습니다.</p>
-<div id="c484488c" class="cell" data-execution_count="4">
+<div id="0df236a3" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> relu(x):</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> np.maximum(<span class="dv">0</span>, x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
