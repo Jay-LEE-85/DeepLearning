@@ -72,7 +72,7 @@ ul.task-list li input[type="checkbox"] {
 
 </head>
 
-<body class="nav-sidebar floating">
+<body class="nav-sidebar floating slimcontent">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -200,10 +200,21 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#pre-requisite-chain-rule-and-dynamic-programming" id="toc-pre-requisite-chain-rule-and-dynamic-programming" class="nav-link active" data-scroll-target="#pre-requisite-chain-rule-and-dynamic-programming"><span class="header-section-number">8.1</span> Pre-requisite: Chain-rule and Dynamic Programming</a>
+  <ul class="collapse">
+  <li><a href="#chain-rule" id="toc-chain-rule" class="nav-link" data-scroll-target="#chain-rule"><span class="header-section-number">8.1.1</span> Chain-rule</a></li>
+  <li><a href="#dynamic-programming" id="toc-dynamic-programming" class="nav-link" data-scroll-target="#dynamic-programming"><span class="header-section-number">8.1.2</span> Dynamic Programming</a></li>
+  </ul></li>
+  <li><a href="#backpropagation" id="toc-backpropagation" class="nav-link" data-scroll-target="#backpropagation"><span class="header-section-number">8.2</span> backpropagation</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
+<main class="content page-columns page-full" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./ANN-intro.html">ANN</a></li><li class="breadcrumb-item"><a href="./ANN-backward.html"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Backward Propagation</span></a></li></ol></nav>
 <div class="quarto-title">
@@ -224,7 +235,29 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<p>지금까지 순전파를 거쳐 산출한 손실함수값을 수치미분을 이용하여 기울기만큼 매개변수를 업데이트 하는 학습과정을 살펴보았습니다. 구현은 단순할 수 있으나, 계산속도는 그리 빠르지 않습니다. 여기서 등장하는 것이 <strong>오차역전파</strong>(backpropagation)입니다.</p>
+<p>오차역전파를 이해하기 위하여는 우리는 2가지를 먼저 이해할 필요가 있다고 생각합니다. 하나는 미분에서의 <strong>chain-rule</strong>이고 다른 하나는 피보나치 수열에 기반한 <strong>Dynamic Programming</strong>입니다,</p>
+<section id="pre-requisite-chain-rule-and-dynamic-programming" class="level2 page-columns page-full" data-number="8.1">
+<h2 data-number="8.1" class="anchored" data-anchor-id="pre-requisite-chain-rule-and-dynamic-programming"><span class="header-section-number">8.1</span> Pre-requisite: Chain-rule and Dynamic Programming</h2>
+<p>오차역전파는 기본적으로 손실함수 값에서 입력값까지의 매개변수를 역으로 조정하는 과정으로 순방향과 반대방향으로 국소적인 미분값을 곱하며 가중치를 조정하는 절차로 이해할 수 있습니다.</p>
+<section id="chain-rule" class="level3 page-columns page-full" data-number="8.1.1">
+<h3 data-number="8.1.1" class="anchored" data-anchor-id="chain-rule"><span class="header-section-number">8.1.1</span> Chain-rule</h3>
+<p><strong>반대방향으로 국소적인 미분값을 곱한다</strong>는 것은 어떠한 의미를 갖고 있을까요? 그리고 이러한 연산의 기반이 되는 개념이 무엇일까요? 이물음에 대한 답변이 바로 <strong>연쇄법칙</strong>입니다. 연쇄법칙에 관한 자세한 설명은 아래 <strong>3Blue1Brown</strong><a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> 영상을 참고하기 바랍니다.</p>
+<div class="no-row-height column-margin column-container"><div id="fn1"><p><sup>1</sup>&nbsp;3Blue1Brown은 많은 수학적인 문제를 도식화하여 아주 직관적으로 설명하고 있어 매우 유용합니다.</p></div></div><div class="quarto-video ratio ratio-16x9"><iframe data-external="1" src="https://www.youtube.com/embed/tIeHLnjs5U8?rel=0" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></div>
+</section>
+<section id="dynamic-programming" class="level3" data-number="8.1.2">
+<h3 data-number="8.1.2" class="anchored" data-anchor-id="dynamic-programming"><span class="header-section-number">8.1.2</span> Dynamic Programming</h3>
+<p>연쇄법칙을 정확히 이해하셨다면 지속적으로 미분값이 중복으로 계산해야 함을 확인할 수 있습니다. 그러나 이미 계산된 미분값을 따로 저장하였다가 불러오기만 한다면 연산이 얼마나 쉬워질까요? 쉬워진다기보다 간단해지고 컴퓨터의 연산의 수를 줄일 수 있지 않을까요?</p>
+<p>바로 이러한 배경에서 연쇄법칙을 빠르게 수행하기 위하여 고려되는 방법이 <strong>동적계획법</strong> 입니다. 이는 피보나치 수열의 계산에 있어서 재귀적으로 반복계산되는 노드를 따로 저장하여 두었다가 다른 재귀식에서는 그 값을 호출하여 사용하도록 하므로써 연산의 수를 줄이고 종국적으로는 알고리즘의 성능을 개선해줄수 있을 것입니다.</p>
+<p>동적계획법에 대한 자세한 설명은 아래 영상을 참고하시기 바랍니다.</p>
+<div class="quarto-video ratio ratio-16x9"><iframe data-external="1" src="https://www.youtube.com/embed/oBt53YbR9Kk?list=PLQCbmnrn5eI9vrt_T4o-KCn-5DlESFDBM" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></div>
+</section>
+</section>
+<section id="backpropagation" class="level2" data-number="8.2">
+<h2 data-number="8.2" class="anchored" data-anchor-id="backpropagation"><span class="header-section-number">8.2</span> backpropagation</h2>
 
+
+</section>
 
 
 </main> <!-- /main -->

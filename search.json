@@ -284,7 +284,7 @@
     "href": "ANN-learning.html#applying-gradient-descent-to-ann",
     "title": "6  Learning process",
     "section": "6.3 Applying gradient descent to ANN",
-    "text": "6.3 Applying gradient descent to ANN\n지금까지 우리는 손실함수와 경사하강법에 대하여 학습하였습니다. 다시 정리하면 ANN에서의 손실함수는 신경망의 출력값과 레이블값의 차이를 구하는 도구이고, 경사하강법은 매개변수(가중치 및 편향)에 대한 손실함수의 기울기에 해당합니다.\n여기서 경사하강법을 이용하여 2 \\times 3형상의 가중치 \\textbf{W}에 대한 손실함수 L의 기울기를 기울기5를 구하도록 하겠습니다.(Equation 6.4 )\n5 모든 가중치에 대한 손실함수의 기울기를 구해야 함을 고려시, 모든 가중치에 해당하는 벡터별로 독립적으로 기울기를 구한다는 의미로 편미분으로 처리\n\\begin{align}\n\\textbf{W} &= \\begin{pmatrix}\n    w_{11} & w_{12} & w_{13} \\\\\n    w_{11} & w_{12} & w_{13}\n\\end{pmatrix} \\\\ \\\\\n\\frac{\\partial{L}}{\\partial{\\textbf{W}}}&= \\begin{pmatrix}\n    \\frac{\\partial{L}}{\\partial{w_{11}}} & \\frac{\\partial{L}}{\\partial{w_{12}}} & \\frac{\\partial{L}}{\\partial{w_{13}}} \\\\\n    \\frac{\\partial{L}}{\\partial{w_{11}}} & \\frac{\\partial{L}}{\\partial{w_{12}}} & \\frac{\\partial{L}}{\\partial{w_{13}}}\n\\end{pmatrix}\n\\end{align}\n\\tag{6.4}\n위의 식(Equation 6.4 )을 코드로 구현하여 기울기를 산출해 보도록 하겠습니다. 먼제 간단하게 신경망을 아래와 같이 구현할 수 있습니다.\n\n# 환경설정\nimport sys, os\nsys.path.append(os.pardir)\nimport numpy as np\nfrom common.functions import softmax, cross_entropy_error\nfrom common.gradient import numerical_gradient\n\n# 클래스 구현\nclass simpleNet:\n  def __init__(self):\n    self.W = np.random.randn(2,3)\n\n  def predict(self, x):\n    return np.dot(x, self.W)\n\n  def loss(self, x, t):\n    z = self.predict(x)\n    y = softmax(z)\n    loss = cross_entropy_error(y, t)\n    return loss\n\n# 실습\n1net = simpleNet()\n2x = np.array([0.6, 0.9])\n3p = net.predict(x)\n\n4t = np.array([0, 0, 1])\n5res = net.loss(x, t)\n\n# 결과\nprint(\"가중치 현황\")\nprint(net.W)\nprint(\"출력값\")\nprint(p)\nprint(\"손실값\")\nprint(res)\n\n\n1\n\nsimpleNet 객체생성\n\n2\n\n입력변수 생성\n\n3\n\n가중치와 입력값의 weighted sum 산출\n\n4\n\n정답 레이블\n\n5\n\n손실함수 산출 결과\n\n\n\n\n가중치 현황\n[[ 0.54144197 -1.05834778 -0.83268155]\n [-2.13716795  1.348685    0.69609611]]\n출력값\n[-1.59858597  0.57880783  0.12687757]\n손실값\n1.0113943787001272\n\n\n다음으로 기울기는 아래와 같이 구현할 수 있습니다. 가중치에 대한 손실함수의 기울기를 편미분을 이용하여 구하는 경우 본래 가중치가 보유한 형상은 유지됨을 주의하도록 합니다.6\n6 형상이 바뀌는 경우 신경망의 구조가 변하게 되어 에러가 발생합니다.\ndef f(W):\n  return net.loss(x,t)\n\ndW = numerical_gradient(f, net.W)\nprint(dW)\n\n[[ 0.03886411  0.34290896 -0.38177307]\n [ 0.05829616  0.51436344 -0.57265961]]\n\n\n위의 내용에서 하석할 수 있는 것은 numerical_gradient를 통해 w_{11}를 h만큼 미세하게 변화 시키는 경우 손실함수 값은 print(dW)의 1행x1열의 값만큼 변화한다는 의미7입니다. 또한 w_{11} 보다 w_{23}의 기여도가 더 크다고 이해할 수 있습니다.\n\n\n7 따라서 손실함수 값을 감소시키려면 기울기의 반대방향으로 가중치 \\textbf{W}을 갱신(w_{ij} \\leftarrow w_{ij} - \\eta \\frac{\\partial{L}}{\\partial{w_{ij}}})해야 한다",
+    "text": "6.3 Applying gradient descent to ANN\n지금까지 우리는 손실함수와 경사하강법에 대하여 학습하였습니다. 다시 정리하면 ANN에서의 손실함수는 신경망의 출력값과 레이블값의 차이를 구하는 도구이고, 경사하강법은 매개변수(가중치 및 편향)에 대한 손실함수의 기울기에 해당합니다.\n여기서 경사하강법을 이용하여 2 \\times 3형상의 가중치 \\textbf{W}에 대한 손실함수 L의 기울기를 기울기5를 구하도록 하겠습니다.(Equation 6.4 )\n5 모든 가중치에 대한 손실함수의 기울기를 구해야 함을 고려시, 모든 가중치에 해당하는 벡터별로 독립적으로 기울기를 구한다는 의미로 편미분으로 처리\n\\begin{align}\n\\textbf{W} &= \\begin{pmatrix}\n    w_{11} & w_{12} & w_{13} \\\\\n    w_{11} & w_{12} & w_{13}\n\\end{pmatrix} \\\\ \\\\\n\\frac{\\partial{L}}{\\partial{\\textbf{W}}}&= \\begin{pmatrix}\n    \\frac{\\partial{L}}{\\partial{w_{11}}} & \\frac{\\partial{L}}{\\partial{w_{12}}} & \\frac{\\partial{L}}{\\partial{w_{13}}} \\\\\n    \\frac{\\partial{L}}{\\partial{w_{11}}} & \\frac{\\partial{L}}{\\partial{w_{12}}} & \\frac{\\partial{L}}{\\partial{w_{13}}}\n\\end{pmatrix}\n\\end{align}\n\\tag{6.4}\n위의 식(Equation 6.4 )을 코드로 구현하여 기울기를 산출해 보도록 하겠습니다. 먼제 간단하게 신경망을 아래와 같이 구현할 수 있습니다.\n\n# 환경설정\nimport sys, os\nsys.path.append(os.pardir)\nimport numpy as np\nfrom common.functions import softmax, cross_entropy_error\nfrom common.gradient import numerical_gradient\n\n# 클래스 구현\nclass simpleNet:\n  def __init__(self):\n    self.W = np.random.randn(2,3)\n\n  def predict(self, x):\n    return np.dot(x, self.W)\n\n  def loss(self, x, t):\n    z = self.predict(x)\n    y = softmax(z)\n    loss = cross_entropy_error(y, t)\n    return loss\n\n# 실습\n1net = simpleNet()\n2x = np.array([0.6, 0.9])\n3p = net.predict(x)\n\n4t = np.array([0, 0, 1])\n5res = net.loss(x, t)\n\n# 결과\nprint(\"가중치 현황\")\nprint(net.W)\nprint(\"출력값\")\nprint(p)\nprint(\"손실값\")\nprint(res)\n\n\n1\n\nsimpleNet 객체생성\n\n2\n\n입력변수 생성\n\n3\n\n가중치와 입력값의 weighted sum 산출\n\n4\n\n정답 레이블\n\n5\n\n손실함수 산출 결과\n\n\n\n\n가중치 현황\n[[ 0.73045716 -0.07799529  0.55849555]\n [ 1.58022822  1.1732514  -0.85814868]]\n출력값\n[ 1.8604797   1.00912908 -0.43723648]\n손실값\n2.721233236872655\n\n\n다음으로 기울기는 아래와 같이 구현할 수 있습니다. 가중치에 대한 손실함수의 기울기를 편미분을 이용하여 구하는 경우 본래 가중치가 보유한 형상은 유지됨을 주의하도록 합니다.6\n6 형상이 바뀌는 경우 신경망의 구조가 변하게 되어 에러가 발생합니다.\ndef f(W):\n  return net.loss(x,t)\n\ndW = numerical_gradient(f, net.W)\nprint(dW)\n\n[[ 0.39284281  0.16768026 -0.56052307]\n [ 0.58926422  0.25152039 -0.8407846 ]]\n\n\n위의 내용에서 하석할 수 있는 것은 numerical_gradient를 통해 w_{11}를 h만큼 미세하게 변화 시키는 경우 손실함수 값은 print(dW)의 1행x1열의 값만큼 변화한다는 의미7입니다. 또한 w_{11} 보다 w_{23}의 기여도가 더 크다고 이해할 수 있습니다.\n\n\n7 따라서 손실함수 값을 감소시키려면 기울기의 반대방향으로 가중치 \\textbf{W}을 갱신(w_{ij} \\leftarrow w_{ij} - \\eta \\frac{\\partial{L}}{\\partial{w_{ij}}})해야 한다",
     "crumbs": [
       "ANN",
       "<span class='chapter-number'>6</span>  <span class='chapter-title'>Learning process</span>"
@@ -328,10 +328,43 @@
     "href": "ANN-lab_MNIST.html#step3-evaluating-with-test-data",
     "title": "7  Lab: Implementing ANN with MINIST dataset",
     "section": "7.3 STEP3: Evaluating with test data",
-    "text": "7.3 STEP3: Evaluating with test data\n이제 우리가 구현한 클래스의 성능을 평가해 보도록 하겠습니다. 훈련데이터를 미니배치로 나누어 훈련을 진행하였는데 과연 다른 새로운 데이터셋에서도 동일한 성능을 발휘할지 알아야 합니다.\n만약, 훈련 데이터에만 적응한 ANN이라면 새로운 데이터에서는 적절한 성능을 발휘하지 못할 가능성이 있기 때문입니다. 이를 오버피팅(overfitting)2이라 합니다.\n2 오버피팅은 훈련데이터에 대한 정확도는 높으나 신규 데이터에는 적절한 성능을 발휘하지 못하는 문제로 이러한 문제를 해결하기 위하여 조기종료(early stopping), 가중치 감소, 드롭아웃(drop-out)등의 기법이 사용됩니다.\n\ntrain acc, test acc | 0.0993, 0.1032\ntrain acc, test acc | 0.7894833333333333, 0.795\ntrain acc, test acc | 0.8729, 0.8767\ntrain acc, test acc | 0.8975, 0.9006\ntrain acc, test acc | 0.9074166666666666, 0.9095\ntrain acc, test acc | 0.9139833333333334, 0.9155\ntrain acc, test acc | 0.9201, 0.9202\ntrain acc, test acc | 0.9247, 0.9252\ntrain acc, test acc | 0.92745, 0.9274\ntrain acc, test acc | 0.9313333333333333, 0.9306\ntrain acc, test acc | 0.9337333333333333, 0.9343\ntrain acc, test acc | 0.9369833333333333, 0.9358\ntrain acc, test acc | 0.9392666666666667, 0.9386\ntrain acc, test acc | 0.9420333333333333, 0.9407\ntrain acc, test acc | 0.9439, 0.9422\ntrain acc, test acc | 0.94565, 0.944\ntrain acc, test acc | 0.9479666666666666, 0.947\n\n\n\n\n\n\n\n\n\n\ntrain_acc_list 학습 데이터에 대한 정확도를 저장하는 튜플\ntest_acc_list 검증 데이터에 대한 정확도를 저장하는 튜플\niter_per_epoch 1 epoch당 반복하는 횟수\nif i % iter_per_epoch == 0: 1 epoch당 정확도 계산\n\n\n\n\n\n\n\nFigure 7.1: Accuracy trends for training and test data\n\n\n\n위의 그림에서 보듯이 훈련 데이터(실선)와 검증 데이터(점선)의 정확도가 epoch인 진행될 수록 같은 수준으로 좋아지고 있습니다. 이는 오버피팅없이 적절히 학습이 이루어 졌다고 평가할 수 있습니다.",
+    "text": "7.3 STEP3: Evaluating with test data\n이제 우리가 구현한 클래스의 성능을 평가해 보도록 하겠습니다. 훈련데이터를 미니배치로 나누어 훈련을 진행하였는데 과연 다른 새로운 데이터셋에서도 동일한 성능을 발휘할지 알아야 합니다.\n만약, 훈련 데이터에만 적응한 ANN이라면 새로운 데이터에서는 적절한 성능을 발휘하지 못할 가능성이 있기 때문입니다. 이를 오버피팅(overfitting)2이라 합니다.\n2 오버피팅은 훈련데이터에 대한 정확도는 높으나 신규 데이터에는 적절한 성능을 발휘하지 못하는 문제로 이러한 문제를 해결하기 위하여 조기종료(early stopping), 가중치 감소, 드롭아웃(drop-out)등의 기법이 사용됩니다.\n\ntrain acc, test acc | 0.11236666666666667, 0.1135\ntrain acc, test acc | 0.7868833333333334, 0.791\ntrain acc, test acc | 0.8782333333333333, 0.8798\ntrain acc, test acc | 0.8990333333333334, 0.9009\ntrain acc, test acc | 0.9076833333333333, 0.9105\ntrain acc, test acc | 0.91555, 0.9157\ntrain acc, test acc | 0.91995, 0.9215\ntrain acc, test acc | 0.92515, 0.9257\ntrain acc, test acc | 0.9287666666666666, 0.9293\ntrain acc, test acc | 0.9310333333333334, 0.9317\ntrain acc, test acc | 0.9338, 0.9348\ntrain acc, test acc | 0.9365166666666667, 0.9375\ntrain acc, test acc | 0.9387166666666666, 0.9401\ntrain acc, test acc | 0.9416833333333333, 0.9412\ntrain acc, test acc | 0.9433666666666667, 0.9445\ntrain acc, test acc | 0.9448333333333333, 0.9446\ntrain acc, test acc | 0.9470833333333334, 0.947\n\n\n\n\n\n\n\n\n\n\ntrain_acc_list 학습 데이터에 대한 정확도를 저장하는 튜플\ntest_acc_list 검증 데이터에 대한 정확도를 저장하는 튜플\niter_per_epoch 1 epoch당 반복하는 횟수\nif i % iter_per_epoch == 0: 1 epoch당 정확도 계산\n\n\n\n\n\n\n\nFigure 7.1: Accuracy trends for training and test data\n\n\n\n위의 그림에서 보듯이 훈련 데이터(실선)와 검증 데이터(점선)의 정확도가 epoch인 진행될 수록 같은 수준으로 좋아지고 있습니다. 이는 오버피팅없이 적절히 학습이 이루어 졌다고 평가할 수 있습니다.",
     "crumbs": [
       "ANN",
       "<span class='chapter-number'>7</span>  <span class='chapter-title'>Lab: Implementing ANN with MINIST dataset</span>"
+    ]
+  },
+  {
+    "objectID": "ANN-backward.html",
+    "href": "ANN-backward.html",
+    "title": "8  Backward Propagation",
+    "section": "",
+    "text": "8.1 Pre-requisite: Chain-rule and Dynamic Programming\n오차역전파는 기본적으로 손실함수 값에서 입력값까지의 매개변수를 역으로 조정하는 과정으로 순방향과 반대방향으로 국소적인 미분값을 곱하며 가중치를 조정하는 절차로 이해할 수 있습니다.",
+    "crumbs": [
+      "ANN",
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Backward Propagation</span>"
+    ]
+  },
+  {
+    "objectID": "ANN-backward.html#pre-requisite-chain-rule-and-dynamic-programming",
+    "href": "ANN-backward.html#pre-requisite-chain-rule-and-dynamic-programming",
+    "title": "8  Backward Propagation",
+    "section": "",
+    "text": "8.1.1 Chain-rule\n반대방향으로 국소적인 미분값을 곱한다는 것은 어떠한 의미를 갖고 있을까요? 그리고 이러한 연산의 기반이 되는 개념이 무엇일까요? 이물음에 대한 답변이 바로 연쇄법칙입니다. 연쇄법칙에 관한 자세한 설명은 아래 3Blue1Brown1 영상을 참고하기 바랍니다.\n1 3Blue1Brown은 많은 수학적인 문제를 도식화하여 아주 직관적으로 설명하고 있어 매우 유용합니다.\n\n\n8.1.2 Dynamic Programming\n연쇄법칙을 정확히 이해하셨다면 지속적으로 미분값이 중복으로 계산해야 함을 확인할 수 있습니다. 그러나 이미 계산된 미분값을 따로 저장하였다가 불러오기만 한다면 연산이 얼마나 쉬워질까요? 쉬워진다기보다 간단해지고 컴퓨터의 연산의 수를 줄일 수 있지 않을까요?\n바로 이러한 배경에서 연쇄법칙을 빠르게 수행하기 위하여 고려되는 방법이 동적계획법 입니다. 이는 피보나치 수열의 계산에 있어서 재귀적으로 반복계산되는 노드를 따로 저장하여 두었다가 다른 재귀식에서는 그 값을 호출하여 사용하도록 하므로써 연산의 수를 줄이고 종국적으로는 알고리즘의 성능을 개선해줄수 있을 것입니다.\n동적계획법에 대한 자세한 설명은 아래 영상을 참고하시기 바랍니다.",
+    "crumbs": [
+      "ANN",
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Backward Propagation</span>"
+    ]
+  },
+  {
+    "objectID": "ANN-backward.html#backpropagation",
+    "href": "ANN-backward.html#backpropagation",
+    "title": "8  Backward Propagation",
+    "section": "8.2 backpropagation",
+    "text": "8.2 backpropagation",
+    "crumbs": [
+      "ANN",
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Backward Propagation</span>"
     ]
   }
 ]
