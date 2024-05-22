@@ -5,9 +5,12 @@ ANN에서 필요한 활성화함수, 손실함수, 미니배치 및 경사하강
 
 구현할 학습알고리즘은 MNIST 데이터 셋을 활용하여 손글씨 숫자를 인식하는 ANN으로 먼저 ANN 클래스를 구현하고 이후 미니배치를 통한 학습 알고리즘을 구현하도록 하겠습니다.^[TwoLayerNet은 스탠퍼드의 CS231n  수업에서 제공한 코드를 참고]
 
-### STEP1: Tow Layer Net
+### STEP1: Two Layer Net
+
+우리는 지금까지 학습한 내용에 기초하여 아래와 같이 순전파(forward propagation) 과정을 **Two Layer Net**이라는 클래스로 구현해 보겠습니다. 
 
 ``` {python}
+#| include: False
 import sys, os
 sys.path.append(os.pardir)  # 부모 디렉터리의 파일을 가져올 수 있도록 설정
 from common.functions import *
@@ -16,7 +19,7 @@ from common.gradient import numerical_gradient
 
 class TwoLayerNet:
 
-    def __init__(self, input_size, hidden_size, output_size, weight_init_std=0.01):
+    def __init__(self, input_size, hidden_size, output_size, weight_init_std=0.01): # <1>
         # 가중치 초기화
         self.params = {}
         self.params['W1'] = weight_init_std * np.random.randn(input_size, hidden_size)
@@ -24,7 +27,7 @@ class TwoLayerNet:
         self.params['W2'] = weight_init_std * np.random.randn(hidden_size, output_size)
         self.params['b2'] = np.zeros(output_size)
 
-    def predict(self, x):
+    def predict(self, x): # <2>
         W1, W2 = self.params['W1'], self.params['W2']
         b1, b2 = self.params['b1'], self.params['b2']
     
@@ -36,12 +39,12 @@ class TwoLayerNet:
         return y
         
     # x : 입력 데이터, t : 정답 레이블
-    def loss(self, x, t):
+    def loss(self, x, t): # <3>
         y = self.predict(x)
         
         return cross_entropy_error(y, t)
     
-    def accuracy(self, x, t):
+    def accuracy(self, x, t): # <4>
         y = self.predict(x)
         y = np.argmax(y, axis=1)
         t = np.argmax(t, axis=1)
@@ -50,7 +53,7 @@ class TwoLayerNet:
         return accuracy
         
     # x : 입력 데이터, t : 정답 레이블
-    def numerical_gradient(self, x, t):
+    def numerical_gradient(self, x, t): # <5>
         loss_W = lambda W: self.loss(x, t)
         
         grads = {}
@@ -61,7 +64,7 @@ class TwoLayerNet:
         
         return grads
         
-    def gradient(self, x, t):
+    def gradient(self, x, t): # <6>
         W1, W2 = self.params['W1'], self.params['W2']
         b1, b2 = self.params['b1'], self.params['b2']
         grads = {}
@@ -86,11 +89,27 @@ class TwoLayerNet:
 
         return grads
 ```
+1. `__init__` 클래스의 초기화 수행 (입력층, 은닉층, 출력층 각각의 뉴런수 지정)
+2. `predict` 추론을 수행 (x 이미지 데이터)
+3. `loss` 손실함수 값 산출 (x 이미지 데이터, t 정답레이블)
+4. `accuracy` 신경망의 정확도 산출
+5. `numerical_gradient` 매개변수(가중치)의 기울기 산출
+6. `gradient` 매개변수(가중치)의 기울기 산출(오차 역전파과정은 다음장에서 설명)
+
+위의 클래스에서 `gradient` 메서드의 경우 순전파와 역전파를 모두 사용하고, 순전파시 활성화 함수로 `sigmoid`를 출력값의 활성화 함수로 분류 문제해결을 위해 `softmax`를 사용하였습니다.(제사한 사항은 활성화 함수를 참고 @sec-annFor) 
+
+추가적으로 우리가 사용할 데이터의 형상에 주의하여 클래스의 초기화를 수행해야 합니다. **MNIST** 데이터 셋의 개별 입력값은 $28 \times 28$ 픽셀을 Flatten하게하여 784개의 입력값의 형상을 설정해야 합니다.
+
+또한, 우리가 수행하는 분류문제에서 출력값은 분류하고자 하는 카테고리의 갯수 여기서 **0~9**까지 10개의 숫자를 분류해야 함을 고려하여 출력값의 형상은 10개로 설정해야 합니다.
 
 ### STEP2: Mini-Batch
 
+모든 데이터를 갖고 학습하는 것은 효율적이지 않다고 하였습니다. 따라서, 무작위로 훈련 데이터 중 일부를 추출하여 훈련을 진행하는 미니배치 방법을 통하여 훈련의 효율성을 높일 수 있습니다.
+
+미니배치를 활용하여 확률적 경사하강법을 구현하면 아래와 같습니다.
+
 ``` {python}
-#| echo: False
+#| include: False
 import sys, os
 sys.path.append(os.pardir)  # 부모 디렉터리의 파일을 가져올 수 있도록 설정
 import numpy as np
@@ -131,7 +150,12 @@ for i in range(iters_num):
 
 ### STEP3: Evaluating with test data
 
+이제 우리가 구현한 클래스의 성능을 평가해 보도록 하겠습니다. 훈련데이터를 미니배치로 나누어 훈련을 진행하였는데 과연 다른 새로운 데이터셋에서도 동일한 성능을 발휘할지 알아야 합니다.
+
+만약, 훈련 데이터에만 적응한 ANN이라면 새로운 데이터에서는 적절한 성능을 발휘하지 못할 가능성이 있기 때문입니다. 이를 **오버피팅**(overfitting)^[오버피팅은 훈련데이터에 대한 정확도는 높으나 신규 데이터에는 적절한 성능을 발휘하지 못하는 문제로 이러한 문제를 해결하기 위하여 조기종료(early stopping), 가중치 감소, 드롭아웃(drop-out)등의 기법이 사용됩니다.]이라 합니다.
+
 ``` {python}
+#| include: False
 import sys, os
 sys.path.append(os.pardir)  # 부모 디렉터리의 파일을 가져올 수 있도록 설정
 import numpy as np
@@ -151,10 +175,9 @@ learning_rate = 0.1
 
 train_loss_list = []
 train_acc_list = [] # <1>
-test_acc_list = [] # <1>
+test_acc_list = [] # <2>
 
-# 1에폭당 반복 수
-iter_per_epoch = max(train_size / batch_size, 1) # <1>
+iter_per_epoch = max(train_size / batch_size, 1) # <3>
 
 for i in range(iters_num):
     # 미니배치 획득
@@ -174,8 +197,8 @@ for i in range(iters_num):
     loss = network.loss(x_batch, t_batch)
     train_loss_list.append(loss)
     
-    # 1에폭당 정확도 계산
-    if i % iter_per_epoch == 0: # <2>
+    # 정확도 계산
+    if i % iter_per_epoch == 0: # <4>
         train_acc = network.accuracy(x_train, t_train)
         test_acc = network.accuracy(x_test, t_test)
         train_acc_list.append(train_acc)
@@ -193,6 +216,14 @@ plt.ylim(0, 1.0)
 plt.legend(loc='lower right')
 plt.show()
 ```
+1. `train_acc_list` 학습 데이터에 대한 정확도를 저장하는 튜플
+2. `test_acc_list` 검증 데이터에 대한 정확도를 저장하는 튜플
+3. `iter_per_epoch` 1 epoch당 반복하는 횟수
+4. `if i % iter_per_epoch == 0:` 1 epoch당 정확도 계산
+
+![Accuracy trends for training and test data](#fig-annTLN){imgae/annTLN}
+
+위의 그림에서 보듯이 훈련 데이터(실선)와 검증 데이터(점섬)의 정확도가 epoch인 진행될 수록 같은 수준으로 좋아지고 있습니다. 이는 오버피팅없이 적절히 학습이 이루어 졌다고 평가할 수 있습니다.
 
 
 
