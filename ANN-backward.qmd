@@ -66,7 +66,20 @@ $$ {#eq-annBack3}
 
 ### Backpropagation of Addition Nodes
 
+::: {#fig-annBack4 layout-ncol=2}
 
+![](image/annBack3.png)
+![](image/annBack4.png)
+
+Examples: Backpropagation of Addition Nodes
+:::
 
 ### Backpropagation of Multiplication Nodes
 
+::: {#fig-annBack5 layout-ncol=2}
+
+![](image/annBack5.png)
+![](image/annBack6.png)
+
+Examples: Multiplication of Addition Nodes
+:::
