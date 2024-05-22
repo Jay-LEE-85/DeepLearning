@@ -1,5 +1,5 @@
 # Lab: Implementing ANN with MINIST dataset
-
+---
 
 ANN에서 필요한 활성화함수, 손실함수, 미니배치 및 경사하강법(기울기)에 학습내용을 바탕으로 신경망을 실제로 구현해보도록 하겠습니다. 참고로 미니배치를 이용하여 확률적으로 데이터를 무작위로 추출한 경우를 **확률적 경사하강법**(SGD: stochastic gradient descent)라고 합니다.
 
@@ -221,7 +221,7 @@ plt.show()
 3. `iter_per_epoch` 1 epoch당 반복하는 횟수
 4. `if i % iter_per_epoch == 0:` 1 epoch당 정확도 계산
 
-![Accuracy trends for training and test data](/imgae/annTLN.png){#fig-annTLN}
+![Accuracy trends for training and test data](image/annTLN.png){#fig-annTLN}
 
 위의 그림에서 보듯이 훈련 데이터(실선)와 검증 데이터(점선)의 정확도가 epoch인 진행될 수록 같은 수준으로 좋아지고 있습니다. 이는 오버피팅없이 적절히 학습이 이루어 졌다고 평가할 수 있습니다.
 
