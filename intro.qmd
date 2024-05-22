@@ -23,34 +23,14 @@ DL을 Deep하게 이해하기 위하여 필자들은 기초부터 시작하여 �
 %%| fig-cap: "Learning Path"
 
 flowchart LR
-  opt[Optimazation]:::ch --> opt1[Solving Problems]
-  opt --> opt2[Gradient Descent] 
-
-  opt1 --> opt_l{{Lab1: Linear Regression}}
-  opt2 --> opt_l:::lab
-
   per[Perceptron]:::ch --> per1[Classification]
   per --> per2[Logistic Regression]
 
-  per1 --> per_l1{{Lab2: Classification}}:::lab
-  per2 --> per_l2{{Lab2: Logistic Regression}}:::lab
+  per1 --> per_l1{{Lab1: Classification}}:::lab
 
-  %% ann[ANN]:::ch --> ann1[Multi Layer Perceptron] --> ann_l{{Lab3:}}:::lab
-  %% ann --> ann2[Artificial NN?]
+  ann(Artificial Neural Net):::ch --> ann1[Intro of ANN] & ann2[Activation Function] & ann3[Forward Propagation] & ann4[Learning Process] & ann5[Back Propagation]
 
-  %% ann2 --> ann2_1[Recursive Algorithm]
-  %% ann2 --> ann2_2[Dynamic Programing]
-  %% ann2 --> ann2_3[Neural Networks]
-  
-  %% ann2_3 --> ann2_3_3[Loss Function]
-  %% ann2_3 --> ann2_3_1[Optimization]
-  %% ann2_3 --> ann2_3_2[Activation Function]
-
-  %% ann2_1 & ann2_2 & ann2_3_1 & ann2_3_2 & ann2_3_3 --> ann_l{{Lab3: MNIST Classification}}:::lab
-  
-  %% cnn[Convolution-NN]:::ch --> cnn1[NA]
-
-  %% rnn[Recurrent-NN]:::ch --> rnn[NA]
+  ann1 & ann2 & ann3 & ann4 --> ann_l{{Lab2: Classification with MNIST}}:::lab
 
   classDef ch fill:#ccccff
   classDef lab fill:#ccffcc
