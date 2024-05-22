@@ -16,14 +16,55 @@
 
 ### Dynamic Programming
 
-연쇄법칙을 정확히 이해하셨다면 지속적으로 미분값이 중복으로 계산해야 함을 확인할 수 있습니다. 그러나 이미 계산된 미분값을 따로 저장하였다가 불러오기만 한다면 연산이 얼마나 쉬워질까요? 쉬워진다기보다 간단해지고 컴퓨터의 연산의 수를 줄일 수 있지 않을까요?
+연쇄법칙을 정확히 이해하였다면 지속적으로 미분값이 재귀적으로 사용됨을 확인할 수 있습니다. 그러나 이미 계산된 미분값을 따로 저장하였다가 불러오기만 한다면 연산이 얼마나 쉬워질까요? 쉬워진다기보다 간단해지고 컴퓨터의 연산의 수를 줄일 수 있지 않을까요?
 
-바로 이러한 배경에서 연쇄법칙을 빠르게 수행하기 위하여 고려되는 방법이 **동적계획법** 입니다. 이는 피보나치 수열의 계산에 있어서 재귀적으로 반복계산되는 노드를 따로 저장하여 두었다가 다른 재귀식에서는 그 값을 호출하여 사용하도록 하므로써 연산의 수를 줄이고 종국적으로는 알고리즘의 성능을 개선해줄수 있을 것입니다.
+바로 이러한 배경에서 연쇄법칙을 빠르게 수행하기 위하여 고려되는 방법이 **동적계획법** 입니다. 이는 피보나치 수열의 계산에 있어서 재귀적으로 반복계산되는 노드를 따로 저장하여 그 값을 호출하여 사용하도록 하므로써 연산의 수를 줄여 알고리즘의 성능을 개선해줄수 있을 것입니다.
 
 동적계획법에 대한 자세한 설명은 아래 영상을 참고하시기 바랍니다.
 
-{{< video https://www.youtube.com/embed/oBt53YbR9Kk?list=PLQCbmnrn5eI9vrt_T4o-KCn-5DlESFDBM >}}
-
+{{< video https://www.youtube.com/embed/oBt53YbR9Kk >}}
 
 ## backpropagation
+
+역전파 과정을 연쇄법칙을 수식 및 그래프를 활용하면 보다 직관적이고 쉽게 이해할 수 있습니다. 우선 합성함수^[합성함수의 미분은 함성함수를 구성하는 각 함수의 미분의 곱으로 표현가능] @eq-annBack1 의 식을 미분을 실행하며 예로 살펴보겠습니다,
+
+$$
+\begin{align}
+z &= t^2 \\
+t &= x+y
+\end{align}
+$$ {#eq-annBack1}
+
+$x$에 대한 $z$의 미분인 $\frac{\partial{z}}{\partial{x}}$은 $\frac{\partial{z}}{\partial{t}}$과 $\frac{\partial{t}}{\partial{x}}$의 곱으로 나타낼 수 있습니다. 그리고 $\partial{t}$를 서로 지울 수 있습니다.
+
+$$
+\begin{align}
+\frac{\partial{z}}{\partial{x}} &= \frac{\partial{z}}{\partial{t}}\frac{\partial{t}}{\partial{x}} \\
+ &= \frac{\partial{z}}{\not{\partial{t}}}\frac{\not{\partial{t}}}{\partial{x}}
+\end{align}
+$$ {#eq-annBack2}
+
+연쇄법칙을 써서 $\frac{\partial{z}}{\partial{x}}$를 구하기 위하여 편미분을 실시하고, 두 미분값을 곱하여 최종 미분값을 산출합니다.
+
+$$
+\begin{align}
+\frac{\partial{z}}{\partial{t}} &= 2t \qquad
+\frac{\partial{t}}{\partial{x}} = 1 \\ \\
+\frac{\partial{z}}{\partial{x}} &= \frac{\partial{z}}{\partial{t}}\frac{\partial{t}}{\partial{x}} = 2t \cdot 1 = 2(x+y)
+\end{align}
+$$ {#eq-annBack3}
+
+@eq-annBack3 를 그래프로 나타내어 연쇄법칙을 나타내봅시다. @fig-annBack1 에서 보는 바와 같이 오른쪽에서 왼쪽으로 신호를 전달(전파) 합니다. 전파의 과정에서 입력값에 해당하는 편미분값을 곱하여 다음 노드에 전달함을 확인 할 수 있습니다.
+
+![Multiplying the partial derivative of @eq-annBack3 and passing it on](image/fig-annBack1.png){#fig-annBack1}
+
+@fig-annBack1 과 같은 과정에 @eq-annBack3 의 미분값을 대입하면 @fig-annBack2 와 같은 결과를 얻을 수 있습니다.
+
+![The process of showing backpropagation results](image/fig-annBack2.png){#fig-annBack2}
+
+### Backpropagation of Addition Nodes
+
+
+
+### Backpropagation of Multiplication Nodes
 

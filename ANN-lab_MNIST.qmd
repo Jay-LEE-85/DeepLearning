@@ -221,7 +221,7 @@ plt.show()
 3. `iter_per_epoch` 1 epoch당 반복하는 횟수
 4. `if i % iter_per_epoch == 0:` 1 epoch당 정확도 계산
 
-![Accuracy trends for training and test data](/imgae/annTLN){#fig-annTLN}
+![Accuracy trends for training and test data](/imgae/annTLN.png){#fig-annTLN}
 
 위의 그림에서 보듯이 훈련 데이터(실선)와 검증 데이터(점선)의 정확도가 epoch인 진행될 수록 같은 수준으로 좋아지고 있습니다. 이는 오버피팅없이 적절히 학습이 이루어 졌다고 평가할 수 있습니다.
 
