@@ -68,7 +68,53 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
+<script>window.define = window.backupDefine; window.backupDefine = undefined;</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css" integrity="sha384-wcIxkf4k558AjM3Yz3BBFQUbk/zgIYC2R0QpeeYb+TwlBVMrlgLqwRjRtGZiK7ww" crossorigin="anonymous">
+<script>window.backupDefine = window.define; window.define = undefined;</script><script src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.js" integrity="sha384-hIoBPJpTUs74ddyc4bFZSM1TVlQDA60VBbJS0oA934VSz82sBx1X7kSx2ATBDIyd" crossorigin="anonymous"></script>
+<script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/contrib/auto-render.min.js" integrity="sha384-43gviWU0YVjaDtb/GhzOouOXtZMP/7XUzwPTstBeZFe/+rCMvRwr4yROQP43s0Xk" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
 
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+ var mathElements = document.getElementsByClassName("math");
+ var macros = [];
+ for (var i = 0; i < mathElements.length; i++) {
+  var texText = mathElements[i].firstChild;
+  if (mathElements[i].tagName == "SPAN") {
+   katex.render(texText.data, mathElements[i], {
+    displayMode: mathElements[i].classList.contains('display'),
+    throwOnError: false,
+    macros: macros,
+    fleqn: false
+   });
+}}});
+  </script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css">
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -209,7 +255,11 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#chain-rule" id="toc-chain-rule" class="nav-link" data-scroll-target="#chain-rule"><span class="header-section-number">8.1.1</span> Chain-rule</a></li>
   <li><a href="#dynamic-programming" id="toc-dynamic-programming" class="nav-link" data-scroll-target="#dynamic-programming"><span class="header-section-number">8.1.2</span> Dynamic Programming</a></li>
   </ul></li>
-  <li><a href="#backpropagation" id="toc-backpropagation" class="nav-link" data-scroll-target="#backpropagation"><span class="header-section-number">8.2</span> backpropagation</a></li>
+  <li><a href="#backpropagation" id="toc-backpropagation" class="nav-link" data-scroll-target="#backpropagation"><span class="header-section-number">8.2</span> backpropagation</a>
+  <ul class="collapse">
+  <li><a href="#backpropagation-of-addition-nodes" id="toc-backpropagation-of-addition-nodes" class="nav-link" data-scroll-target="#backpropagation-of-addition-nodes"><span class="header-section-number">8.2.1</span> Backpropagation of Addition Nodes</a></li>
+  <li><a href="#backpropagation-of-multiplication-nodes" id="toc-backpropagation-of-multiplication-nodes" class="nav-link" data-scroll-target="#backpropagation-of-multiplication-nodes"><span class="header-section-number">8.2.2</span> Backpropagation of Multiplication Nodes</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -247,16 +297,66 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="dynamic-programming" class="level3" data-number="8.1.2">
 <h3 data-number="8.1.2" class="anchored" data-anchor-id="dynamic-programming"><span class="header-section-number">8.1.2</span> Dynamic Programming</h3>
-<p>연쇄법칙을 정확히 이해하셨다면 지속적으로 미분값이 중복으로 계산해야 함을 확인할 수 있습니다. 그러나 이미 계산된 미분값을 따로 저장하였다가 불러오기만 한다면 연산이 얼마나 쉬워질까요? 쉬워진다기보다 간단해지고 컴퓨터의 연산의 수를 줄일 수 있지 않을까요?</p>
-<p>바로 이러한 배경에서 연쇄법칙을 빠르게 수행하기 위하여 고려되는 방법이 <strong>동적계획법</strong> 입니다. 이는 피보나치 수열의 계산에 있어서 재귀적으로 반복계산되는 노드를 따로 저장하여 두었다가 다른 재귀식에서는 그 값을 호출하여 사용하도록 하므로써 연산의 수를 줄이고 종국적으로는 알고리즘의 성능을 개선해줄수 있을 것입니다.</p>
+<p>연쇄법칙을 정확히 이해하였다면 지속적으로 미분값이 재귀적으로 사용됨을 확인할 수 있습니다. 그러나 이미 계산된 미분값을 따로 저장하였다가 불러오기만 한다면 연산이 얼마나 쉬워질까요? 쉬워진다기보다 간단해지고 컴퓨터의 연산의 수를 줄일 수 있지 않을까요?</p>
+<p>바로 이러한 배경에서 연쇄법칙을 빠르게 수행하기 위하여 고려되는 방법이 <strong>동적계획법</strong> 입니다. 이는 피보나치 수열의 계산에 있어서 재귀적으로 반복계산되는 노드를 따로 저장하여 그 값을 호출하여 사용하도록 하므로써 연산의 수를 줄여 알고리즘의 성능을 개선해줄수 있을 것입니다.</p>
 <p>동적계획법에 대한 자세한 설명은 아래 영상을 참고하시기 바랍니다.</p>
 <div class="quarto-video ratio ratio-16x9"><iframe data-external="1" src="https://www.youtube.com/embed/oBt53YbR9Kk" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></div>
 </section>
 </section>
-<section id="backpropagation" class="level2" data-number="8.2">
+<section id="backpropagation" class="level2 page-columns page-full" data-number="8.2">
 <h2 data-number="8.2" class="anchored" data-anchor-id="backpropagation"><span class="header-section-number">8.2</span> backpropagation</h2>
+<p>역전파 과정을 연쇄법칙을 수식 및 그래프를 활용하면 보다 직관적이고 쉽게 이해할 수 있습니다. 우선 합성함수<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> <a href="#eq-annBack1" class="quarto-xref">Equation&nbsp;<span>8.1</span></a> 의 식을 미분을 실행하며 예로 살펴보겠습니다,</p>
+<div class="no-row-height column-margin column-container"><div id="fn2"><p><sup>2</sup>&nbsp;합성함수의 미분은 함성함수를 구성하는 각 함수의 미분의 곱으로 표현가능</p></div></div><p><span id="eq-annBack1"><span class="math display">
+\begin{align}
+z &amp;= t^2 \\
+t &amp;= x+y
+\end{align}
+\tag{8.1}</span></span></p>
+<p><span class="math inline">x</span>에 대한 <span class="math inline">z</span>의 미분인 <span class="math inline">\frac{\partial{z}}{\partial{x}}</span>은 <span class="math inline">\frac{\partial{z}}{\partial{t}}</span>과 <span class="math inline">\frac{\partial{t}}{\partial{x}}</span>의 곱으로 나타낼 수 있습니다. 그리고 <span class="math inline">\partial{t}</span>를 서로 지울 수 있습니다.</p>
+<p><span id="eq-annBack2"><span class="math display">
+\begin{align}
+\frac{\partial{z}}{\partial{x}} &amp;= \frac{\partial{z}}{\partial{t}}\frac{\partial{t}}{\partial{x}} \\
+&amp;= \frac{\partial{z}}{\not{\partial{t}}}\frac{\not{\partial{t}}}{\partial{x}}
+\end{align}
+\tag{8.2}</span></span></p>
+<p>연쇄법칙을 써서 <span class="math inline">\frac{\partial{z}}{\partial{x}}</span>를 구하기 위하여 편미분을 실시하고, 두 미분값을 곱하여 최종 미분값을 산출합니다.</p>
+<p><span id="eq-annBack3"><span class="math display">
+\begin{align}
+\frac{\partial{z}}{\partial{t}} &amp;= 2t \qquad
+\frac{\partial{t}}{\partial{x}} = 1 \\ \\
+\frac{\partial{z}}{\partial{x}} &amp;= \frac{\partial{z}}{\partial{t}}\frac{\partial{t}}{\partial{x}} = 2t \cdot 1 = 2(x+y)
+\end{align}
+\tag{8.3}</span></span></p>
+<p><a href="#eq-annBack3" class="quarto-xref">Equation&nbsp;<span>8.3</span></a> 를 그래프로 나타내어 연쇄법칙을 나타내봅시다. <a href="#fig-annBack1" class="quarto-xref">Figure&nbsp;<span>8.1</span></a> 에서 보는 바와 같이 오른쪽에서 왼쪽으로 신호를 전달(전파) 합니다. 전파의 과정에서 입력값에 해당하는 편미분값을 곱하여 다음 노드에 전달함을 확인 할 수 있습니다.</p>
+<div id="fig-annBack1" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-annBack1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="image/fig-annBack1.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-annBack1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;8.1: Multiplying the partial derivative of <a href="#eq-annBack3" class="quarto-xref">Equation&nbsp;<span>8.3</span></a> and passing it on
+</figcaption>
+</figure>
+</div>
+<p><a href="#fig-annBack1" class="quarto-xref">Figure&nbsp;<span>8.1</span></a> 과 같은 과정에 <a href="#eq-annBack3" class="quarto-xref">Equation&nbsp;<span>8.3</span></a> 의 미분값을 대입하면 <a href="#fig-annBack2" class="quarto-xref">Figure&nbsp;<span>8.2</span></a> 와 같은 결과를 얻을 수 있습니다.</p>
+<div id="fig-annBack2" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-annBack2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="image/fig-annBack2.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-annBack2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;8.2: The process of showing backpropagation results
+</figcaption>
+</figure>
+</div>
+<section id="backpropagation-of-addition-nodes" class="level3" data-number="8.2.1">
+<h3 data-number="8.2.1" class="anchored" data-anchor-id="backpropagation-of-addition-nodes"><span class="header-section-number">8.2.1</span> Backpropagation of Addition Nodes</h3>
+</section>
+<section id="backpropagation-of-multiplication-nodes" class="level3" data-number="8.2.2">
+<h3 data-number="8.2.2" class="anchored" data-anchor-id="backpropagation-of-multiplication-nodes"><span class="header-section-number">8.2.2</span> Backpropagation of Multiplication Nodes</h3>
 
 
+</section>
 </section>
 
 
