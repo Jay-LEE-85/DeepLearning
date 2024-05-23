@@ -27,6 +27,7 @@ book:
 
     - part: "CNN"
       chapters:
+      - CNN-intro.qmd
 
     - references.qmd
 
