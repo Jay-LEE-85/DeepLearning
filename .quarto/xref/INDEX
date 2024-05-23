@@ -1,0 +1,35 @@
+{
+  "ANN-backward.qmd": {
+    "ANN-backward.html": "e6e1bd56"
+  },
+  "index.qmd": {
+    "index.html": "4b085714"
+  },
+  "intro.qmd": {
+    "intro.html": "c76360d5"
+  },
+  "perceptron-intro.qmd": {
+    "perceptron-intro.html": "54bbddf9"
+  },
+  "perceptron-lab_classification.qmd": {
+    "perceptron-lab_classification.html": "88ef8f37"
+  },
+  "ANN-intro.qmd": {
+    "ANN-intro.html": "be5d9046"
+  },
+  "ANN-activation.qmd": {
+    "ANN-activation.html": "11d5320c"
+  },
+  "ANN-forward.qmd": {
+    "ANN-forward.html": "c07783f8"
+  },
+  "ANN-learning.qmd": {
+    "ANN-learning.html": "f5d9db10"
+  },
+  "ANN-lab_MNIST.qmd": {
+    "ANN-lab_MNIST.html": "e009da6f"
+  },
+  "references.qmd": {
+    "references.html": "d5a4c6b3"
+  }
+}
