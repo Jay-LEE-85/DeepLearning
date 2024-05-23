@@ -74,14 +74,7 @@ $$ {#eq-annBack3}
 
 @fig-annBack4 는 덧셈의 역전파 이므로 $\frac{\partial{L}}{\partial{z}}\frac{\partial{z}}{\partial{x}}=\frac{\partial{L}}{\partial{z}}\cdot1$과 $\frac{\partial{L}}{\partial{z}}\frac{\partial{z}}{\partial{y}}=\frac{\partial{L}}{\partial{z}}\cdot1$로 변형됨으로 입력된 값 그대로 다음 노드에 전달되게 됩니다.
 
-::: {#fig-annBack4 layout-nrow=2 .column-page}
-
-![](image/annBack3.png){width=70%}
-
-![](image/annBack4.png){width=70%}
-
-Examples: Backpropagation of Addition Nodes
-:::
+![Examples: Backpropagation of Addition Nodes](image/annBack3.png){#fig-annBack4 width=70%}
 
 ### Backpropagation of Multiplication Nodes
 
@@ -91,16 +84,9 @@ Examples: Backpropagation of Addition Nodes
 
 상류에서 산출한 편미분 값($\frac{\partial{L}}{\partial{z}}$)을 $x$간선의 경우 $\frac{\partial{L}}{\partial{z}}\frac{\partial{z}}{\partial{x}}=\frac{\partial{L}}{\partial{z}}\frac{\partial{z}}{\partial{x}}=\frac{\partial{L}}{\partial{z}}\cdot y$의 꼴로 역전파가 이루어 지고, $y$간선의 경우 $\frac{\partial{L}}{\partial{z}}\frac{\partial{z}}{\partial{y}}=\frac{\partial{L}}{\partial{z}}\frac{\partial{z}}{\partial{y}}=\frac{\partial{L}}{\partial{z}}\cdot x$의 꼴로 역전파가 이루어 집니다.
 
-@fig-annBack4 는 곱셈의 역전파는 서로 바꾼값을 곱하여 하류로 흘려 보내게 됨을 확인할 수 있습니다.
+@fig-annBack5 는 곱셈의 역전파는 서로 바꾼값을 곱하여 하류로 흘려 보내게 됨을 확인할 수 있습니다.
 
-::: {#fig-annBack5 layout-nrow=2 .column-page}
-
-![](image/annBack5.png){width=70%}
-
-![](image/annBack6.png){width=70%}
-
-Examples: Multiplication of Addition Nodes
-:::
+![Examples: Multiplication of Addition Nodes](image/annBack5.png){#fig-annBack5 width=70%}
 
 ::: {.callout-tip}
 
