@@ -349,17 +349,22 @@ Figure&nbsp;8.2: The process of showing backpropagation results
 </figure>
 </div>
 <section id="backpropagation-of-addition-nodes" class="level3 page-columns page-full" data-number="8.2.1">
-<h3 data-number="8.2.1" class="anchored" data-anchor-id="backpropagation-of-addition-nodes"><span class="header-section-number">8.2.1</span> Backpropagation of Addition Nodes<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a></h3>
+<h3 data-number="8.2.1" class="anchored" data-anchor-id="backpropagation-of-addition-nodes"><span class="header-section-number">8.2.1</span> Backpropagation of Addition Nodes</h3>
 <p>먼저 <span class="math inline">z=x+y</span>를 갖고 덧셈노드에 대한 역전파를 살펴보겠습니다. 먼저 이 식에 대한 미분을 해석적으로 구하면 <span class="math inline">\frac{\partial{z}}{\partial{x}}</span>와 <span class="math inline">\frac{\partial{z}}{\partial{y}}</span> 모두 1이 됩니다.</p>
-<p><a href="#fig-annBack4" class="quarto-xref">Figure&nbsp;<span>8.3</span></a> <a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a> 의 그래프를 기준으로 역전파<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a> 과정을 살펴봅시다.</p>
-<div class="no-row-height column-margin column-container"><div id="fn4"><p><sup>4</sup>&nbsp;본 예시는 하나의 전체 과정이 아니라 전체 중 일부를 띄어내어 표시한 예로 생각해야 합니다.</p></div><div id="fn5"><p><sup>5</sup>&nbsp;역전파는 순방향과 반대방향으로 국소적 미분(편미분)값을 곱하는 방법으로 수행</p></div></div><p>상류에서 산출한 편미분 값(<span class="math inline">\frac{\partial{L}}{\partial{z}}</span>)을 <span class="math inline">x</span>간선의 경우 <span class="math inline">\frac{\partial{L}}{\partial{z}}\frac{\partial{z}}{\partial{x}}</span>의 꼴로 역전파가 이루어 지고, <span class="math inline">y</span>간선의 경우 <span class="math inline">\frac{\partial{L}}{\partial{z}}\frac{\partial{z}}{\partial{y}}</span>의 꼴로 역전파가 이루어 집니다.</p>
+<p><a href="#fig-annBack4" class="quarto-xref">Figure&nbsp;<span>8.3</span></a> 의 그래프를 기준으로 역전파<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> 과정을 살펴봅시다.</p>
+<div class="no-row-height column-margin column-container"><div id="fn3"><p><sup>3</sup>&nbsp;역전파는 순방향과 반대방향으로 국소적 미분(편미분)값을 곱하는 방법으로 수행</p></div></div><p>상류에서 산출한 편미분 값(<span class="math inline">\frac{\partial{L}}{\partial{z}}</span>)을 <span class="math inline">x</span>간선의 경우 <span class="math inline">\frac{\partial{L}}{\partial{z}}\frac{\partial{z}}{\partial{x}}</span>의 꼴로 역전파가 이루어 지고, <span class="math inline">y</span>간선의 경우 <span class="math inline">\frac{\partial{L}}{\partial{z}}\frac{\partial{z}}{\partial{y}}</span>의 꼴로 역전파가 이루어 집니다.</p>
 <p><a href="#fig-annBack4" class="quarto-xref">Figure&nbsp;<span>8.3</span></a> 는 덧셈의 역전파 이므로 <span class="math inline">\frac{\partial{L}}{\partial{z}}\frac{\partial{z}}{\partial{x}}=\frac{\partial{L}}{\partial{z}}\cdot1</span>과 <span class="math inline">\frac{\partial{L}}{\partial{z}}\frac{\partial{z}}{\partial{y}}=\frac{\partial{L}}{\partial{z}}\cdot1</span>로 변형됨으로 입력된 값 그대로 다음 노드에 전달되게 됩니다.</p>
 <div id="fig-annBack4" class="quarto-layout-panel">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-annBack4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="quarto-layout-row">
-<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
-<img src="image/annBack3.png" class="img-fluid figure-img">
+<div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: center;">
+<p><img src="image/annBack3.png" class="img-fluid figure-img" style="width:70.0%"></p>
+</div>
+</div>
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: center;">
+<p><img src="image/annBack4.png" class="img-fluid figure-img" style="width:70.0%"></p>
 </div>
 </div>
 </div>
@@ -369,8 +374,8 @@ Figure&nbsp;8.3: Examples: Backpropagation of Addition Nodes
 </figure>
 </div>
 </section>
-<div class="no-row-height column-margin column-container"><div id="fn3"><p><sup>3</sup>&nbsp;덧셈노드에 대한 역전파는 매개변수 중 편향을 타깃으로 함</p></div><div id="fn6"><p><sup>6</sup>&nbsp;곰셈노드에 대한 역전파는 매개변수 중 가중치를 타깃으로 함</p></div></div><section id="backpropagation-of-multiplication-nodes" class="level3" data-number="8.2.2">
-<h3 data-number="8.2.2" class="anchored" data-anchor-id="backpropagation-of-multiplication-nodes"><span class="header-section-number">8.2.2</span> Backpropagation of Multiplication Nodes<a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a></h3>
+<section id="backpropagation-of-multiplication-nodes" class="level3" data-number="8.2.2">
+<h3 data-number="8.2.2" class="anchored" data-anchor-id="backpropagation-of-multiplication-nodes"><span class="header-section-number">8.2.2</span> Backpropagation of Multiplication Nodes</h3>
 <p>다음으로 <span class="math inline">z=xy</span>를 갖고 곱셈노드에 대한 역전파를 살펴보겠습니다. 먼저 이 식에 대한 미분을 해석적으로 구하면 <span class="math inline">\frac{\partial{z}}{\partial{x}} = y</span>와 <span class="math inline">\frac{\partial{z}}{\partial{y}} = x</span>가 됩니다.</p>
 <p><a href="#fig-annBack5" class="quarto-xref">Figure&nbsp;<span>8.4</span></a> 의 그래프를 기준으로 역전파 과정을 살펴봅시다.</p>
 <p>상류에서 산출한 편미분 값(<span class="math inline">\frac{\partial{L}}{\partial{z}}</span>)을 <span class="math inline">x</span>간선의 경우 <span class="math inline">\frac{\partial{L}}{\partial{z}}\frac{\partial{z}}{\partial{x}}=\frac{\partial{L}}{\partial{z}}\frac{\partial{z}}{\partial{x}}=\frac{\partial{L}}{\partial{z}}\cdot y</span>의 꼴로 역전파가 이루어 지고, <span class="math inline">y</span>간선의 경우 <span class="math inline">\frac{\partial{L}}{\partial{z}}\frac{\partial{z}}{\partial{y}}=\frac{\partial{L}}{\partial{z}}\frac{\partial{z}}{\partial{y}}=\frac{\partial{L}}{\partial{z}}\cdot x</span>의 꼴로 역전파가 이루어 집니다.</p>
@@ -379,8 +384,13 @@ Figure&nbsp;8.3: Examples: Backpropagation of Addition Nodes
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-annBack5-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="quarto-layout-row">
-<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
-<img src="image/annBack5.png" class="img-fluid figure-img">
+<div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: center;">
+<p><img src="image/annBack5.png" class="img-fluid figure-img" style="width:70.0%"></p>
+</div>
+</div>
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: center;">
+<p><img src="image/annBack6.png" class="img-fluid figure-img" style="width:70.0%"></p>
 </div>
 </div>
 </div>
@@ -400,12 +410,12 @@ Figure&nbsp;8.4: Examples: Multiplication of Addition Nodes
 </div>
 <div class="callout-body-container callout-body">
 <ul>
-<li>신경망의 학습을 위한 역전파 과정은 모든 독립변수에 대한 편미분을 통하여 기울기를 구하게 됨</li>
-<li>대부분의 경우 이를 간단하게 표현하기 위하여 <span class="math inline">\del</span>연산자를 쓰고있음</li>
-<li>편미분을 통한 가중치(<span class="math inline">\omega</span>)의 업데이트 과정을 통상 아래와 같이 표현함</li>
+<li>신경망의 학습을 위한 역전파 과정은 모든 독립변수에 대한 편미분을 통하여 기울기를 산출</li>
+<li>대부분의 경우 이를 간단하게 표현하기 위하여 <span class="math inline">\nabla</span>연산자를 사용</li>
+<li>편미분을 통한 가중치(<span class="math inline">\omega</span>)의 업데이트 과정을 아래와 같이 표현</li>
 </ul>
 <p><span class="math display">
-\omega = \leftarrow \omega - \alpha \del_{\omega} \epsilon
+\omega = \leftarrow \omega - \alpha \nabla_{\omega} \epsilon
 </span></p>
 </div>
 </div>
