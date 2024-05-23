@@ -1,0 +1,7 @@
+# Lab: Implementing Backpropagation to ANN 
+
+## STEP1: Two Layer Net
+
+## STEP2: Gradient Check
+
+## STEP3: Implementing Backpropagation to ANN

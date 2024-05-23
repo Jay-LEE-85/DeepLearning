@@ -1,0 +1,332 @@
+# Forward Propagation {#sec-annFor}
+---
+``` {python}
+#| echo: false
+import numpy as np
+import matplotlib.pyplot as plt
+from func_set import *
+```
+신경망에서의 데이터의 기본적인 입력층에서 출력까지의 데이터의 흐름(처리 과정)에 대하여 살펴보겠습니다.
+
+아래에 예시는 입력층(0층)의 노드 2개, 은닉층(1층)의 노드 3개, 은닉층(2층)의 노드 2개를 거쳐 2개의 노드를 갖는 출력층(3층)으로 구성된 신경망 입니다.
+
+![signaling(souce: Deeplearning from Scratch)](/image/ann.png){#fig-forANN0 width=70%}
+
+@fig-forANN0 에서 $a^{(1)}_1$의 경우 입력갑의 경우 가중치와 곱한 값을 합산한 Weighted Sum 값과 편향(bias)더하여 아래와 같이 산출할 수 있고 이를 Vector form으로 간소화 할 수 있습니다.
+
+$$ 
+\begin{align}
+a^{(1)}_{1} &= w^{(1)}_{11}+x^{}_{1}+w^{(1)}_{12}x_2+b^{(1)}_{1} \\
+\textbf{A}^{(1)} &= \textbf{X}\textbf{W}^{(1)} + \textbf{B}^{(1)}
+\end{align}
+$$ {#eq-forANN}
+
+::: {.column-margin}
+$$
+\begin{align}
+\textbf{A}^{(1)} &= (a^{(1)}_{1}\, a^{(1)}_{2}\, a^{(1)}_{3}) \\
+\textbf{X} &= (x_1\, x_2) \\
+\textbf{B}^{(1)} &= (b^{(1)}_{1}, b^{(1)}_{2}, b^{(1)}_{3}) \\
+\textbf{W}^{(1)} &= \begin{pmatrix}
+    w^{(1)}_{11} & w^{(1)}_{21} & w^{(1)}_{31} \\
+    w^{(1)}_{12} & w^{(1)}_{22} & w^{(1)}_{32} \\
+\end{pmatrix}
+\end{align}
+$$
+:::
+
+위의 식(@eq-forANN )에 따라 각 층(layer)의 신호 전달과정을 구현해 보도록 하겠습니다.
+
+
+## Layer-by-Layer signaling
+
+3층 신경망의 신호 전달과정은 아래와 같이 Weighted Sum에 기반하며 그 값을 다시 화성화 함수(가령 Sigmoid)를 통하여 노드의 값이 최종 산출됩니다.
+
+또한, 이전층의 값들을 받아 산출된 값은 다시 입력값으로 하여 다음층으로 전달되는 과정을 거쳐 최종적으로 출력층까지 이 과정을 반복하게 됩니다. 이 과정이 신호 전달 또는 Forward propagation 입니다.
+
+::: {#fig-forANN layout-ncol=3}
+![input-hidden](/image/ann1.png){#fig-forANN1}
+
+![hidden-hidden](/image/ann2.png){#fig-forANN2}
+
+![hidden-output](/image/ann3.png){#fig-forANN3}
+
+Process of Forward Propagation(souce: Deeplearning from Scratch)
+:::
+
+**input to hidden**
+
+최초 입력층(0층)의 신호 전달 체계는 입력값(노드)은 2개인 1차원 배열이고 다음의 은닉층(1층)은 노드 3계로 이루어진 1차원 배열입니다. 2개의 노드 값을 받아 3개의 노드로 전달해야 하므로 노드간의 간선은 총 6개($6 = 2 \times 3$)입니다.
+
+입력값 및 편향값을 `a`에 전달하고 `a`값을 활성화 함수(Sigmoid 함수를 사용) `h()`를 이용하여 신호 `z`를 산출하도록 합니다. 결과적으로 은닉층(1층)에 해당하는 3개의 노드의 신호를 확인할 수 있습닏.
+
+``` {python}
+# 입력값, 편향, 가중치
+X  = np.array([1.0, 0.5])
+B1 = np.array([0.1,0.2,0.3])
+W1 = np.array([[0.1,0.3,0.5], [0.2,0.4,0.6]])
+
+# Weighted Sum
+A1 = np.dot(X, W1) + B1
+
+# Activation Function
+Z1 = sigmoid(A1)
+
+print(A1)
+print(Z1)
+```
+
+**hidden to hidden**
+
+은닉층(1층)이 다시 입력층으로 하여 다음의 은닉층(2층)으로 신호를 전달하도록 해야 합니다. 앞서 진행한 신호 전달 과정과 동일합니다.
+
+다만, 입력 노드가 편향을 포함하여 4개가 다음 층인 2개의 노드로 전달됨에 따라 이전 과정과 달리 간선은 총 8개 입니다. 편향은 2개 간선을 갖고 가중치는 입력 노드별 2개 총 6개로 이루어 집니다.
+
+``` {python}
+# 편향, 가중치
+B2 = np.array([0.1,0.2])
+W2 = np.array([[0.1,0.4], [0.2,0.5], [0.3,0.6]])
+
+# Weighted Sum & Activation Function
+A2 = np.dot(Z1, W2) + B2
+Z2 = sigmoid(A2)
+
+print(A2)
+print(Z2)
+```
+
+**hidden to output**
+
+은닉층(2층)이 다시 입력층으로 하여 다음의 출력층(3층)으로 신호를 전달하도록 해야 합니다. 앞서 진행한 신호 전달 과정과 동일합니다.
+
+주의할 것은 출력층의 경우 해결하고자 하는 문제의 성질에 맞게 설정되어야 합니다. 여기서는 입력되는 값을 그대로 출력하는 항등함수(Identity Function)알 사용하도록 하겠습니다.
+
+``` {python}
+# 항등함수
+def identity_function(x):
+  return x
+
+# 편향, 가중치
+B3 = np.array([0.1,0.2])
+W3 = np.array([[0.1,0.3], [0.2,0.4]])
+
+# Weighted Sum & Activation Function
+A3 = np.dot(Z2, W3) + B3
+Y  = identity_function(A3) # Y = A3
+
+print(Y)
+```
+
+::: {.callout-note}
+## 출력층의 활성화 함수
+-   출력층의 활성화 함수는 문제의 성질에 맞춰야 한다고 하였습니다.
+-   문제의 성질은 크게 2가지로 나누어 볼 수 있는데 하나는 **분류**(classfication), 다른 하나나는 **회귀**(regression)입니다.
+-   각각의 문제에 맞는 활성화 함수는 다양하며 자세한 사항은 지속적으로 @sec-actANN 에 내용을 추가하도록 하겠습니다.
+:::
+
+**Wrap-up**
+
+앞서 정리한 내용을 하나의 모듈로 작성하도록 하겠습니다. 이 신경망의 신호 전달 과정은 순방향의 연산 과정만을 익히기 위함이고 가장 처음에 실행되는 과정입니다.
+
+``` {python}
+def init_network(): # <1>
+  network = {}
+  network['W1'] = np.array([[0.1,0.3,0.5], [0.2,0.4,0.6]]) # 입력2 출력3
+  network['b1'] = np.array([0.1,0.2,0.3])
+  network['W2'] = np.array([[0.1,0.4], [0.2,0.5], [0.3,0.6]]) # 입력3, 출력2
+  network['b2'] = np.array([0.1,0.2])
+  network['W3'] = np.array([[0.1,0.3], [0.2,0.4]]) # 입력2, 출력2
+  network['b3'] = np.array([0.1,0.2])
+
+  return network
+
+def forward(network, x): # <2>
+  W1, W2, W3 = network['W1'], network['W2'], network['W3']
+  b1, b2, b3 = network['b1'], network['b2'], network['b3']
+
+  a1 = np.dot(x, W1) + b1
+  z1 = sigmoid(a1)
+  a2 = np.dot(z1, W2) + b2
+  z2 = sigmoid(a2)
+  a3 = np.dot(z2, W3) + b3
+  y  = identity_function(a3)
+
+  return Y
+
+network = init_network()
+x = np.array([1.0,5.0])
+y = forward(network, x)
+
+print(y)
+```
+1. 가중치와 편향을 초기화하고 이들을 닉셔너리 변수인 network에 저장
+2. 입력신호를 출력으로 변환하는 처리과정
+
+## Disign Output layer
+
+신경망의 경우 통상 회귀의 경우 항등 함수를, 분류의 경우는 소프트맥스 함수(softmax function)를 사용합니다. 소프트맥스 함수의 식은 아래와 같습니다.
+
+$$
+y_k = \frac{exp(a_k)}{\sum^{n}_{i=1}exp(a_i)}
+$$ {#eq-softmax}
+
+위 식에서 $exp(x)$는 $e^x$를 지수함수를 의미하며, $n$은 출력층의 뉴런수, $y_k$는 출력노드 중 $k$번째를 의미합니다. 분자는 $k$번째 출력노드의 값을 분모는 전체 출력노드의 합을 의미합니다.
+
+``` {mermaid}
+flowchart LR
+  subgraph h ["sigma()"]
+    direction LR
+    a1((a1)) & a2((a2)) & a3((a3))
+    y1((y1)) & y2((y2)) & y3((y3))
+  end
+
+  a1 & a2 & a3 ---> y1 & y2 & y3
+```
+
+**Cautions for implementing the Softmax function**
+
+@eq-softmax 식을 코드로 구현하기 이전에 주의할 사항이 필요합니다. 
+
+하나는 오퍼플로(overflow), 즉 컴퓨터의 특성상 너무 큰 수의 경우 `Inf`가 나오게 된다는 점입니다.
+
+이러한 문제를 해결하기 위하여 참고한 자료에는 임의 상수 $C$를 분모와 분자에 모두 곱해주는 방식으로 이 문제를 해결 할수 있다고 하며 $C$는 다시 exp의 지수항으로 옮기고 $C'$로 변경할 수 있습니다.
+
+$$
+\begin{align}
+y_k = \frac{exp(a_k)}{\sum^{n}_{i=1}exp(a_i)} &= \frac{C\,exp(a_k)}{C\,\sum^{n}_{i=1}exp(a_i)} \\
+&= \frac{exp(a_k+log C)}{\sum^{n}_{i=1}exp(a_i+log C)} \\
+&= \frac{exp(a_k+C')}{\sum^{n}_{i=1}exp(a_i+C')}
+\end{align}
+$$ {#eq-softmax2}
+
+위의 식에 따라 출력층에 사용할 소프트맥스 함수를 아래와 같이 구현할 수 있으며, 개선된 식의 $C$는 통상 입력값의 최대값으로 설정하도록 하겠습니다.
+
+``` {python}
+def softmax(a):
+  c = np.max(a)
+  exp_a = np.exp(a-c)
+  sum_exp_a = np.sum(exp_a)
+  y = exp_a / sum_exp_a
+
+  return y
+
+a = np.array([0.3, 2.9, 4.0])
+y = softmax(a)
+
+print(y)
+
+np.sum(y)
+```
+
+위이 함수를 실행하면 출력값의 총합은 1임을 알 수 있습니다. 이것은 출력된 개별 값들을 확률로 해석할 수 있음을 의미합니다. 다만, 지수합수인 `exp()`계산시 자원이 많이 소비됨에 따라 추론 단계에서는 소프트맥스 함수를 생랙하기도 한다고 합니다.
+
+## Lab : Number recognition with MNIST
+
+현재 우리가 진행하고 있는 과정은 학습과 추론 중 **추론**(inference)에 해당하는 **순전파**(forward propagation)입니다. 학습의 경우 **역전파**(back propagation)를 통하여 가중치를 업데이트 하나 추론의 경우는 설정된 가중치를 이용하여 문제를 해결하는 과정입니다.
+
+::: {.callout-note}
+## MNIST 데이터셋
+MNIST^[ANN 및 CNN 까지 다양한 예제에 활용될 예정] 데이터셋은 기계 학습 분야에서 널리 사용되는 손으로 쓴 숫자 이미지 데이터셋입니다. 이 데이터셋은 0부터 9까지의 숫자를 손으로 쓴 28x28 픽셀 크기의 이미지로 구성되어 있습니다. 주로 숫자 인식 및 분류 알고리즘의 테스트 및 훈련에 사용됩니다.
+
+-   **크기**: 28x28 픽셀
+-   **포맷**: 흑백 이미지(1채널)
+-   **이미지 개수**:
+        - 훈련 데이터: 60,000개
+        - 테스트 데이터: 10,000개
+-   **픽셀 값 범위**: 0부터 255까지
+:::
+
+```{python}
+import sys, os
+sys.path.append(os.pardir)  # 부모 디렉터리의 파일을 가져올 수 있도록 설정
+import numpy as np
+from dataset.mnist import load_mnist
+from PIL import Image
+
+# MNIST 데이터셋 로드
+(x_train, t_train), (x_test, t_test) = \
+  load_mnist(
+    flatten = True,        # <1>
+    normalize = False,     # <2>
+    one_hot_label = False  # <3> 
+    ) 
+
+def img_show(img):
+    pil_img = Image.fromarray(np.uint8(img))
+    pil_img.show()
+
+img = x_train[0]
+label = t_train[0]
+print(label)  # 5
+
+print(img.shape)  # (784,)
+img = img.reshape(28, 28)  # 형상을 원래 이미지의 크기로 변형
+print(img.shape)  # (28, 28)
+
+img_show(img)
+```
+1. `flatten`은 28x28의 2D-배열을 784x1 1D배열로 만들지 말지 결정하는 변수
+2. `normalize`는 픽셀값의 범위를 기존 [0, 255]에서 [0.0, 1.0]으로 변환할지 말지를 결정하는 변수
+3. `one_hot_label`은 레이블의 값을 정수(False, 예:5)로 할지, 한 원소만을 1로 갖는 배열(True, 예:[0,0,0,0,0,1,0,0,0,0,0])로 할지 결정하는 변수
+
+### Inference processing
+
+ANN을 활용하여 MNIST 데이터셋을 가지고 추론과정을 신경망으로 구현하면 아래와 같습니다. 입력층의 뉴런은 $28\times28$의 데이터를 받아 Flatten하게 $784$개의 뉴런으로 갖도록 합니다. 그리고 출력층의 뉴런은 0~9까지 10개로 분류해야 하므로 10개의 뉴런을 갖도록 합니다.
+
+입력과 출력사이의 은닉층은 2개의 층으로 구성하도록 하고 각각 50개 100개의 뉴런을 갖도록 합니다. 은닉층의 뉴런의 갯수는 임의로 정한 것이고 본 사전에 학습된 $\omega$ 를 사용하여 추론의 정확도를 평가해 보도록 하겠습니다.
+
+``` {python}
+# coding: utf-8
+import sys, os
+sys.path.append(os.pardir)  # 부모 디렉터리의 파일을 가져올 수 있도록 설정
+import numpy as np
+import pickle
+from dataset.mnist import load_mnist
+from common.functions import sigmoid, softmax
+
+
+def get_data():
+    (x_train, t_train), (x_test, t_test) = load_mnist(
+      normalize=True, # <4>
+      flatten=True, 
+      one_hot_label=False)
+    return x_test, t_test
+
+
+def init_network():
+    with open("dataset/sample_weight.pkl", 'rb') as f:
+        network = pickle.load(f)
+    return network
+
+
+def predict(network, x):
+    W1, W2, W3 = network['W1'], network['W2'], network['W3']
+    b1, b2, b3 = network['b1'], network['b2'], network['b3']
+
+    a1 = np.dot(x, W1) + b1
+    z1 = sigmoid(a1)
+    a2 = np.dot(z1, W2) + b2
+    z2 = sigmoid(a2)
+    a3 = np.dot(z2, W3) + b3
+    y = softmax(a3)
+
+    return y
+
+
+x, t = get_data()
+network = init_network()
+accuracy_cnt = 0
+for i in range(len(x)): # <1>
+    y = predict(network, x[i]) # <1>
+    p= np.argmax(y) # <2>
+    if p == t[i]: # <3>
+        accuracy_cnt += 1 # <3>
+
+print("Accuracy:" + str(float(accuracy_cnt) / len(x)))
+```
+1. `for`문 안에서 이미지 1장씩 꺼내어 `predict()`함수로 분류(0~9)를 실행하여 레이블의 확률을 Numpy 배열로 반환
+2. `np.argmax`로 반환된 레이블 배열에서 가장 높은 값(확률)의 인덱스를 산출
+3. 정답 레이블과 산출 레이블의 비교하여 일치하면 `accuracy_cnt`로 정답 갯수 업데이트
+4. `load_mnist`함수의 인자 중 `normalize`가 `True`는 데이터를 0~1사이의 값으로 정규화 한다는 의미
+
+위의 과정을 통해 분류의 정확도는 93.52%임을 확인 할 수 있습니다. 이후에 이 정확도를 향상시키기 위한 신경망의 학습 등에 대하여 살펴볼 예정입니다.

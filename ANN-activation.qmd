@@ -1,0 +1,98 @@
+# Activation Function {#sec-actANN}
+---
+``` {python}
+#| echo: false
+import numpy as np
+import matplotlib.pyplot as plt
+```
+
+앞서 살펴본 $h(x)$ 라는 함수가  **활성화 함수**(Activation function)입니다. 이는 입력신호의 총합(Weighted Sum)을 입력값으로 받아 다음 뉴런이 활성화 정도를 결정하는 함수로 이해할 수 있습니다.
+
+이러한 활성화 함수가 포함된 ANN의 기본적인 모형은 다음과 같습니다. `a`는 입력신호의 총합을 의미하고, `h()`는 이를 다양한 활성화 함수를 이용하여 다음 뉴런의 활성정도인 `y`를 출력합니다.
+
+``` {mermaid}
+%%| label: fig-egANN
+%%| fig-cap: "Processing of the activation function"
+
+graph LR
+  subgraph h ["h()"]
+    direction LR
+    a((a)) & y((y))
+  end
+
+  x0((1)):::bias --b---> a
+  x1((x1))  --w1---> a
+  x2((x2))  --w2---> a
+  a --> y
+  classDef bias fill:#f96
+```
+
+퍼셉트론에서는 활성화 함수로 **계단함수**(Sign function)를 사용하였느나, ANN에서는 활성화 함수로 **미분가능한 함수**들을 사용합니다. 다음은 ANN에서 사용하는 활성화 함수에 대하여 소개하겠습니다.
+
+## Sigmoid Function
+
+**시그모이드 함수**(sigmoid function)는 계단함수와 달리 '*S자 모양*'으로 Non-linear한 함수이고 그 식은 아래와 같습니다.
+
+$$
+\begin{align}
+h(x) = \frac{1}{1+exp(-x)}
+\end{align}
+$$
+
+시그모이드 함수를 `python` 코드로 아래와 같이 간다하게 구현할 수 있습니다. 이를 활용하여 시그모이드 함수를 실행하면 아래와 같은 그래프(@fig-annAct1 )를 볼 수 있습니다.
+
+``` {python}
+def sigmoid(x):
+  return 1 / (1 + np.exp(-x))
+```
+
+![Plot of Sigmoid Function](image/annAct1.png){#fig-annAct1}
+``` {python}
+#| echo: false
+#| include: False
+x =  np.arange(-5.0, 5.0, 0.1)
+y = sigmoid(x)
+
+plt.plot(x, y)
+plt.ylim(-0.1, 1.1)
+plt.show()
+```
+
+## ReLU Function
+
+**ReLU 함수*(Rectified Linear Unit funcion)*는 시그모이드를 넘어 최근에 많이 사용되는 함수 입니다. 입력값을 0을 넘으면 그 입력값을 그대로 출력하고 그 이하이면 0을 출력하는 함수로 그 식은 아래와 같습니다.
+
+$$
+\begin{align}
+h(x) =
+\begin{cases}
+x & (x > 0) \\
+0 & (x \leq 0)
+\end{cases}
+\end{align}
+$$
+
+ReLU 함수를 `python` 코드로 아래와 같이 간다하게 구현할 수 있습니다. 이를 활용하여 시그모이드 함수를 실행하면 아래와 같은 그래프(@fig-annAct2 )를 볼 수 있습니다.
+
+``` {python}
+def relu(x):
+  return np.maximum(0, x)
+```
+
+![Plot of ReLU Function](image/annAct2.png){#fig-annAct2}
+``` {python}
+#| echo: false
+#| include: False
+x =  np.arange(-5.0, 5.0, 0.1)
+y = relu(x)
+
+plt.plot(x, y)
+plt.ylim(-1, 5.0)
+plt.show()
+```
+
+## others
+
+위에 소개한 활성화 함수 외에도 많은 종류의 활성화 함수가 존재합니다. 이에 대하여 자세한 사항은 [Wiki](https://en.wikipedia.org/wiki/Activation_function)페이지를 참고하시기 바랍니다.
+
+학습을 진행하는 과정에서 필요한 내용들을 지속적으로 업데이트 할 예정입니다.
