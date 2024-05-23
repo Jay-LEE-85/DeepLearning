@@ -101,3 +101,15 @@ $$
 $$
 
 :::
+
+## Implementing Backpropagation to Activation Layer
+
+### ReLU
+
+### Sigmoid Layer
+
+## Implementing Backpropagation to Output Layer
+
+### Affine
+
+### Softmax

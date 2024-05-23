@@ -23,6 +23,10 @@ book:
       - ANN-learning.qmd
       - ANN-lab_MNIST.qmd
       - ANN-backward.qmd
+      - ANN-lab_Backpro.qmd
+
+    - part: "CNN"
+      chapters:
 
     - references.qmd
 
