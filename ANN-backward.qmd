@@ -102,13 +102,15 @@ $$
 
 :::
 
-## Implementing Backpropagation to Activation Layer
+## Implementing the Activation Layer
+
+
 
 ### ReLU
 
 ### Sigmoid Layer
 
-## Implementing Backpropagation to Output Layer
+## Implementing the Output Layer
 
 ### Affine
 
