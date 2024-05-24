@@ -104,8 +104,6 @@ $$
 
 ## Implementing the Activation Layer
 
-
-
 ### ReLU
 
 ### Sigmoid Layer

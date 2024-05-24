@@ -8,8 +8,7 @@ book:
   date: "2024. 4."
   sidebar:
     style: docked
-    background: light
-  downloads: [pdf]
+    background: dark
   chapters:
     - index.qmd
     - intro.qmd
