@@ -8,7 +8,7 @@ book:
   date: "2024. 4."
   sidebar:
     style: docked
-    background: dark
+    background: light
   chapters:
     - index.qmd
     - intro.qmd
