@@ -6,6 +6,10 @@ book:
   title: "DeepLearning x 101"
   author: "Jay & Luis & Soo"
   date: "2024. 4."
+  sidebar:
+    style: docked
+    background: light
+  downloads: [pdf]
   chapters:
     - index.qmd
     - intro.qmd
