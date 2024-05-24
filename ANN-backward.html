@@ -115,7 +115,7 @@ window.Quarto = {
 
 </head>
 
-<body class="nav-sidebar floating slimcontent">
+<body class="nav-sidebar docked slimcontent">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -136,10 +136,13 @@ window.Quarto = {
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
       <a href="./">DeepLearning x 101</a> 
+        <div class="sidebar-tools-main">
+    <a href="./DeepLearning-x-101.pdf" title="Download PDF" class="quarto-navigation-tool px-1" aria-label="Download PDF"><i class="bi bi-file-pdf"></i></a>
+</div>
     </div>
       </div>
         <div class="mt-2 flex-shrink-0 align-items-center">
@@ -280,12 +283,12 @@ window.Quarto = {
   <li><a href="#backpropagation-of-addition-nodes" id="toc-backpropagation-of-addition-nodes" class="nav-link" data-scroll-target="#backpropagation-of-addition-nodes"><span class="header-section-number">8.2.1</span> Backpropagation of Addition Nodes</a></li>
   <li><a href="#backpropagation-of-multiplication-nodes" id="toc-backpropagation-of-multiplication-nodes" class="nav-link" data-scroll-target="#backpropagation-of-multiplication-nodes"><span class="header-section-number">8.2.2</span> Backpropagation of Multiplication Nodes</a></li>
   </ul></li>
-  <li><a href="#implementing-backpropagation-to-activation-layer" id="toc-implementing-backpropagation-to-activation-layer" class="nav-link" data-scroll-target="#implementing-backpropagation-to-activation-layer"><span class="header-section-number">8.3</span> Implementing Backpropagation to Activation Layer</a>
+  <li><a href="#implementing-the-activation-layer" id="toc-implementing-the-activation-layer" class="nav-link" data-scroll-target="#implementing-the-activation-layer"><span class="header-section-number">8.3</span> Implementing the Activation Layer</a>
   <ul class="collapse">
   <li><a href="#relu" id="toc-relu" class="nav-link" data-scroll-target="#relu"><span class="header-section-number">8.3.1</span> ReLU</a></li>
   <li><a href="#sigmoid-layer" id="toc-sigmoid-layer" class="nav-link" data-scroll-target="#sigmoid-layer"><span class="header-section-number">8.3.2</span> Sigmoid Layer</a></li>
   </ul></li>
-  <li><a href="#implementing-backpropagation-to-output-layer" id="toc-implementing-backpropagation-to-output-layer" class="nav-link" data-scroll-target="#implementing-backpropagation-to-output-layer"><span class="header-section-number">8.4</span> Implementing Backpropagation to Output Layer</a>
+  <li><a href="#implementing-the-output-layer" id="toc-implementing-the-output-layer" class="nav-link" data-scroll-target="#implementing-the-output-layer"><span class="header-section-number">8.4</span> Implementing the Output Layer</a>
   <ul class="collapse">
   <li><a href="#affine" id="toc-affine" class="nav-link" data-scroll-target="#affine"><span class="header-section-number">8.4.1</span> Affine</a></li>
   <li><a href="#softmax" id="toc-softmax" class="nav-link" data-scroll-target="#softmax"><span class="header-section-number">8.4.2</span> Softmax</a></li>
@@ -436,8 +439,8 @@ Figure&nbsp;8.4: Examples: Multiplication of Addition Nodes
 </div>
 </section>
 </section>
-<section id="implementing-backpropagation-to-activation-layer" class="level2" data-number="8.3">
-<h2 data-number="8.3" class="anchored" data-anchor-id="implementing-backpropagation-to-activation-layer"><span class="header-section-number">8.3</span> Implementing Backpropagation to Activation Layer</h2>
+<section id="implementing-the-activation-layer" class="level2" data-number="8.3">
+<h2 data-number="8.3" class="anchored" data-anchor-id="implementing-the-activation-layer"><span class="header-section-number">8.3</span> Implementing the Activation Layer</h2>
 <section id="relu" class="level3" data-number="8.3.1">
 <h3 data-number="8.3.1" class="anchored" data-anchor-id="relu"><span class="header-section-number">8.3.1</span> ReLU</h3>
 </section>
@@ -445,8 +448,8 @@ Figure&nbsp;8.4: Examples: Multiplication of Addition Nodes
 <h3 data-number="8.3.2" class="anchored" data-anchor-id="sigmoid-layer"><span class="header-section-number">8.3.2</span> Sigmoid Layer</h3>
 </section>
 </section>
-<section id="implementing-backpropagation-to-output-layer" class="level2" data-number="8.4">
-<h2 data-number="8.4" class="anchored" data-anchor-id="implementing-backpropagation-to-output-layer"><span class="header-section-number">8.4</span> Implementing Backpropagation to Output Layer</h2>
+<section id="implementing-the-output-layer" class="level2" data-number="8.4">
+<h2 data-number="8.4" class="anchored" data-anchor-id="implementing-the-output-layer"><span class="header-section-number">8.4</span> Implementing the Output Layer</h2>
 <section id="affine" class="level3" data-number="8.4.1">
 <h3 data-number="8.4.1" class="anchored" data-anchor-id="affine"><span class="header-section-number">8.4.1</span> Affine</h3>
 </section>
