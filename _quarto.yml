@@ -37,7 +37,7 @@ format:
   html:
     mermaid: 
       theme: neutral
-    theme: cosmo  
+    theme: lumen  
     html-math-method: katex
     fig-cap-location: bottom
     tbl-cap-location: bottom
