@@ -7,7 +7,6 @@ book:
   author: "Jay & Luis & Soo"
   date: "2024. 4."
   sidebar:
-    style: docked
     background: light
   chapters:
     - index.qmd
