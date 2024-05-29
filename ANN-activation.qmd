@@ -60,7 +60,7 @@ plt.show()
 
 ## ReLU Function
 
-**ReLU 함수*(Rectified Linear Unit funcion)*는 시그모이드를 넘어 최근에 많이 사용되는 함수 입니다. 입력값을 0을 넘으면 그 입력값을 그대로 출력하고 그 이하이면 0을 출력하는 함수로 그 식은 아래와 같습니다.
+**ReLU 함수**(Rectified Linear Unit funcion)는 시그모이드를 넘어 최근에 많이 사용되는 함수 입니다. 입력값을 0을 넘으면 그 입력값을 그대로 출력하고 그 이하이면 0을 출력하는 함수로 그 식은 아래와 같습니다.
 
 $$
 \begin{align}
