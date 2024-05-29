@@ -376,7 +376,7 @@ h(x) = \frac{1}{1+exp(-x)}
 \end{align}
 </span></p>
 <p>시그모이드 함수를 <code>python</code> 코드로 아래와 같이 간다하게 구현할 수 있습니다. 이를 활용하여 시그모이드 함수를 실행하면 아래와 같은 그래프(<a href="#fig-annAct1" class="quarto-xref">Figure&nbsp;<span>4.2</span></a> )를 볼 수 있습니다.</p>
-<div id="4de9fb83" class="cell" data-execution_count="2">
+<div id="c9c8d3d0" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> sigmoid(x):</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> <span class="dv">1</span> <span class="op">/</span> (<span class="dv">1</span> <span class="op">+</span> np.exp(<span class="op">-</span>x))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -393,7 +393,7 @@ Figure&nbsp;4.2: Plot of Sigmoid Function
 </section>
 <section id="relu-function" class="level2" data-number="4.2">
 <h2 data-number="4.2" class="anchored" data-anchor-id="relu-function"><span class="header-section-number">4.2</span> ReLU Function</h2>
-<p>**ReLU 함수<em>(Rectified Linear Unit funcion)</em>는 시그모이드를 넘어 최근에 많이 사용되는 함수 입니다. 입력값을 0을 넘으면 그 입력값을 그대로 출력하고 그 이하이면 0을 출력하는 함수로 그 식은 아래와 같습니다.</p>
+<p><strong>ReLU 함수</strong>(Rectified Linear Unit funcion)는 시그모이드를 넘어 최근에 많이 사용되는 함수 입니다. 입력값을 0을 넘으면 그 입력값을 그대로 출력하고 그 이하이면 0을 출력하는 함수로 그 식은 아래와 같습니다.</p>
 <p><span class="math display">
 \begin{align}
 h(x) =
@@ -404,7 +404,7 @@ x &amp; (x &gt; 0) \\
 \end{align}
 </span></p>
 <p>ReLU 함수를 <code>python</code> 코드로 아래와 같이 간다하게 구현할 수 있습니다. 이를 활용하여 시그모이드 함수를 실행하면 아래와 같은 그래프(<a href="#fig-annAct2" class="quarto-xref">Figure&nbsp;<span>4.3</span></a> )를 볼 수 있습니다.</p>
-<div id="48da9e67" class="cell" data-execution_count="4">
+<div id="2deed1b1" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> relu(x):</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> np.maximum(<span class="dv">0</span>, x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>

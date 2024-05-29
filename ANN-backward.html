@@ -102,6 +102,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-label": "Search"
   }
 }</script>
+<meta name="mermaid-theme" content="neutral">
+<script src="site_libs/quarto-diagram/mermaid.min.js"></script>
+<script src="site_libs/quarto-diagram/mermaid-init.js"></script>
+<link href="site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
 
   <script>window.backupDefine = window.define; window.define = undefined;</script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js"></script>
   <script>document.addEventListener("DOMContentLoaded", function () {
@@ -488,7 +492,7 @@ Figure&nbsp;8.5: Backpropagation process of ReLU
 </figure>
 </div>
 <p><a href="#fig-annBack3" class="quarto-xref">Figure&nbsp;<span>8.5</span></a> 의 과정을 참고하여 ReLU 계층을 코드로 구현하면 아래와 같습니다.</p>
-<div id="a3c1d3c0" class="cell" data-execution_count="1">
+<div id="8e6dde11" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="annotated-cell-1"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-1-1"><a href="#annotated-cell-1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="annotated-cell-1-2"><a href="#annotated-cell-1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="annotated-cell-1-3"><a href="#annotated-cell-1-3" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Relu:</span>
@@ -567,30 +571,146 @@ Figure&nbsp;8.6: Backpropagation process of Sigmoid
 <div class="no-row-height column-margin column-container"><div id="fn7"><p><sup>7</sup>&nbsp;<span class="math inline">\frac{\partial{y}}{\partial{x}}=-\frac{1}{x^2}=-y^2</span></p></div></div><p><code>+</code>노드는 상류의 값을 하류로 그대로 흘려 보내는 것으로 <code>/</code>노드에서 산출한 <span class="math inline">-\frac{\partial{L}}{\partial{y}}y^2</span>을 그대로 하류로 흘려 보내면 되겠습니다.</p>
 <p><code>exp</code>노드는 곱하기 노드 이므로 상류에서 흘러온 값(<span class="math inline">-\frac{\partial{L}}{\partial{y}}y^2</span>)과 순전파시 해당노드의 산출값의 미분값(<span class="math inline">\frac{\partial{y}}{\partial{x}}=exp(x)</span>)을 곱해야 하므로 <span class="math inline">-\frac{\partial{L}}{\partial{y}}y^2exp(-x)</span>를 하류로 흘려보내게 됩니다.</p>
 <p>마지막으로 <span class="math inline">\times</span>으 노드이다. 상류에서 입력되는 값과 해당노드의 미분값을 곱하여 하류로 흘려 보내는 방식으로 역전파를 수행하며, 곱하기 노드의 순전파시 산출이 <span class="math inline">-x</span>이므로 역전파에 사용할 미분값은 <span class="math inline">-1</span>이므로 입력된 값의 부호만을 변경해주면 됩니다.</p>
-<p>Sigmoid 노드의 역전파를 단순화 하면 입력값은 <span class="math inline">\frac{\partial{L}}{\partial{y}}</span>이 되고, 출력값은 <span class="math inline">\frac{\partial{L}}{\partial{y}}y^2exp(-x)</span>이 되게 됩니다. 이 식을 다음(<span class="quarto-unresolved-ref">?eq-annBack4</span>)과 같이 변형해서 <a href="#fig-annBack6" class="quarto-xref">Figure&nbsp;<span>8.7</span></a> 과 같이 최종 단순화 할 수 있습니다.</p>
+<p>Sigmoid 노드의 역전파를 단순화 하면 입력값은 <span class="math inline">\frac{\partial{L}}{\partial{y}}</span>이 되고, 출력값은 <span class="math inline">\frac{\partial{L}}{\partial{y}}y^2exp(-x)</span>이 되게 됩니다. 이 식을 다음(<a href="#eq-annBack4" class="quarto-xref">Equation&nbsp;<span>8.4</span></a>)과 같이 변형해서 <a href="#fig-annBack6" class="quarto-xref">Figure&nbsp;<span>8.7</span></a> 과 같이 최종 단순화 할 수 있습니다.</p>
 <p><span class="math display">
 \begin{align}
-\frac{\partial{}}{\partial{}} &amp;= \frac{\partial{}}{\partial{}}\frac{}{}exp(-x) \\
-&amp;= \frac{\partial{}}{\partial{}}\frac{}{}\frac{}{} \\
-&amp;= \frac{\partial{}}{\partial{}}y(1-y)
+\frac{\partial{L}}{\partial{y}}y^2exp(-x) &amp;= \frac{\partial{L}}{\partial{y}}\frac{1}{(1+exp(-x))^2}exp(-x) \\
+&amp;= \frac{\partial{L}}{\partial{y}}\frac{1}{1+exp(-x)}\frac{exp(-x)}{1+exp(-x)} \\
+&amp;= \frac{\partial{L}}{\partial{}}y(1-y)
 \end{align}
 </span></p>
 <div id="fig-annBack6" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-annBack6-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="image/fig-annBack6.png" class="img-fluid figure-img">
+<img src="image/fig-annBack6.png" class="img-fluid figure-img" style="width:70.0%">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-annBack6-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;8.7: Simplified Backward of Sigmoid
 </figcaption>
 </figure>
 </div>
+<p><a href="#fig-annBack6" class="quarto-xref">Figure&nbsp;<span>8.7</span></a> 의 과정을 참고하여 Sigmoid 계층을 코드로 구현하면 아래와 같습니다.</p>
+<div id="f2f923ea" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="annotated-cell-2"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-2-1"><a href="#annotated-cell-2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Sigmoid:</span>
+<span id="annotated-cell-2-2"><a href="#annotated-cell-2-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>):</span>
+<span id="annotated-cell-2-3"><a href="#annotated-cell-2-3" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.out <span class="op">=</span> <span class="va">None</span></span>
+<span id="annotated-cell-2-4"><a href="#annotated-cell-2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-2-5"><a href="#annotated-cell-2-5" aria-hidden="true" tabindex="-1"></a>  <span class="kw">def</span> forward(<span class="va">self</span>, x):</span>
+<span id="annotated-cell-2-6"><a href="#annotated-cell-2-6" aria-hidden="true" tabindex="-1"></a>    out <span class="op">=</span> <span class="dv">1</span><span class="op">/</span>(<span class="dv">1</span><span class="op">+</span>exp(<span class="op">-</span>x))</span>
+<span id="annotated-cell-2-7"><a href="#annotated-cell-2-7" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.out <span class="op">=</span> out</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-2" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-2-8" class="code-annotation-target"><a href="#annotated-cell-2-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> out</span>
+<span id="annotated-cell-2-9"><a href="#annotated-cell-2-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-2-10"><a href="#annotated-cell-2-10" aria-hidden="true" tabindex="-1"></a>  <span class="kw">def</span> backward(<span class="va">self</span>, dout):</span>
+<span id="annotated-cell-2-11"><a href="#annotated-cell-2-11" aria-hidden="true" tabindex="-1"></a>    dx <span class="op">=</span> dout <span class="op">*</span> (<span class="fl">1.0</span> <span class="op">-</span> <span class="va">self</span>.out) <span class="op">*</span> <span class="va">self</span>.out</span>
+<span id="annotated-cell-2-12"><a href="#annotated-cell-2-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> dx</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-2" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-2" data-code-lines="8" data-code-annotation="1"><code>forward</code> 출력을 인스턴스 변수 <code>out</code>에 보관하였다가, <code>backward</code>연산에 사용</span>
+</dd>
+</dl>
+</div>
+</div>
 </section>
 </section>
-<section id="implementing-the-output-layer" class="level2" data-number="8.4">
+<section id="implementing-the-output-layer" class="level2 page-columns page-full" data-number="8.4">
 <h2 data-number="8.4" class="anchored" data-anchor-id="implementing-the-output-layer"><span class="header-section-number">8.4</span> Implementing the Output Layer</h2>
-<section id="affine" class="level3" data-number="8.4.1">
+<p>ANN에서 순전파때 수행하는 행렬의 곱은 기하학에서 <strong>어파인 변환</strong>(affine tranformation)이라고 이를 Affine 계층이라 합니다. <strong>Softmax</strong> 계층은 ANN의에서 입력값을 정규화하여 출력값을 산출하는 계층입니다.</p>
+<section id="affine" class="level3 page-columns page-full" data-number="8.4.1">
 <h3 data-number="8.4.1" class="anchored" data-anchor-id="affine"><span class="header-section-number">8.4.1</span> Affine</h3>
+<p>ANN의 순전파에서 입력값(<span class="math inline">\textbf{X}</span>)과 가중치(<span class="math inline">\textbf{W}</span>)의 Weighted sum에 편향(<span class="math inline">\textbf{B}</span>)을 합산하여 활성화 함수를 통해 출력값을 다음 계층에 전달하게 됩니다. 이 과정에서 중요한 것은 특정 계층 또는 노드의 계산과정에서의 형상 또는 차원을 일치시켜야 한다는 점입니다.</p>
+<div id="fig-annBack7" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-annBack7-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="image/fig-annBack7.png" class="img-fluid figure-img" style="width:70.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-annBack7-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;8.8: Forward Propagation of Affine
+</figcaption>
+</figure>
+</div>
+<p><a href="#fig-annBack7" class="quarto-xref">Figure&nbsp;<span>8.8</span></a> 는 행렬을 기준으로 한 순전파 과정입니다. 이는 2개의 입력노드를 <span class="math inline">\textbf{X}</span>, 3개의 출력노드 <span class="math inline">\textbf{Y}</span>를 갖는 신경망<a href="#fn8" class="footnote-ref" id="fnref8" role="doc-noteref"><sup>8</sup></a> (<a href="#fig-annBack7_2" class="quarto-xref">Figure&nbsp;<span>8.9</span></a> )을 벡터폼으로 표현한 것입니다.</p>
+<div class="no-row-height column-margin column-container"><div id="fn8"><p><sup>8</sup>&nbsp;입력노드와 출력노드간 간선에 해당하는 가중치 <span class="math inline">2\times3</span>의 <span class="math inline">\textbf{W}</span></p></div><div id="fig-annBack7_2" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-annBack7_2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart LR
+  x1((x1)) --w11---&gt; y1((y1)) --&gt; sigmoid1(sigmoid) --&gt; z1((z1))
+  x1((x1)) --w12---&gt; y2((y2)) --&gt; sigmoid2(sigmoid) --&gt; z2((z2))
+  x1((x1)) --w13---&gt; y3((y3)) --&gt; sigmoid3(sigmoid) --&gt; z3((z3))
+  x2((x2)) --w21---&gt; y1((y1))
+  x2((x2)) --w22---&gt; y2((y2))
+  x2((x2)) --w23---&gt; y3((y3))
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-annBack7_2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;8.9
+</figcaption>
+</figure>
+</div></div>
+<p><a href="#fig-annBack7" class="quarto-xref">Figure&nbsp;<span>8.8</span></a> 의 각 단계별 역전파를 위하여 편미분을 진행하면 다음과 같은 식이 도출됩니다.</p>
+<p><span id="eq-annBack4"><span class="math display">
+\begin{align}
+\frac{\partial{L}}{\partial{\textbf{X}}} &amp;= \frac{\partial{L}}{\partial{\textbf{Y}}}\frac{\partial{\textbf{Y}}}{\partial{\textbf{X}}} \\
+&amp;= \frac{\partial{L}}{\partial{\textbf{Y}}}\frac{\partial{(\textbf{X}\cdot\textbf{W}+\textbf{B})}}{\partial{\textbf{X}}} \\
+&amp;= \frac{\partial{L}}{\partial{\textbf{Y}}}\cdot\textbf{W}^T \\\\
+\frac{\partial{L}}{\partial{\textbf{W}}} &amp;= \frac{\partial{L}}{\partial{\textbf{Y}}}\frac{\partial{\textbf{Y}}}{\partial{\textbf{W}}} \\
+&amp;= \frac{\partial{L}}{\partial{\textbf{Y}}}\frac{\partial{(\textbf{X}\cdot\textbf{W}+\textbf{B})}}{\partial{\textbf{W}}} \\
+&amp;= \textbf{X}^T\cdot\frac{\partial{L}}{\partial{\textbf{Y}}}
+\end{align}
+\tag{8.4}</span></span></p>
+<p><a href="#eq-annBack4" class="quarto-xref">Equation&nbsp;<span>8.4</span></a> 의 식을 이용하여 역전파 과정을 그리면 <a href="#fig-annBack8" class="quarto-xref">Figure&nbsp;<span>8.10</span></a> 과 같이 그 과정을 표현할 수 있습니다. 주의할 것은 <span class="math inline">\textbf{X}</span>(<span class="math inline">\textbf{W}</span>)의 형상과 역전파로 산출되는 <span class="math inline">\frac{\partial{L}}{\partial{\textbf{X}}}</span>(<span class="math inline">\frac{\partial{L}}{\partial{\textbf{W}}}</span>)의 형상이 동일하다는 것입니다.</p>
+<div id="fig-annBack8" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-annBack8-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="image/fig-annBack8.png" class="img-fluid figure-img" style="width:70.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-annBack8-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;8.10: Backward Propagation of Affine
+</figcaption>
+</figure>
+</div>
+<p>이러한 어파인 과정을 배치용 계층으로 구성할 때는 <span class="math inline">\textbf{X}</span>의 형상만을 변형해주면 손쉽게 구현할 수 있습니다.</p>
+<div id="fig-annBack9" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-annBack9-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="image/fig-annBack9.png" class="img-fluid figure-img" style="width:70.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-annBack9-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;8.11: Backward Propagation of Affine for Mini-batch
+</figcaption>
+</figure>
+</div>
+<p>지금까지 설명한 Affine을 코드로 구현하겠습니다. 앞선 예들과 같이 순전파와 역전파 과정을 모두 포함합니다.,</p>
+<div id="a80b1a70" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Affine:</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, W, b):</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.W <span class="op">=</span> W</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.b <span class="op">=</span> b</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.x <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.dw <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.db <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="kw">def</span> forward(<span class="va">self</span>, x):</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.x <span class="op">=</span> x</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    out <span class="op">=</span> np.dot(x, <span class="va">self</span>.W) <span class="op">+</span> <span class="va">self</span>.b</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> out</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>  <span class="kw">def</span> backward(<span class="va">self</span>, dout):</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>    dx <span class="op">=</span> np.dot(dout. <span class="va">self</span>.W.T)</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.dw <span class="op">=</span> np.dot(<span class="va">self</span>.x.T, dout)</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.db <span class="op">=</span> np.<span class="bu">sum</span>(dout, axis <span class="op">=</span> <span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 </section>
 <section id="softmax" class="level3" data-number="8.4.2">
 <h3 data-number="8.4.2" class="anchored" data-anchor-id="softmax"><span class="header-section-number">8.4.2</span> Softmax</h3>
