@@ -328,6 +328,7 @@ window.Quarto = {
   <li><a href="#affine" id="toc-affine" class="nav-link" data-scroll-target="#affine"><span class="header-section-number">8.4.1</span> Affine</a></li>
   <li><a href="#softmax" id="toc-softmax" class="nav-link" data-scroll-target="#softmax"><span class="header-section-number">8.4.2</span> Softmax</a></li>
   </ul></li>
+  <li><a href="#implementing-of-softmax-with-error" id="toc-implementing-of-softmax-with-error" class="nav-link" data-scroll-target="#implementing-of-softmax-with-error"><span class="header-section-number">8.5</span> Implementing of Softmax-with-error</a></li>
   </ul>
 </nav>
     </div>
@@ -492,7 +493,7 @@ Figure&nbsp;8.5: Backpropagation process of ReLU
 </figure>
 </div>
 <p><a href="#fig-annBack3" class="quarto-xref">Figure&nbsp;<span>8.5</span></a> 의 과정을 참고하여 ReLU 계층을 코드로 구현하면 아래와 같습니다.</p>
-<div id="8069bece" class="cell" data-execution_count="1">
+<div id="4905aa33" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="annotated-cell-1"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-1-1"><a href="#annotated-cell-1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="annotated-cell-1-2"><a href="#annotated-cell-1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="annotated-cell-1-3"><a href="#annotated-cell-1-3" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Relu:</span>
@@ -590,7 +591,7 @@ Figure&nbsp;8.7: Simplified Backward of Sigmoid
 </figure>
 </div>
 <p><a href="#fig-annBack6" class="quarto-xref">Figure&nbsp;<span>8.7</span></a> 의 과정을 참고하여 Sigmoid 계층을 코드로 구현하면 아래와 같습니다.</p>
-<div id="33010a28" class="cell" data-execution_count="2">
+<div id="0904384b" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="annotated-cell-2"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-2-1"><a href="#annotated-cell-2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Sigmoid:</span>
 <span id="annotated-cell-2-2"><a href="#annotated-cell-2-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>):</span>
 <span id="annotated-cell-2-3"><a href="#annotated-cell-2-3" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.out <span class="op">=</span> <span class="va">None</span></span>
@@ -692,7 +693,7 @@ Figure&nbsp;8.11: Backward Propagation of Affine for Mini-batch
 </figure>
 </div>
 <p>지금까지 설명한 Affine을 코드로 구현하겠습니다. 앞선 예들과 같이 순전파와 역전파 과정을 모두 포함합니다.,</p>
-<div id="88493b78" class="cell" data-execution_count="3">
+<div id="163fae38" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Affine:</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, W, b):</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.W <span class="op">=</span> W</span>
@@ -814,9 +815,33 @@ y_1 = \frac{\exp(a_1)}{S} \quad &amp;\rightarrow \quad \frac{1}{y_1} = \frac{S}{
 <li><strong>5단계:</strong> 이제 크로스엔트로피의 분자쪽 방향의 역전파를 살펴보겠습니다. <span class="math inline">\times</span> 노드 중 순전파시 분모쪽 입력값(<span class="math inline">\frac{1}{S}</span>)를 상류에서 역전파를 위해 입력받은 값(<span class="math inline">-\frac{t_1}{y_1}</span>)과 곱하여 <span class="math inline">-\frac{t_1}{y_1}\frac{1}{S}</span><a href="#fn13" class="footnote-ref" id="fnref13" role="doc-noteref"><sup>13</sup></a>를 하류로 흘려보냅니다.</li>
 <li><strong>6단계:</strong> <code>EXP</code>노드는 앞서 부모쪽 <span class="math inline">\div</span>(/) 노드처럼 순전파시 <span class="math inline">exp(a_1)</span> 을 다음노드로 나누어 흘려 보냈으므로 역전파시에는 나누어진 값(부모쪽:<span class="math inline">\frac{1}{S}</span>, 분자쪽:<span class="math inline">-\frac{t_1}{exp(a_1)}</span>)들을 먼저 합하여야 합니다. 이렇게 합한 값에 순전파시 흘려보낸 값(<span class="math inline">y=\exp(a_1)</span>)의 미분값(<span class="math inline">\frac{\partial{y}}{\partial{x}}=\exp(x)</span>)을 곱하여 최종적으로 <span class="math inline">\frac{\exp(a_1)}{S}-t_1</span><a href="#fn14" class="footnote-ref" id="fnref14" role="doc-noteref"><sup>14</sup></a> 소프트맥스 계층의 역전파 값을 산출합니다.</li>
 </ul>
+<div class="no-row-height column-margin column-container"><div id="fn12"><p><sup>12</sup>&nbsp;주의할 것은 <span class="math inline">(t_1, t_2, t_3)</span>은 원-핫 벡터로 이들의 합은 항상 <code>1</code>이 됩니다. 따라서, 식을 간단히 하여 하류로 흘려보내는 값은 <span class="math inline">\frac{1}{S}</span>로 단순화 시킬수 있습니다.</p></div><div id="fn13"><p><sup>13</sup>&nbsp;이식에서 <span class="math inline">y_1=\frac{exp(a_1)}{S}</span>를 활용하여 <span class="math inline">-\frac{t_1}{exp(a_1)}</span>로 단순화 킬수 있습니다.</p></div><div id="fn14"><p><sup>14</sup>&nbsp;<span class="math inline">(\frac{1}{S}-\frac{t_1}{\exp(a_1)\exp(a_1)}\exp(a_1))</span></p></div></div></section>
+</section>
+<section id="implementing-of-softmax-with-error" class="level2 page-columns page-full" data-number="8.5">
+<h2 data-number="8.5" class="anchored" data-anchor-id="implementing-of-softmax-with-error"><span class="header-section-number">8.5</span> Implementing of Softmax-with-error</h2>
+<p>지금까지 순전파 및 역전파 과정을 계산그래프를 통하여 살펴보았습니다, 특히 Softmax-with-loss 계층을 코드로 구현하며 마무리 해 보도록 하겠습니다,<a href="#fn15" class="footnote-ref" id="fnref15" role="doc-noteref"><sup>15</sup></a></p>
+<div class="no-row-height column-margin column-container"><div id="fn15"><p><sup>15</sup>&nbsp;<a href="ANN-learning.html" class="quarto-xref"><span>Chapter 6</span></a> 에서 구현한 <code>softmax()</code>와 <code>cross-entropy_error()</code>을 활용하겠습니다.</p></div></div><div id="f5830ba3" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> common.functions <span class="im">import</span> softmax, cross_entropy_error</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> SoftmaxWithLoss:</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>):</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.loss <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.y <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.t <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  <span class="kw">def</span> forward(<span class="va">self</span>, x, t):</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.t <span class="op">=</span> t</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.y <span class="op">=</span> softmax(x)</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.loss <span class="op">=</span> cross_entropy_error(<span class="va">self</span>.y, <span class="va">self</span>.t)</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="va">self</span>.loss</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>  <span class="kw">def</span> backward(<span class="va">self</span>, dout<span class="op">=</span><span class="dv">1</span>):</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>    batch_size <span class="op">=</span> <span class="va">self</span>.t.shape[<span class="dv">0</span>]</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>    dx <span class="op">=</span> (sefl.y <span class="op">-</span> <span class="va">self</span>.t) <span class="op">/</span> batch_size</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> dx</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 
 
-<div class="no-row-height column-margin column-container"><div id="fn12"><p><sup>12</sup>&nbsp;주의할 것은 <span class="math inline">(t_1, t_2, t_3)</span>은 원-핫 벡터로 이들의 합은 항상 <code>1</code>이 됩니다. 따라서, 식을 간단히 하여 하류로 흘려보내는 값은 <span class="math inline">\frac{1}{S}</span>로 단순화 시킬수 있습니다.</p></div><div id="fn13"><p><sup>13</sup>&nbsp;이식에서 <span class="math inline">y_1=\frac{exp(a_1)}{S}</span>를 활용하여 <span class="math inline">-\frac{t_1}{exp(a_1)}</span>로 단순화 킬수 있습니다.</p></div><div id="fn14"><p><sup>14</sup>&nbsp;<span class="math inline">(\frac{1}{S}-\frac{t_1}{\exp(a_1)\exp(a_1)})</span></p></div></div></section>
 </section>
 
 
