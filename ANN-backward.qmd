@@ -318,4 +318,29 @@ $$
 -   **5단계:** 이제 크로스엔트로피의 분자쪽 방향의 역전파를 살펴보겠습니다. $\times$ 노드 중 순전파시 분모쪽 입력값($\frac{1}{S}$)를 상류에서 역전파를 위해 입력받은 값($-\frac{t_1}{y_1}$)과 곱하여 $-\frac{t_1}{y_1}\frac{1}{S}$^[이식에서 $y_1=\frac{exp(a_1)}{S}$를 활용하여 $-\frac{t_1}{exp(a_1)}$로 단순화 킬수 있습니다.]를 하류로 흘려보냅니다.
 -   **6단계:** `EXP`노드는 앞서 부모쪽 $\div$(/) 노드처럼 순전파시 $exp(a_1)$ 을 다음노드로 나누어 흘려 보냈으므로 역전파시에는 나누어진 값(부모쪽:$\frac{1}{S}$, 분자쪽:$-\frac{t_1}{exp(a_1)}$)들을 먼저 합하여야 합니다. 이렇게 합한 값에 순전파시 흘려보낸 값($y=\exp(a_1)$)의 미분값($\frac{\partial{y}}{\partial{x}}=\exp(x)$)을 곱하여 최종적으로 $\frac{\exp(a_1)}{S}-t_1$[^foot_annBack2] 소프트맥스 계층의 역전파 값을 산출합니다.
 
-[^foot_annBack2]: $(\frac{1}{S}-\frac{t_1}{\exp(a_1)\exp(a_1)})$
+[^foot_annBack2]: $(\frac{1}{S}-\frac{t_1}{\exp(a_1)\exp(a_1)}\exp(a_1))$
+
+## Implementing of Softmax-with-error
+
+지금까지 순전파 및 역전파 과정을 계산그래프를 통하여 살펴보았습니다, 특히 Softmax-with-loss 계층을 코드로 구현하며 마무리 해 보도록 하겠습니다,^[@sec-learningprocess 에서 구현한 `softmax()`와 `cross-entropy_error()`을 활용하겠습니다.]
+
+```{python}
+from common.functions import softmax, cross_entropy_error
+
+class SoftmaxWithLoss:
+  def __init__(self):
+    self.loss = None
+    self.y = None
+    self.t = None
+
+  def forward(self, x, t):
+    self.t = t
+    self.y = softmax(x)
+    self.loss = cross_entropy_error(self.y, self.t)
+    return self.loss
+
+  def backward(self, dout=1):
+    batch_size = self.t.shape[0]
+    dx = (sefl.y - self.t) / batch_size
+    return dx
+```

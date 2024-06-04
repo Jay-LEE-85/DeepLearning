@@ -1,4 +1,4 @@
-# Learning process
+# Learning process {#sec-learningprocess}
 ---
 ``` {python}
 #| echo: false
