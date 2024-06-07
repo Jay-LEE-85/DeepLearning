@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -72,7 +106,7 @@ ul.task-list li input[type="checkbox"] {
 
 </head>
 
-<body class="nav-sidebar floating">
+<body class="nav-sidebar floating slimcontent">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -234,7 +268,7 @@ ul.task-list li input[type="checkbox"] {
 </nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
+<main class="content page-columns page-full" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./ANN-intro.html">ANN</a></li><li class="breadcrumb-item"><a href="./ANN-lab_Backpro.html"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Lab: Implementing Backpropagation to ANN</span></a></li></ol></nav>
 <div class="quarto-title">
@@ -255,17 +289,251 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="step1-two-layer-net" class="level2" data-number="9.1">
+<hr>
+<p>지금까지 살펴본 내용을 종합하여 계층들을 조합한 신경망을 구축해 보도록 하겠습니다. 구체적인 구현에 앞서 전체적인 이해를 위해 전체과정을 다시 살펴볼 필요가 있습니다.</p>
+<ul>
+<li><strong>Pre requisite</strong>
+<ul>
+<li>신경망에는 적응 가능한 가중치와 편향이 있고, 이 가중치와 편향을 훈련 데이터에 적응하도록 조정하는 과정을 <strong>학습</strong>이라 한다.</li>
+</ul></li>
+<li><strong>1단계 - 미니배치</strong>
+<ul>
+<li>훈련 데이터 중 일부를 무작위로 추출하고, 이러한 미니배치를 활용하여 미니배치의 손실함수 값을 줄이도록 하는 것을 목표로 한다.</li>
+</ul></li>
+<li><strong>2단계 - 기울기 산출</strong>
+<ul>
+<li>미니배치의 손실함수 값을 줄이기 위해 각 가중치 매개변수의 기울기루 구하고, 기울기는 손실함수의 값을 가장작게하는 방향으로 제시한다.</li>
+</ul></li>
+<li><strong>3단계 - 매개변수 갱신</strong>
+<ul>
+<li>가중치 매개변수를 기울기의 반대방향(책에는 기울기 방향으로 되어 있는데?)으로 아주 조금 갱신한다.</li>
+</ul></li>
+<li><strong>4단계 - 반복(Iteration)</strong>
+<ul>
+<li>1~3단계를 반복합니다.</li>
+</ul></li>
+</ul>
+<p>오차 역전파는 2단계인 기울기 산출에 해당하고 기울기는 수치미분을 활용함을 다시 떠올려보고, 이를 효율적으로 수행하기 위하여 미니배치를 활용한다는 것까지 생각하며 다음의 구현사례를 살펴보도록 합시다.</p>
+<section id="step1-two-layer-net" class="level2 page-columns page-full" data-number="9.1">
 <h2 data-number="9.1" class="anchored" data-anchor-id="step1-two-layer-net"><span class="header-section-number">9.1</span> STEP1: Two Layer Net</h2>
+<p>지금까지 학습한 내용을 바탕으로 기존 <strong>Two Layer Net</strong>을 새롭게 구현해 보겠습니다. 2층 신경망의 가중치 초기화 및 계층을 생성하도록 합니다.</p>
+<p>이후 이 계층들을 활용하여 순전파<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>를 우선 실행합니다. 이후 순전파시의 손실함수값을 받아 역전파를 진행합니다.</p>
+<div class="no-row-height column-margin column-container"><div id="fn1"><p><sup>1</sup>&nbsp;순전파는 hidden layers를 대상으로 하는 <code>predict</code>와 output layer를 대상으로 하는 <code>loss</code> 메서드로 구분</p></div></div><div id="51ac63cb" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="annotated-cell-1"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-1-1"><a href="#annotated-cell-1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sys, os</span>
+<span id="annotated-cell-1-2"><a href="#annotated-cell-1-2" aria-hidden="true" tabindex="-1"></a>sys.path.append(os.pardir)</span>
+<span id="annotated-cell-1-3"><a href="#annotated-cell-1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="annotated-cell-1-4"><a href="#annotated-cell-1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-1-5"><a href="#annotated-cell-1-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> common.layers <span class="im">import</span> <span class="op">*</span></span>
+<span id="annotated-cell-1-6"><a href="#annotated-cell-1-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> common.gradient <span class="im">import</span> numerical_gradient</span>
+<span id="annotated-cell-1-7"><a href="#annotated-cell-1-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> collections <span class="im">import</span> OrderedDict</span>
+<span id="annotated-cell-1-8"><a href="#annotated-cell-1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-1-9"><a href="#annotated-cell-1-9" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> TwoLayerNet:</span>
+<span id="annotated-cell-1-10"><a href="#annotated-cell-1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-1-11"><a href="#annotated-cell-1-11" aria-hidden="true" tabindex="-1"></a>  <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, input_size, hidden_size, output_size, weight_init_std <span class="op">=</span> <span class="fl">0.01</span>):</span>
+<span id="annotated-cell-1-12"><a href="#annotated-cell-1-12" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 가중치 초기화</span></span>
+<span id="annotated-cell-1-13"><a href="#annotated-cell-1-13" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.params <span class="op">=</span> {}</span>
+<span id="annotated-cell-1-14"><a href="#annotated-cell-1-14" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.params[<span class="st">'W1'</span>] <span class="op">=</span> weight_init_std <span class="op">*</span> np.random.randn(input_size, hidden_size)</span>
+<span id="annotated-cell-1-15"><a href="#annotated-cell-1-15" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.params[<span class="st">'b1'</span>] <span class="op">=</span> np.zeros(hidden_size)</span>
+<span id="annotated-cell-1-16"><a href="#annotated-cell-1-16" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.params[<span class="st">'W2'</span>] <span class="op">=</span> weight_init_std <span class="op">*</span> np.random.randn(hidden_size, output_size) </span>
+<span id="annotated-cell-1-17"><a href="#annotated-cell-1-17" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.params[<span class="st">'b2'</span>] <span class="op">=</span> np.zeros(output_size)</span>
+<span id="annotated-cell-1-18"><a href="#annotated-cell-1-18" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 계층 생성</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-1-19" class="code-annotation-target"><a href="#annotated-cell-1-19" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.layers <span class="op">=</span> OrderedDict()</span>
+<span id="annotated-cell-1-20"><a href="#annotated-cell-1-20" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.layers[<span class="st">'Affine1'</span>] <span class="op">=</span> Affine(<span class="va">self</span>.params[<span class="st">'W1'</span>], <span class="va">self</span>.params[<span class="st">'b1'</span>])</span>
+<span id="annotated-cell-1-21"><a href="#annotated-cell-1-21" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.layers[<span class="st">'Relu1'</span>] <span class="op">=</span> Relu()</span>
+<span id="annotated-cell-1-22"><a href="#annotated-cell-1-22" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.layers[<span class="st">'Affine2'</span>] <span class="op">=</span> Affine(<span class="va">self</span>.params[<span class="st">'W2'</span>], <span class="va">self</span>.params[<span class="st">'b2'</span>])</span>
+<span id="annotated-cell-1-23"><a href="#annotated-cell-1-23" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.lastLayer <span class="op">=</span> SoftmaxWithLoss()</span>
+<span id="annotated-cell-1-24"><a href="#annotated-cell-1-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-1-25"><a href="#annotated-cell-1-25" aria-hidden="true" tabindex="-1"></a>  <span class="kw">def</span> predict(<span class="va">self</span>, x):</span>
+<span id="annotated-cell-1-26"><a href="#annotated-cell-1-26" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> layer <span class="kw">in</span> <span class="va">self</span>.layers.values():</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-1-27" class="code-annotation-target"><a href="#annotated-cell-1-27" aria-hidden="true" tabindex="-1"></a>        x <span class="op">=</span> layer.forward(x)</span>
+<span id="annotated-cell-1-28"><a href="#annotated-cell-1-28" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> x</span>
+<span id="annotated-cell-1-29"><a href="#annotated-cell-1-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-1-30"><a href="#annotated-cell-1-30" aria-hidden="true" tabindex="-1"></a>  <span class="co"># x :입력 데이터, t : 정답 레이블</span></span>
+<span id="annotated-cell-1-31"><a href="#annotated-cell-1-31" aria-hidden="true" tabindex="-1"></a>  <span class="kw">def</span> loss(<span class="va">self</span>, x, t):</span>
+<span id="annotated-cell-1-32"><a href="#annotated-cell-1-32" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> <span class="va">self</span>.predict(x)</span>
+<span id="annotated-cell-1-33"><a href="#annotated-cell-1-33" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="va">self</span>.lastLayer.forward(y, t)</span>
+<span id="annotated-cell-1-34"><a href="#annotated-cell-1-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-1-35"><a href="#annotated-cell-1-35" aria-hidden="true" tabindex="-1"></a>  <span class="kw">def</span> accuracy(<span class="va">self</span>, x, t):</span>
+<span id="annotated-cell-1-36"><a href="#annotated-cell-1-36" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> <span class="va">self</span>.predict(x)</span>
+<span id="annotated-cell-1-37"><a href="#annotated-cell-1-37" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> np.argmax(y, axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="annotated-cell-1-38"><a href="#annotated-cell-1-38" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> t.ndim <span class="op">!=</span> <span class="dv">1</span>: t <span class="op">=</span> np.argmax(t, axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="annotated-cell-1-39"><a href="#annotated-cell-1-39" aria-hidden="true" tabindex="-1"></a>    accuracy <span class="op">=</span> np.<span class="bu">sum</span>(y <span class="op">==</span> t) <span class="op">/</span> <span class="bu">float</span>(x.shape[<span class="dv">0</span>])</span>
+<span id="annotated-cell-1-40"><a href="#annotated-cell-1-40" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> accuracy</span>
+<span id="annotated-cell-1-41"><a href="#annotated-cell-1-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-1-42"><a href="#annotated-cell-1-42" aria-hidden="true" tabindex="-1"></a>  <span class="co"># x :입력 데이터, t : 정답 레이블</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="3" onclick="event.preventDefault();">3</a><span id="annotated-cell-1-43" class="code-annotation-target"><a href="#annotated-cell-1-43" aria-hidden="true" tabindex="-1"></a>  <span class="kw">def</span> numerical_gradient(<span class="va">self</span>, x, t):</span>
+<span id="annotated-cell-1-44"><a href="#annotated-cell-1-44" aria-hidden="true" tabindex="-1"></a>    loss_W <span class="op">=</span> <span class="kw">lambda</span> W: <span class="va">self</span>.loss(x, t)</span>
+<span id="annotated-cell-1-45"><a href="#annotated-cell-1-45" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="annotated-cell-1-46"><a href="#annotated-cell-1-46" aria-hidden="true" tabindex="-1"></a>    grads <span class="op">=</span> {}</span>
+<span id="annotated-cell-1-47"><a href="#annotated-cell-1-47" aria-hidden="true" tabindex="-1"></a>    grads[<span class="st">'W1'</span>] <span class="op">=</span> numerical_gradient(loss_W, <span class="va">self</span>.params[<span class="st">'W1'</span>])</span>
+<span id="annotated-cell-1-48"><a href="#annotated-cell-1-48" aria-hidden="true" tabindex="-1"></a>    grads[<span class="st">'b1'</span>] <span class="op">=</span> numerical_gradient(loss_W, <span class="va">self</span>.params[<span class="st">'b1'</span>])</span>
+<span id="annotated-cell-1-49"><a href="#annotated-cell-1-49" aria-hidden="true" tabindex="-1"></a>    grads[<span class="st">'W2'</span>] <span class="op">=</span> numerical_gradient(loss_W, <span class="va">self</span>.params[<span class="st">'W2'</span>])</span>
+<span id="annotated-cell-1-50"><a href="#annotated-cell-1-50" aria-hidden="true" tabindex="-1"></a>    grads[<span class="st">'b2'</span>] <span class="op">=</span> numerical_gradient(loss_W, <span class="va">self</span>.params[<span class="st">'b2'</span>])</span>
+<span id="annotated-cell-1-51"><a href="#annotated-cell-1-51" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> grads</span>
+<span id="annotated-cell-1-52"><a href="#annotated-cell-1-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-1-53"><a href="#annotated-cell-1-53" aria-hidden="true" tabindex="-1"></a>  <span class="kw">def</span> gradient(<span class="va">self</span>, x, t):</span>
+<span id="annotated-cell-1-54"><a href="#annotated-cell-1-54" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 순전파</span></span>
+<span id="annotated-cell-1-55"><a href="#annotated-cell-1-55" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.loss(x, t)</span>
+<span id="annotated-cell-1-56"><a href="#annotated-cell-1-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-1-57"><a href="#annotated-cell-1-57" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 역전파</span></span>
+<span id="annotated-cell-1-58"><a href="#annotated-cell-1-58" aria-hidden="true" tabindex="-1"></a>    dout <span class="op">=</span> <span class="dv">1</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="4" onclick="event.preventDefault();">4</a><span id="annotated-cell-1-59" class="code-annotation-target"><a href="#annotated-cell-1-59" aria-hidden="true" tabindex="-1"></a>    dout <span class="op">=</span> <span class="va">self</span>.lastLayer.backward(dout)</span>
+<span id="annotated-cell-1-60"><a href="#annotated-cell-1-60" aria-hidden="true" tabindex="-1"></a>    layers <span class="op">=</span> <span class="bu">list</span>(<span class="va">self</span>.layers.values())</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="5" onclick="event.preventDefault();">5</a><span id="annotated-cell-1-61" class="code-annotation-target"><a href="#annotated-cell-1-61" aria-hidden="true" tabindex="-1"></a>    layers.reverse()</span>
+<span id="annotated-cell-1-62"><a href="#annotated-cell-1-62" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> layer <span class="kw">in</span> layers:</span>
+<span id="annotated-cell-1-63"><a href="#annotated-cell-1-63" aria-hidden="true" tabindex="-1"></a>      dout <span class="op">=</span> layer.backward(dout)</span>
+<span id="annotated-cell-1-64"><a href="#annotated-cell-1-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-1-65"><a href="#annotated-cell-1-65" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 결과저장</span></span>
+<span id="annotated-cell-1-66"><a href="#annotated-cell-1-66" aria-hidden="true" tabindex="-1"></a>    grads <span class="op">=</span> {}</span>
+<span id="annotated-cell-1-67"><a href="#annotated-cell-1-67" aria-hidden="true" tabindex="-1"></a>    grads[<span class="st">'W1'</span>] <span class="op">=</span> <span class="va">self</span>.layers[<span class="st">'Affine1'</span>].dW</span>
+<span id="annotated-cell-1-68"><a href="#annotated-cell-1-68" aria-hidden="true" tabindex="-1"></a>    grads[<span class="st">'b1'</span>] <span class="op">=</span> <span class="va">self</span>.layers[<span class="st">'Affine1'</span>].db</span>
+<span id="annotated-cell-1-69"><a href="#annotated-cell-1-69" aria-hidden="true" tabindex="-1"></a>    grads[<span class="st">'W2'</span>] <span class="op">=</span> <span class="va">self</span>.layers[<span class="st">'Affine2'</span>].dW</span>
+<span id="annotated-cell-1-70"><a href="#annotated-cell-1-70" aria-hidden="true" tabindex="-1"></a>    grads[<span class="st">'b2'</span>] <span class="op">=</span> <span class="va">self</span>.layers[<span class="st">'Affine2'</span>].db</span>
+<span id="annotated-cell-1-71"><a href="#annotated-cell-1-71" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-1-72"><a href="#annotated-cell-1-72" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> grads</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-1" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-1" data-code-lines="19" data-code-annotation="1"><code>OrderedDict</code>의 경우 순서가 딕셔너리라 순전파 때 추가한 순서대로 연산</span>
+</dd>
+<dt data-target-cell="annotated-cell-1" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-1" data-code-lines="27,33" data-code-annotation="2"><code>forward</code>는 <code>Affine</code> 및 <code>Relu</code>클래스에 존재하는 순전파 메서드</span>
+</dd>
+<dt data-target-cell="annotated-cell-1" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-cell="annotated-cell-1" data-code-lines="43,53" data-code-annotation="3"><code>numerical_gradient</code>은 검증용 수치미분 메서드, <code>gradient</code>는 학습용 해석미분 메서드</span>
+</dd>
+<dt data-target-cell="annotated-cell-1" data-target-annotation="4">4</dt>
+<dd>
+<span data-code-cell="annotated-cell-1" data-code-lines="59,63" data-code-annotation="4"><code>backward</code>는 <code>Affine</code> 및 <code>Relu</code>클래스에 존재하는 역전파 메서드</span>
+</dd>
+<dt data-target-cell="annotated-cell-1" data-target-annotation="5">5</dt>
+<dd>
+<span data-code-cell="annotated-cell-1" data-code-lines="61" data-code-annotation="5"><code>reverse</code>로 <code>layers</code>의 순서를 뒤집어 연산이 역으로 진행되게 하는 메서드</span>
+</dd>
+</dl>
+</div>
+</div>
 </section>
-<section id="step2-gradient-check" class="level2" data-number="9.2">
+<section id="step2-gradient-check" class="level2 page-columns page-full" data-number="9.2">
 <h2 data-number="9.2" class="anchored" data-anchor-id="step2-gradient-check"><span class="header-section-number">9.2</span> STEP2: Gradient Check</h2>
+<p>오차역전파 이전에 가중치 매개변수를 업데이트하기 위하여 기울기가 필요하다고 하였습니다. 이러한 기울기는 수치미분을 써서 구하는 방법과 핵석적으로 수식을 풀어 구하는 방법이 존재합을 확인하였습니다.</p>
+<p>후자의 경우가 매개변수가 많아도 효율적으로 계산할 수 있음을 확인한 만큼 오차역전파를 해석적인 방법을 활용하여 구현하겠습니다.<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></p>
+<div class="no-row-height column-margin column-container"><div id="fn2"><p><sup>2</sup>&nbsp;수치미분은 구현이 쉬워 실수를 줄이고 정확한 값을 산출할 수 있습니다. 다만, 효율적이지 않은 문제가 있습니다. 따라서, 수치미분은 해석적 방법으로 구한 기울기의 값을 검증하기 위한 도구로 활용시 이점이 있습니다.</p></div></div><div id="e97f69be" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># coding: utf-8</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sys, os</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>sys.path.append(os.pardir)  <span class="co"># 부모 디렉터리의 파일을 가져올 수 있도록 설정</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> dataset.mnist <span class="im">import</span> load_mnist</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co"># from two_layer_net import TwoLayerNet</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co"># 데이터 읽기</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>(x_train, t_train), (x_test, t_test) <span class="op">=</span> load_mnist(normalize<span class="op">=</span><span class="va">True</span>, one_hot_label<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>network <span class="op">=</span> TwoLayerNet(input_size<span class="op">=</span><span class="dv">784</span>, hidden_size<span class="op">=</span><span class="dv">50</span>, output_size<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>x_batch <span class="op">=</span> x_train[:<span class="dv">3</span>]</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>t_batch <span class="op">=</span> t_train[:<span class="dv">3</span>]</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>grad_numerical <span class="op">=</span> network.numerical_gradient(x_batch, t_batch)</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>grad_backprop <span class="op">=</span> network.gradient(x_batch, t_batch)</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="co"># 각 가중치의 절대 오차의 평균을 구한다.</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> key <span class="kw">in</span> grad_numerical.keys():</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>    diff <span class="op">=</span> np.average( np.<span class="bu">abs</span>(grad_backprop[key] <span class="op">-</span> grad_numerical[key]) )</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(key <span class="op">+</span> <span class="st">":"</span> <span class="op">+</span> <span class="bu">str</span>(diff))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>W1:5.0647510221094e-10
+b1:2.8650949745242376e-09
+W2:5.821143664528499e-09
+b2:1.4031725839441788e-07</code></pre>
+</div>
+</div>
 </section>
 <section id="step3-implementing-backpropagation-to-ann" class="level2" data-number="9.3">
 <h2 data-number="9.3" class="anchored" data-anchor-id="step3-implementing-backpropagation-to-ann"><span class="header-section-number">9.3</span> STEP3: Implementing Backpropagation to ANN</h2>
+<p>기울기를 수치미분으로 구하는 방법이 아닌 해석적 방법의 연쇄법칙을 사용한 오차역전파를 사용하여 신경망학습을 구현해 보겠습니다.</p>
+<div id="11b87653" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="annotated-cell-3"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-3-1"><a href="#annotated-cell-3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># coding: utf-8</span></span>
+<span id="annotated-cell-3-2"><a href="#annotated-cell-3-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sys, os</span>
+<span id="annotated-cell-3-3"><a href="#annotated-cell-3-3" aria-hidden="true" tabindex="-1"></a>sys.path.append(os.pardir)</span>
+<span id="annotated-cell-3-4"><a href="#annotated-cell-3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-3-5"><a href="#annotated-cell-3-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="annotated-cell-3-6"><a href="#annotated-cell-3-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> dataset.mnist <span class="im">import</span> load_mnist</span>
+<span id="annotated-cell-3-7"><a href="#annotated-cell-3-7" aria-hidden="true" tabindex="-1"></a><span class="co"># from two_layer_net import TwoLayerNet</span></span>
+<span id="annotated-cell-3-8"><a href="#annotated-cell-3-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-3-9"><a href="#annotated-cell-3-9" aria-hidden="true" tabindex="-1"></a><span class="co"># 데이터 읽기</span></span>
+<span id="annotated-cell-3-10"><a href="#annotated-cell-3-10" aria-hidden="true" tabindex="-1"></a>(x_train, t_train), (x_test, t_test) <span class="op">=</span> load_mnist(normalize<span class="op">=</span><span class="va">True</span>, one_hot_label<span class="op">=</span><span class="va">True</span>)</span>
+<span id="annotated-cell-3-11"><a href="#annotated-cell-3-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-3-12"><a href="#annotated-cell-3-12" aria-hidden="true" tabindex="-1"></a>network <span class="op">=</span> TwoLayerNet(input_size<span class="op">=</span><span class="dv">784</span>, hidden_size<span class="op">=</span><span class="dv">50</span>, output_size<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="annotated-cell-3-13"><a href="#annotated-cell-3-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-3-14"><a href="#annotated-cell-3-14" aria-hidden="true" tabindex="-1"></a>iters_num <span class="op">=</span> <span class="dv">10000</span></span>
+<span id="annotated-cell-3-15"><a href="#annotated-cell-3-15" aria-hidden="true" tabindex="-1"></a>train_size <span class="op">=</span> x_train.shape[<span class="dv">0</span>]</span>
+<span id="annotated-cell-3-16"><a href="#annotated-cell-3-16" aria-hidden="true" tabindex="-1"></a>batch_size <span class="op">=</span> <span class="dv">100</span></span>
+<span id="annotated-cell-3-17"><a href="#annotated-cell-3-17" aria-hidden="true" tabindex="-1"></a>learning_rate <span class="op">=</span> <span class="fl">0.1</span></span>
+<span id="annotated-cell-3-18"><a href="#annotated-cell-3-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-3-19"><a href="#annotated-cell-3-19" aria-hidden="true" tabindex="-1"></a>train_loss_list <span class="op">=</span> []</span>
+<span id="annotated-cell-3-20"><a href="#annotated-cell-3-20" aria-hidden="true" tabindex="-1"></a>train_acc_list <span class="op">=</span> []</span>
+<span id="annotated-cell-3-21"><a href="#annotated-cell-3-21" aria-hidden="true" tabindex="-1"></a>test_acc_list <span class="op">=</span> []</span>
+<span id="annotated-cell-3-22"><a href="#annotated-cell-3-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-3-23"><a href="#annotated-cell-3-23" aria-hidden="true" tabindex="-1"></a>iter_per_epoch <span class="op">=</span> <span class="bu">max</span>(train_size <span class="op">/</span> batch_size, <span class="dv">1</span>)</span>
+<span id="annotated-cell-3-24"><a href="#annotated-cell-3-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-3-25"><a href="#annotated-cell-3-25" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(iters_num):</span>
+<span id="annotated-cell-3-26"><a href="#annotated-cell-3-26" aria-hidden="true" tabindex="-1"></a>    batch_mask <span class="op">=</span> np.random.choice(train_size, batch_size)</span>
+<span id="annotated-cell-3-27"><a href="#annotated-cell-3-27" aria-hidden="true" tabindex="-1"></a>    x_batch <span class="op">=</span> x_train[batch_mask]</span>
+<span id="annotated-cell-3-28"><a href="#annotated-cell-3-28" aria-hidden="true" tabindex="-1"></a>    t_batch <span class="op">=</span> t_train[batch_mask]</span>
+<span id="annotated-cell-3-29"><a href="#annotated-cell-3-29" aria-hidden="true" tabindex="-1"></a>    </span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-3-30" class="code-annotation-target"><a href="#annotated-cell-3-30" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 기울기 계산</span></span>
+<span id="annotated-cell-3-31"><a href="#annotated-cell-3-31" aria-hidden="true" tabindex="-1"></a>    <span class="co">#grad = network.numerical_gradient(x_batch, t_batch) # 수치 미분 방식</span></span>
+<span id="annotated-cell-3-32"><a href="#annotated-cell-3-32" aria-hidden="true" tabindex="-1"></a>    grad <span class="op">=</span> network.gradient(x_batch, t_batch) <span class="co"># 오차역전파법 방식(훨씬 빠르다)</span></span>
+<span id="annotated-cell-3-33"><a href="#annotated-cell-3-33" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="annotated-cell-3-34"><a href="#annotated-cell-3-34" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 갱신</span></span>
+<span id="annotated-cell-3-35"><a href="#annotated-cell-3-35" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> key <span class="kw">in</span> (<span class="st">'W1'</span>, <span class="st">'b1'</span>, <span class="st">'W2'</span>, <span class="st">'b2'</span>):</span>
+<span id="annotated-cell-3-36"><a href="#annotated-cell-3-36" aria-hidden="true" tabindex="-1"></a>        network.params[key] <span class="op">-=</span> learning_rate <span class="op">*</span> grad[key]</span>
+<span id="annotated-cell-3-37"><a href="#annotated-cell-3-37" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="annotated-cell-3-38"><a href="#annotated-cell-3-38" aria-hidden="true" tabindex="-1"></a>    loss <span class="op">=</span> network.loss(x_batch, t_batch)</span>
+<span id="annotated-cell-3-39"><a href="#annotated-cell-3-39" aria-hidden="true" tabindex="-1"></a>    train_loss_list.append(loss)</span>
+<span id="annotated-cell-3-40"><a href="#annotated-cell-3-40" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="annotated-cell-3-41"><a href="#annotated-cell-3-41" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> i <span class="op">%</span> iter_per_epoch <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="annotated-cell-3-42"><a href="#annotated-cell-3-42" aria-hidden="true" tabindex="-1"></a>        train_acc <span class="op">=</span> network.accuracy(x_train, t_train)</span>
+<span id="annotated-cell-3-43"><a href="#annotated-cell-3-43" aria-hidden="true" tabindex="-1"></a>        test_acc <span class="op">=</span> network.accuracy(x_test, t_test)</span>
+<span id="annotated-cell-3-44"><a href="#annotated-cell-3-44" aria-hidden="true" tabindex="-1"></a>        train_acc_list.append(train_acc)</span>
+<span id="annotated-cell-3-45"><a href="#annotated-cell-3-45" aria-hidden="true" tabindex="-1"></a>        test_acc_list.append(test_acc)</span>
+<span id="annotated-cell-3-46"><a href="#annotated-cell-3-46" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(train_acc, test_acc)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-3" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-3" data-code-lines="30" data-code-annotation="1">수치미분방법과 해석적방법의 기울기 계산</span>
+</dd>
+</dl>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>0.1327 0.1359
+0.9062 0.9091
+0.9261 0.9275
+0.9385 0.9388
+0.9473 0.9466
+0.95205 0.9497
+0.9582666666666667 0.9554
+0.9613333333333334 0.958
+0.96455 0.9622
+0.9678333333333333 0.9614
+0.9702333333333333 0.965
+0.9723333333333334 0.9655
+0.9710833333333333 0.9651
+0.9757166666666667 0.969
+0.97715 0.9679
+0.9781833333333333 0.9684
+0.9789333333333333 0.9706</code></pre>
+</div>
+</div>
 
 
 </section>
+
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
