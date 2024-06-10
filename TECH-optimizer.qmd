@@ -7,7 +7,7 @@
 
 이러한 복잡한 최적화의 문제는 매개변수를 어떻게 업데이트 할 것인가, 또는 매개변수의 초깃값을 어떻게 설정 할 것인가의 관점에서 접근해볼 수 있습니다.
 
-## Update parameters
+## Methodologies for updating parameters
 
 신경망의 매개변수 최적화를 위해 우리는 기울기(편미분)를 시용하여 배개변수 값을 지속적으로 갱신하는 **확률적 경사하강법**(SGD)을 사용하였습니다. 
 
@@ -24,8 +24,9 @@ $$
 위의 식을 간단한 클래스로 구현하도록 하겠습니다.
 
 ``` {python}
+#| inclue: False
 #| echo: False
-class SGD:
+#| eval: False
   def __init__(self, lr=0.01):
     self.lr = lr
 
@@ -181,19 +182,11 @@ Adam을 이용한 합습경로를 보면 앞서 설명한 바와 같이 모멘�
 ::: {.callout-note}
 ## Adam의 하이퍼파라미터
 Adam에는 3개의 하이퍼파라미터를 설정해야 합니다. 
+
 -   $\alpha$: 매개변수 업데이트 정도인 학습률
 -   $\beta_1$: 1차 모멘텀 계수로 논문에서는 0.9를 기본값으로 설정
 -   $\beta_2$: 2차 모멘텀 계수로 논문에서는 0.999를 기본값으로 설정
 :::
 
-## Comparison of Update methodologies
+## Comparing Methodologies for Updating Parameters
 
-
-
-## Initializing parameters
-
-## Batch normalization
-
-## Overfitting
-
-## Hyper-parameters
