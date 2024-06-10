@@ -29,8 +29,9 @@ book:
 
     - part: "Related technologies"
       chapters:
-      - TECH-initializing.qmd
       - TECH-optimizer.qmd
+      - TECH-initializing.qmd
+      - TECH-batchnorm.qmd
 
     - part: "CNN"
       chapters:
