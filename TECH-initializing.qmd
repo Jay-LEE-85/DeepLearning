@@ -1,2 +1,94 @@
 # Initializing parameters
 ---
+
+신경망의 주요 매개변수인 가중치의 초깃값을 어떻게 설정해야 할까요? 이는 학습의 성패를 가르기도 하는 매우 중요한 문제입니다. 기본적으로 알아야 할것은 은닉층으로 연결되는 간선의 가중치는 작은 값(0을 의미하는 것이 아님에 주의)을 갖도록 하고, 무작위적으로 설정되어야 한다는 것입니다.
+
+## Weighting initialization when using ReLU functions
+**(Distribution of activation values in the hidden layer)**
+
+은닉층의 화성화값은 활성화 함수에서 출력되는 데이터를 말합니다. 스탠퍼드 대학교의 **CS231n**의 수업에서 시그모이드 함수로 구현된 은닉층에 무작위로 생성한 입력데이터를 넣어 출력되는 데이터의 분포를 히스토그램으로 그려보았습니다.
+
+먼저 수업에 사용된 코드는 아래와 같습니다.
+
+``` {python}
+#| echo: False
+#| include: False
+# coding: utf-8
+import numpy as np
+import matplotlib.pyplot as plt
+
+def sigmoid(x):
+    return 1 / (1 + np.exp(-x))
+
+def ReLU(x):
+    return np.maximum(0, x)
+
+def tanh(x):
+    return np.tanh(x)
+    
+input_data = np.random.randn(1000, 100)  # 1000개의 데이터
+node_num = 100  # 각 은닉층의 노드(뉴런) 수
+hidden_layer_size = 5  # 은닉층이 5개
+activations = {}  # 이곳에 활성화 결과를 저장
+
+x = input_data
+
+for i in range(hidden_layer_size):
+    if i != 0:
+        x = activations[i-1]
+
+    # 초깃값을 다양하게 바꿔가며 실험해보자！
+    w = np.random.randn(node_num, node_num) * 1 # <1>
+    # w = np.random.randn(node_num, node_num) * 0.01
+    # w = np.random.randn(node_num, node_num) * np.sqrt(1.0 / node_num)
+    # w = np.random.randn(node_num, node_num) * np.sqrt(2.0 / node_num)
+
+    a = np.dot(x, w)
+
+    # 활성화 함수도 바꿔가며 실험해보자！
+    z = sigmoid(a) # <2>
+    # z = ReLU(a)
+    # z = tanh(a)
+
+    activations[i] = z
+
+# 히스토그램 그리기
+for i, a in activations.items():
+    plt.subplot(1, len(activations), i+1)
+    plt.title(str(i+1) + "-layer")
+    if i != 0: plt.yticks([], [])
+    # plt.xlim(0.1, 1)
+    # plt.ylim(0, 7000)
+    plt.hist(a.flatten(), 30, range=(0,1))
+plt.show()
+```
+1. 가중치 초깃값 설정 코드
+2. 활성화 함수 설정 코드
+
+위 소스코드에서 가중치 초기화를 **표준편차가 1인 정규분포**, **표준편차가 0.01인 정규분포** 그리고 **Xavier**^[Xavier는 이전 노드의 갯수가 $n$개인 경우 표준편차가 $\frac{1}{\sqrt{n}}$인 분포를 사용하는 방식입니다.]의 방법을 사용하여 가중치의 활성화값 분포를 확인해보면 아래와 같습니다.
+
+::: {#fig-techInit0 layout-nrow=3}
+
+![Normmal Distribution with STD = 1](image/fig-techInit1.png){}
+
+![Normmal Distribution with STD = 0.01](image/fig-techInit2.png){}
+
+![Xavier](image/fig-techInit3.png){}
+
+Distribution of activation values by weight initialization methodology
+:::
+
+표준편차가 1인 정규분포를 이용한 가중치 초기화시에는 0과 1로 치우치는 모습이 보입니다. 이는 역전파시에 기울기 값을 점점 작아시게 하여 **기울기 소실**(8gradient vanising)의 문제를 야기합니다.
+
+표준편차가 0.01인 정규분포를 이용한 가중치 초기화시에는 0.5에 집중되는 모습이 보입니다. 노드별 값의 차이점이 없어 **표현력 제한**의 문제를 야기합니다.
+
+Xavier의 방법은 모든 노드에 골고루 분포되어 기울기 소실 또는 표현력 제한의 이슈를 해결할 수 있는 것으로 보입니다. 현재 일반적으로 딥러닝의 표준으로 사용됩니다.
+
+::: {.callout-note}
+## 층이 깊어질 수록 분포가 고르지 않은 이유
+
+시그모이드 함수의 대칭저은 (x, y) = (0, 0.5)이다. 따라서, 층을 지나갈수록 활성화 값이 고르지 않게 나오는 것입니다. 이를 해결하기 위하여는 원점에 대하여 대칭인 tahn함수를 고려할 수 있습니다.
+:::
+
+## Weighting initialization when using ReLU functions
+
