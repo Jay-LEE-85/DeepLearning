@@ -69,10 +69,53 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script>window.backupDefine = window.define; window.define = undefined;</script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+ var mathElements = document.getElementsByClassName("math");
+ var macros = [];
+ for (var i = 0; i < mathElements.length; i++) {
+  var texText = mathElements[i].firstChild;
+  if (mathElements[i].tagName == "SPAN") {
+   katex.render(texText.data, mathElements[i], {
+    displayMode: mathElements[i].classList.contains('display'),
+    throwOnError: false,
+    macros: macros,
+    fleqn: false
+   });
+}}});
+  </script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css">
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
-<body class="nav-sidebar floating">
+<body class="nav-sidebar floating slimcontent">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -246,10 +289,17 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#weighting-initialization-when-using-relu-functions" id="toc-weighting-initialization-when-using-relu-functions" class="nav-link active" data-scroll-target="#weighting-initialization-when-using-relu-functions"><span class="header-section-number">10.1</span> Weighting initialization when using ReLU functions</a></li>
+  <li><a href="#weighting-initialization-when-using-relu-functions-1" id="toc-weighting-initialization-when-using-relu-functions-1" class="nav-link" data-scroll-target="#weighting-initialization-when-using-relu-functions-1"><span class="header-section-number">10.2</span> Weighting initialization when using ReLU functions</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
+<main class="content page-columns page-full" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./TECH-initializing.html">Related technologies</a></li><li class="breadcrumb-item"><a href="./TECH-initializing.html"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Initializing parameters</span></a></li></ol></nav>
 <div class="quarto-title">
@@ -271,7 +321,78 @@ ul.task-list li input[type="checkbox"] {
 
 
 <hr>
+<p>신경망의 주요 매개변수인 가중치의 초깃값을 어떻게 설정해야 할까요? 이는 학습의 성패를 가르기도 하는 매우 중요한 문제입니다. 기본적으로 알아야 할것은 은닉층으로 연결되는 간선의 가중치는 작은 값(0을 의미하는 것이 아님에 주의)을 갖도록 하고, 무작위적으로 설정되어야 한다는 것입니다.</p>
+<section id="weighting-initialization-when-using-relu-functions" class="level2 page-columns page-full" data-number="10.1">
+<h2 data-number="10.1" class="anchored" data-anchor-id="weighting-initialization-when-using-relu-functions"><span class="header-section-number">10.1</span> Weighting initialization when using ReLU functions</h2>
+<p><strong>(Distribution of activation values in the hidden layer)</strong></p>
+<p>은닉층의 화성화값은 활성화 함수에서 출력되는 데이터를 말합니다. 스탠퍼드 대학교의 <strong>CS231n</strong>의 수업에서 시그모이드 함수로 구현된 은닉층에 무작위로 생성한 입력데이터를 넣어 출력되는 데이터의 분포를 히스토그램으로 그려보았습니다.</p>
+<p>먼저 수업에 사용된 코드는 아래와 같습니다.</p>
+<ol type="1">
+<li>가중치 초깃값 설정 코드</li>
+<li>활성화 함수 설정 코드</li>
+</ol>
+<p>위 소스코드에서 가중치 초기화를 <strong>표준편차가 1인 정규분포</strong>, <strong>표준편차가 0.01인 정규분포</strong> 그리고 <strong>Xavier</strong><a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>의 방법을 사용하여 가중치의 활성화값 분포를 확인해보면 아래와 같습니다.</p>
+<div class="no-row-height column-margin column-container"><div id="fn1"><p><sup>1</sup>&nbsp;Xavier는 이전 노드의 갯수가 <span class="math inline">n</span>개인 경우 표준편차가 <span class="math inline">\frac{1}{\sqrt{n}}</span>인 분포를 사용하는 방식입니다.</p></div></div><div id="fig-techInit0" class="quarto-layout-panel">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-techInit0-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="image/fig-techInit1.png" class="img-fluid figure-img"></p>
+<figcaption>Normmal Distribution with STD = 1</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="image/fig-techInit2.png" class="img-fluid figure-img"></p>
+<figcaption>Normmal Distribution with STD = 0.01</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="image/fig-techInit3.png" class="img-fluid figure-img"></p>
+<figcaption>Xavier</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-techInit0-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;10.1: Distribution of activation values by weight initialization methodology
+</figcaption>
+</figure>
+</div>
+<p>표준편차가 1인 정규분포를 이용한 가중치 초기화시에는 0과 1로 치우치는 모습이 보입니다. 이는 역전파시에 기울기 값을 점점 작아시게 하여 <strong>기울기 소실</strong>(8gradient vanising)의 문제를 야기합니다.</p>
+<p>표준편차가 0.01인 정규분포를 이용한 가중치 초기화시에는 0.5에 집중되는 모습이 보입니다. 노드별 값의 차이점이 없어 <strong>표현력 제한</strong>의 문제를 야기합니다.</p>
+<p>Xavier의 방법은 모든 노드에 골고루 분포되어 기울기 소실 또는 표현력 제한의 이슈를 해결할 수 있는 것으로 보입니다. 현재 일반적으로 딥러닝의 표준으로 사용됩니다.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+층이 깊어질 수록 분포가 고르지 않은 이유
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>시그모이드 함수의 대칭저은 (x, y) = (0, 0.5)이다. 따라서, 층을 지나갈수록 활성화 값이 고르지 않게 나오는 것입니다. 이를 해결하기 위하여는 원점에 대하여 대칭인 tahn함수를 고려할 수 있습니다.</p>
+</div>
+</div>
+</section>
+<section id="weighting-initialization-when-using-relu-functions-1" class="level2" data-number="10.2">
+<h2 data-number="10.2" class="anchored" data-anchor-id="weighting-initialization-when-using-relu-functions-1"><span class="header-section-number">10.2</span> Weighting initialization when using ReLU functions</h2>
 
+
+</section>
 
 
 </main> <!-- /main -->

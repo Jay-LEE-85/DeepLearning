@@ -341,7 +341,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 data-number="9.1" class="anchored" data-anchor-id="step1-two-layer-net"><span class="header-section-number">9.1</span> STEP1: Two Layer Net</h2>
 <p>지금까지 학습한 내용을 바탕으로 기존 <strong>Two Layer Net</strong>을 새롭게 구현해 보겠습니다. 2층 신경망의 가중치 초기화 및 계층을 생성하도록 합니다.</p>
 <p>이후 이 계층들을 활용하여 순전파<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>를 우선 실행합니다. 이후 순전파시의 손실함수값을 받아 역전파를 진행합니다.</p>
-<div class="no-row-height column-margin column-container"><div id="fn1"><p><sup>1</sup>&nbsp;순전파는 hidden layers를 대상으로 하는 <code>predict</code>와 output layer를 대상으로 하는 <code>loss</code> 메서드로 구분</p></div></div><div id="6686c29f" class="cell" data-execution_count="1">
+<div class="no-row-height column-margin column-container"><div id="fn1"><p><sup>1</sup>&nbsp;순전파는 hidden layers를 대상으로 하는 <code>predict</code>와 output layer를 대상으로 하는 <code>loss</code> 메서드로 구분</p></div></div><div id="62ec4c20" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="annotated-cell-1"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-1-1"><a href="#annotated-cell-1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sys, os</span>
 <span id="annotated-cell-1-2"><a href="#annotated-cell-1-2" aria-hidden="true" tabindex="-1"></a>sys.path.append(os.pardir)</span>
 <span id="annotated-cell-1-3"><a href="#annotated-cell-1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -444,7 +444,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 data-number="9.2" class="anchored" data-anchor-id="step2-gradient-check"><span class="header-section-number">9.2</span> STEP2: Gradient Check</h2>
 <p>오차역전파 이전에 가중치 매개변수를 업데이트하기 위하여 기울기가 필요하다고 하였습니다. 이러한 기울기는 수치미분을 써서 구하는 방법과 핵석적으로 수식을 풀어 구하는 방법이 존재합을 확인하였습니다.</p>
 <p>후자의 경우가 매개변수가 많아도 효율적으로 계산할 수 있음을 확인한 만큼 오차역전파를 해석적인 방법을 활용하여 구현하겠습니다.<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></p>
-<div class="no-row-height column-margin column-container"><div id="fn2"><p><sup>2</sup>&nbsp;수치미분은 구현이 쉬워 실수를 줄이고 정확한 값을 산출할 수 있습니다. 다만, 효율적이지 않은 문제가 있습니다. 따라서, 수치미분은 해석적 방법으로 구한 기울기의 값을 검증하기 위한 도구로 활용시 이점이 있습니다.</p></div></div><div id="f3ccfc1d" class="cell" data-execution_count="2">
+<div class="no-row-height column-margin column-container"><div id="fn2"><p><sup>2</sup>&nbsp;수치미분은 구현이 쉬워 실수를 줄이고 정확한 값을 산출할 수 있습니다. 다만, 효율적이지 않은 문제가 있습니다. 따라서, 수치미분은 해석적 방법으로 구한 기울기의 값을 검증하기 위한 도구로 활용시 이점이 있습니다.</p></div></div><div id="840f0cf8" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># coding: utf-8</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sys, os</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>sys.path.append(os.pardir)  <span class="co"># 부모 디렉터리의 파일을 가져올 수 있도록 설정</span></span>
@@ -468,17 +468,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>    diff <span class="op">=</span> np.average( np.<span class="bu">abs</span>(grad_backprop[key] <span class="op">-</span> grad_numerical[key]) )</span>
 <span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(key <span class="op">+</span> <span class="st">":"</span> <span class="op">+</span> <span class="bu">str</span>(diff))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>W1:3.9840747903431535e-10
-b1:2.67079086131391e-09
-W2:5.137859581899639e-09
-b2:1.3964826387630191e-07</code></pre>
+<pre><code>W1:2.365718984074173e-07
+b1:2.096790235452133e-06
+W2:4.72854678477486e-09
+b2:1.3965413510758084e-07</code></pre>
 </div>
 </div>
 </section>
 <section id="step3-implementing-backpropagation-to-ann" class="level2" data-number="9.3">
 <h2 data-number="9.3" class="anchored" data-anchor-id="step3-implementing-backpropagation-to-ann"><span class="header-section-number">9.3</span> STEP3: Implementing Backpropagation to ANN</h2>
 <p>기울기를 수치미분으로 구하는 방법이 아닌 해석적 방법의 연쇄법칙을 사용한 오차역전파를 사용하여 신경망학습을 구현해 보겠습니다.</p>
-<div id="babf235e" class="cell" data-execution_count="3">
+<div id="9f1c9372" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="annotated-cell-3"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-3-1"><a href="#annotated-cell-3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># coding: utf-8</span></span>
 <span id="annotated-cell-3-2"><a href="#annotated-cell-3-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sys, os</span>
 <span id="annotated-cell-3-3"><a href="#annotated-cell-3-3" aria-hidden="true" tabindex="-1"></a>sys.path.append(os.pardir)</span>
@@ -534,23 +534,23 @@ b2:1.3964826387630191e-07</code></pre>
 </dl>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>0.12618333333333334 0.1249
-0.9046 0.9052
-0.9223 0.9239
-0.9368333333333333 0.9327
-0.94555 0.9427
-0.95085 0.9462
-0.9552333333333334 0.9492
-0.9594166666666667 0.9541
-0.9620833333333333 0.9545
-0.965 0.9576
-0.9666166666666667 0.9611
-0.9698666666666667 0.9638
-0.9715666666666667 0.9633
-0.9734333333333334 0.9655
-0.97455 0.966
-0.9757666666666667 0.968
-0.97575 0.9654</code></pre>
+<pre><code>0.12403333333333333 0.1263
+0.8992833333333333 0.9011
+0.9221666666666667 0.9246
+0.93655 0.9361
+0.9442333333333334 0.9419
+0.9512666666666667 0.9501
+0.9577166666666667 0.9553
+0.9615666666666667 0.9582
+0.9650833333333333 0.96
+0.9673 0.9621
+0.9694666666666667 0.9626
+0.97175 0.965
+0.97445 0.9664
+0.9751333333333333 0.9679
+0.9752 0.9675
+0.9764666666666667 0.9695
+0.9797166666666667 0.9682</code></pre>
 </div>
 </div>
 
