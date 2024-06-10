@@ -64,7 +64,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./CNN-intro.html" rel="next">
+<link href="./TECH-optimization.html" rel="next">
 <link href="./ANN-backward.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -231,7 +231,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
- <span class="menu-text">CNN</span></a>
+ <span class="menu-text">Learning-related technologies</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -239,8 +239,25 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./TECH-optimization.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Optimaiztion</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true">
+ <span class="menu-text">CNN</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./CNN-intro.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Convolution Neural Networks</span></span></a>
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Convolution Neural Networks</span></span></a>
   </div>
 </li>
       </ul>
@@ -318,7 +335,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 data-number="9.1" class="anchored" data-anchor-id="step1-two-layer-net"><span class="header-section-number">9.1</span> STEP1: Two Layer Net</h2>
 <p>지금까지 학습한 내용을 바탕으로 기존 <strong>Two Layer Net</strong>을 새롭게 구현해 보겠습니다. 2층 신경망의 가중치 초기화 및 계층을 생성하도록 합니다.</p>
 <p>이후 이 계층들을 활용하여 순전파<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>를 우선 실행합니다. 이후 순전파시의 손실함수값을 받아 역전파를 진행합니다.</p>
-<div class="no-row-height column-margin column-container"><div id="fn1"><p><sup>1</sup>&nbsp;순전파는 hidden layers를 대상으로 하는 <code>predict</code>와 output layer를 대상으로 하는 <code>loss</code> 메서드로 구분</p></div></div><div id="51ac63cb" class="cell" data-execution_count="1">
+<div class="no-row-height column-margin column-container"><div id="fn1"><p><sup>1</sup>&nbsp;순전파는 hidden layers를 대상으로 하는 <code>predict</code>와 output layer를 대상으로 하는 <code>loss</code> 메서드로 구분</p></div></div><div id="b5b7041b" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="annotated-cell-1"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-1-1"><a href="#annotated-cell-1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sys, os</span>
 <span id="annotated-cell-1-2"><a href="#annotated-cell-1-2" aria-hidden="true" tabindex="-1"></a>sys.path.append(os.pardir)</span>
 <span id="annotated-cell-1-3"><a href="#annotated-cell-1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -421,7 +438,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 data-number="9.2" class="anchored" data-anchor-id="step2-gradient-check"><span class="header-section-number">9.2</span> STEP2: Gradient Check</h2>
 <p>오차역전파 이전에 가중치 매개변수를 업데이트하기 위하여 기울기가 필요하다고 하였습니다. 이러한 기울기는 수치미분을 써서 구하는 방법과 핵석적으로 수식을 풀어 구하는 방법이 존재합을 확인하였습니다.</p>
 <p>후자의 경우가 매개변수가 많아도 효율적으로 계산할 수 있음을 확인한 만큼 오차역전파를 해석적인 방법을 활용하여 구현하겠습니다.<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></p>
-<div class="no-row-height column-margin column-container"><div id="fn2"><p><sup>2</sup>&nbsp;수치미분은 구현이 쉬워 실수를 줄이고 정확한 값을 산출할 수 있습니다. 다만, 효율적이지 않은 문제가 있습니다. 따라서, 수치미분은 해석적 방법으로 구한 기울기의 값을 검증하기 위한 도구로 활용시 이점이 있습니다.</p></div></div><div id="e97f69be" class="cell" data-execution_count="2">
+<div class="no-row-height column-margin column-container"><div id="fn2"><p><sup>2</sup>&nbsp;수치미분은 구현이 쉬워 실수를 줄이고 정확한 값을 산출할 수 있습니다. 다만, 효율적이지 않은 문제가 있습니다. 따라서, 수치미분은 해석적 방법으로 구한 기울기의 값을 검증하기 위한 도구로 활용시 이점이 있습니다.</p></div></div><div id="6f84605d" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># coding: utf-8</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sys, os</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>sys.path.append(os.pardir)  <span class="co"># 부모 디렉터리의 파일을 가져올 수 있도록 설정</span></span>
@@ -445,17 +462,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>    diff <span class="op">=</span> np.average( np.<span class="bu">abs</span>(grad_backprop[key] <span class="op">-</span> grad_numerical[key]) )</span>
 <span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(key <span class="op">+</span> <span class="st">":"</span> <span class="op">+</span> <span class="bu">str</span>(diff))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>W1:5.0647510221094e-10
-b1:2.8650949745242376e-09
-W2:5.821143664528499e-09
-b2:1.4031725839441788e-07</code></pre>
+<pre><code>W1:4.086935267437983e-10
+b1:2.720607878271917e-09
+W2:4.8698200798645144e-09
+b2:1.3982336144052755e-07</code></pre>
 </div>
 </div>
 </section>
 <section id="step3-implementing-backpropagation-to-ann" class="level2" data-number="9.3">
 <h2 data-number="9.3" class="anchored" data-anchor-id="step3-implementing-backpropagation-to-ann"><span class="header-section-number">9.3</span> STEP3: Implementing Backpropagation to ANN</h2>
 <p>기울기를 수치미분으로 구하는 방법이 아닌 해석적 방법의 연쇄법칙을 사용한 오차역전파를 사용하여 신경망학습을 구현해 보겠습니다.</p>
-<div id="11b87653" class="cell" data-execution_count="3">
+<div id="0c723810" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="annotated-cell-3"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-3-1"><a href="#annotated-cell-3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># coding: utf-8</span></span>
 <span id="annotated-cell-3-2"><a href="#annotated-cell-3-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sys, os</span>
 <span id="annotated-cell-3-3"><a href="#annotated-cell-3-3" aria-hidden="true" tabindex="-1"></a>sys.path.append(os.pardir)</span>
@@ -511,23 +528,23 @@ b2:1.4031725839441788e-07</code></pre>
 </dl>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>0.1327 0.1359
-0.9062 0.9091
-0.9261 0.9275
-0.9385 0.9388
-0.9473 0.9466
-0.95205 0.9497
-0.9582666666666667 0.9554
-0.9613333333333334 0.958
-0.96455 0.9622
-0.9678333333333333 0.9614
-0.9702333333333333 0.965
-0.9723333333333334 0.9655
-0.9710833333333333 0.9651
-0.9757166666666667 0.969
-0.97715 0.9679
-0.9781833333333333 0.9684
-0.9789333333333333 0.9706</code></pre>
+<pre><code>0.113 0.114
+0.9015833333333333 0.9062
+0.92265 0.9246
+0.9362666666666667 0.9387
+0.9448333333333333 0.9453
+0.9499 0.9488
+0.9582166666666667 0.955
+0.9608666666666666 0.9585
+0.9649833333333333 0.9608
+0.96765 0.9635
+0.9696666666666667 0.9647
+0.97255 0.9659
+0.9736666666666667 0.9662
+0.97535 0.9678
+0.9766666666666667 0.9684
+0.97695 0.97
+0.9792166666666666 0.9712</code></pre>
 </div>
 </div>
 
@@ -952,8 +969,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./CNN-intro.html" class="pagination-link" aria-label="Convolution Neural Networks">
-        <span class="nav-page-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Convolution Neural Networks</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./TECH-optimization.html" class="pagination-link" aria-label="Optimaiztion">
+        <span class="nav-page-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Optimaiztion</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
