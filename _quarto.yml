@@ -27,9 +27,10 @@ book:
       - ANN-backward.qmd
       - ANN-lab_Backpro.qmd
 
-    - part: "Learning-related technologies"
+    - part: "Related technologies"
       chapters:
-      - TECH-optimization.qmd
+      - TECH-initializing.qmd
+      - TECH-optimizer.qmd
 
     - part: "CNN"
       chapters:
