@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>DeepLearning x 101 - 11&nbsp; Optimaizer</title>
+<title>DeepLearning x 101 - 10&nbsp; Optimaizer</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -64,8 +64,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./CNN-intro.html" rel="next">
-<link href="./TECH-initializing.html" rel="prev">
+<link href="./TECH-initializing.html" rel="next">
+<link href="./ANN-lab_Backpro.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -158,7 +158,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./TECH-initializing.html">Related technologies</a></li><li class="breadcrumb-item"><a href="./TECH-optimizer.html"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Optimaizer</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./TECH-optimizer.html">Related technologies</a></li><li class="breadcrumb-item"><a href="./TECH-optimizer.html"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Optimaizer</span></a></li></ol></nav>
         <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -282,14 +282,20 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./TECH-initializing.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Initializing parameters</span></span></a>
+  <a href="./TECH-optimizer.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Optimaizer</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./TECH-optimizer.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Optimaizer</span></span></a>
+  <a href="./TECH-initializing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Initializing parameters</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./TECH-batchnorm.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Batch Normalization</span></span></a>
   </div>
 </li>
       </ul>
@@ -306,7 +312,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./CNN-intro.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Convolution Neural Networks</span></span></a>
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Convolution Neural Networks</span></span></a>
   </div>
 </li>
       </ul>
@@ -327,23 +333,23 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#methodologies-for-updating-parameters" id="toc-methodologies-for-updating-parameters" class="nav-link active" data-scroll-target="#methodologies-for-updating-parameters"><span class="header-section-number">11.1</span> Methodologies for updating parameters</a>
+  <li><a href="#methodologies-for-updating-parameters" id="toc-methodologies-for-updating-parameters" class="nav-link active" data-scroll-target="#methodologies-for-updating-parameters"><span class="header-section-number">10.1</span> Methodologies for updating parameters</a>
   <ul class="collapse">
-  <li><a href="#stochastic-gradient-descentsgd" id="toc-stochastic-gradient-descentsgd" class="nav-link" data-scroll-target="#stochastic-gradient-descentsgd"><span class="header-section-number">11.1.1</span> Stochastic Gradient Descent(SGD)</a></li>
-  <li><a href="#momentum" id="toc-momentum" class="nav-link" data-scroll-target="#momentum"><span class="header-section-number">11.1.2</span> Momentum</a></li>
-  <li><a href="#adagrad" id="toc-adagrad" class="nav-link" data-scroll-target="#adagrad"><span class="header-section-number">11.1.3</span> AdaGrad</a></li>
-  <li><a href="#adam" id="toc-adam" class="nav-link" data-scroll-target="#adam"><span class="header-section-number">11.1.4</span> Adam</a></li>
+  <li><a href="#stochastic-gradient-descentsgd" id="toc-stochastic-gradient-descentsgd" class="nav-link" data-scroll-target="#stochastic-gradient-descentsgd"><span class="header-section-number">10.1.1</span> Stochastic Gradient Descent(SGD)</a></li>
+  <li><a href="#momentum" id="toc-momentum" class="nav-link" data-scroll-target="#momentum"><span class="header-section-number">10.1.2</span> Momentum</a></li>
+  <li><a href="#adagrad" id="toc-adagrad" class="nav-link" data-scroll-target="#adagrad"><span class="header-section-number">10.1.3</span> AdaGrad</a></li>
+  <li><a href="#adam" id="toc-adam" class="nav-link" data-scroll-target="#adam"><span class="header-section-number">10.1.4</span> Adam</a></li>
   </ul></li>
-  <li><a href="#comparing-methodologies-for-updating-parameters" id="toc-comparing-methodologies-for-updating-parameters" class="nav-link" data-scroll-target="#comparing-methodologies-for-updating-parameters"><span class="header-section-number">11.2</span> Comparing Methodologies for Updating Parameters</a></li>
+  <li><a href="#comparing-methodologies-for-updating-parameters" id="toc-comparing-methodologies-for-updating-parameters" class="nav-link" data-scroll-target="#comparing-methodologies-for-updating-parameters"><span class="header-section-number">10.2</span> Comparing Methodologies for Updating Parameters</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content page-columns page-full" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./TECH-initializing.html">Related technologies</a></li><li class="breadcrumb-item"><a href="./TECH-optimizer.html"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Optimaizer</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./TECH-optimizer.html">Related technologies</a></li><li class="breadcrumb-item"><a href="./TECH-optimizer.html"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Optimaizer</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Optimaizer</span></h1>
+<h1 class="title"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Optimaizer</span></h1>
 </div>
 
 
@@ -364,26 +370,26 @@ window.Quarto = {
 <p>지금가지 신경망(ANN)에 대하여 전반적인 내용을 살펴 보았습니다. 이제 학습의 효율 또는 정확성을 높일 수 있는 방법 또는 기법에 대하여 학습하고자 합니다.</p>
 <p>먼저 신경망 학습의 목적은 손실함수 값을 최소화하는데 있습니다. 어떠한 값을 최소화 또는 최대화하는 문제는 <strong>최적화</strong>(optimaization)이라 합니다. 다만, 신경망의 경우 벡터로 표현되는 매개변수의 공간이 매우 넓고 복잡하여 간단하게 수식으로 정의하는 것은 매우 어려운 문제입니다.</p>
 <p>이러한 복잡한 최적화의 문제는 매개변수를 어떻게 업데이트 할 것인가, 또는 매개변수의 초깃값을 어떻게 설정 할 것인가의 관점에서 접근해볼 수 있습니다.</p>
-<section id="methodologies-for-updating-parameters" class="level2 page-columns page-full" data-number="11.1">
-<h2 data-number="11.1" class="anchored" data-anchor-id="methodologies-for-updating-parameters"><span class="header-section-number">11.1</span> Methodologies for updating parameters</h2>
+<section id="methodologies-for-updating-parameters" class="level2 page-columns page-full" data-number="10.1">
+<h2 data-number="10.1" class="anchored" data-anchor-id="methodologies-for-updating-parameters"><span class="header-section-number">10.1</span> Methodologies for updating parameters</h2>
 <p>신경망의 매개변수 최적화를 위해 우리는 기울기(편미분)를 시용하여 배개변수 값을 지속적으로 갱신하는 <strong>확률적 경사하강법</strong>(SGD)을 사용하였습니다.</p>
 <p>우리는 여기서 SGD의 장단점을 살펴보고 매개변수를 업데이트 하는 다른 최적화 기법들에 대하여 살펴 보도록 하겠습니다.</p>
-<section id="stochastic-gradient-descentsgd" class="level3 page-columns page-full" data-number="11.1.1">
-<h3 data-number="11.1.1" class="anchored" data-anchor-id="stochastic-gradient-descentsgd"><span class="header-section-number">11.1.1</span> Stochastic Gradient Descent(SGD)</h3>
+<section id="stochastic-gradient-descentsgd" class="level3 page-columns page-full" data-number="10.1.1">
+<h3 data-number="10.1.1" class="anchored" data-anchor-id="stochastic-gradient-descentsgd"><span class="header-section-number">10.1.1</span> Stochastic Gradient Descent(SGD)</h3>
 <p>SGD의 수식은 다음과 같습니다, 여기서 <span class="math inline">\textbf{w}</span>는 갱신할 가중치이고 <span class="math inline">\frac{\partial{L}}{\partial{\textbf{W}}}</span>는 <span class="math inline">\textbf{w}</span>의 손실함수에 대한 기울기 입니다. <span class="math inline">\eta</span>는 학습률<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>로 가중치를 기울기로 업데이트 하는 크기를 의미합니다.</p>
 <div class="no-row-height column-margin column-container"><div id="fn1"><p><sup>1</sup>&nbsp;학습률의 Step size를 어떻게 정하냐에 따라 Overshotting 또는 trapping의 문제가 발생할 수 있습니다.</p></div></div><p><span class="math display">
 \textbf{W} \leftarrow \textbf{W} - \eta\frac{\partial{L}}{\partial{\textbf{W}}}
 </span></p>
 <p>위의 식을 간단한 클래스로 구현하도록 하겠습니다.</p>
 <p>SGD의 경우 위와 같이 구현이 쉽다는 장점이 있습니다. 다만, 경우에 따라 비효율적일 때가 있기 때문에, 매개변수를 갱신하는 다른 최적화 기법들이 필요한 것입니다.</p>
-<p>먼저 <span class="math inline">f(x, y) = \frac{1}{20}x^2+y^2</span>의 합수를 이용하여 최소값을 구하는 문제를 살펴보겠습니다. 이 함수는 아래의 그림(<a href="#fig-tech_Opt1" class="quarto-xref">Figure&nbsp;<span>11.1</span></a> )과 같이 그릇을 X축의 방향으로 늘인 타원과 같습니다.</p>
+<p>먼저 <span class="math inline">f(x, y) = \frac{1}{20}x^2+y^2</span>의 합수를 이용하여 최소값을 구하는 문제를 살펴보겠습니다. 이 함수는 아래의 그림(<a href="#fig-tech_Opt1" class="quarto-xref">Figure&nbsp;<span>10.1</span></a> )과 같이 그릇을 X축의 방향으로 늘인 타원과 같습니다.</p>
 <div id="fig-tech_Opt1" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-tech_Opt1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="image/fig-tech_Opt1.png" class="img-fluid figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-tech_Opt1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;11.1: Graphs and contour lines
+Figure&nbsp;10.1: Graphs and contour lines
 </figcaption>
 </figure>
 </div>
@@ -394,14 +400,14 @@ Figure&nbsp;11.1: Graphs and contour lines
 <img src="image/fig-techOpt2.png" class="img-fluid figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-techOpt2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;11.2: Update path for SGD
+Figure&nbsp;10.2: Update path for SGD
 </figcaption>
 </figure>
 </div>
 <p>이는 기울기의 반대방향으로 매개변수인 가중치를 갱신하는 단순성에서 나오는 문제로 이를 개선해주는 방법으로 Momentum, AdaGrad, Adam 등이 있으며 이를 살펴보도록 하겠습니다.</p>
 </section>
-<section id="momentum" class="level3" data-number="11.1.2">
-<h3 data-number="11.1.2" class="anchored" data-anchor-id="momentum"><span class="header-section-number">11.1.2</span> Momentum</h3>
+<section id="momentum" class="level3" data-number="10.1.2">
+<h3 data-number="10.1.2" class="anchored" data-anchor-id="momentum"><span class="header-section-number">10.1.2</span> Momentum</h3>
 <p><strong>모멘텀</strong>은 ’운동량’을 뜻하는 단어로 그 수식은 아래와 같습니다.</p>
 <p><span class="math display">
 \begin{align}
@@ -411,7 +417,7 @@ Figure&nbsp;11.2: Update path for SGD
 </span></p>
 <p>SGD와 가장 큰 차이점은 <span class="math inline">\textbf{v}</span>(velocity)가 등장하여 기울기 방향으로 힘을 받아 물체가 가속되는 물리법칙을 의미합니다. 또 하나는 <span class="math inline">\alpha\textbf{v}</span>항 아무런 힘이 영향을 주지 않을 때 운동량을 약화 시키는(저항에 해당) 역할을 한다는 것입니다.</p>
 <p>이러한 모멘텀 클래스를 구현하면 아래와 같습니다.</p>
-<div id="4843cb2e" class="cell" data-execution_count="2">
+<div id="24b70eae" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="annotated-cell-1"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-1-1"><a href="#annotated-cell-1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Momentum:</span>
 <span id="annotated-cell-1-2"><a href="#annotated-cell-1-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, lr<span class="op">=</span><span class="fl">0.01</span>, momentum<span class="op">=</span><span class="fl">0.9</span>):</span>
 <span id="annotated-cell-1-3"><a href="#annotated-cell-1-3" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.lr <span class="op">=</span> lr</span>
@@ -443,13 +449,13 @@ Figure&nbsp;11.2: Update path for SGD
 <img src="image/fig-techOpt3.png" class="img-fluid figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-techOpt3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;11.3: Update path for Momentum
+Figure&nbsp;10.3: Update path for Momentum
 </figcaption>
 </figure>
 </div>
 </section>
-<section id="adagrad" class="level3" data-number="11.1.3">
-<h3 data-number="11.1.3" class="anchored" data-anchor-id="adagrad"><span class="header-section-number">11.1.3</span> AdaGrad</h3>
+<section id="adagrad" class="level3" data-number="10.1.3">
+<h3 data-number="10.1.3" class="anchored" data-anchor-id="adagrad"><span class="header-section-number">10.1.3</span> AdaGrad</h3>
 <p><strong>AdaGrad</strong>는 신경망 학습에서 학습률을 정하는 기술로 그 수식은 아래와 같습니다.</p>
 <p><span class="math display">
 \begin{align}
@@ -461,7 +467,7 @@ Figure&nbsp;11.3: Update path for Momentum
 <p>여기서 <span class="math inline">\textbf{h}</span>가 등장합니다. 이 값은 기울기를 제곱하여 계속 더해주게 됩니다. 그리고 매개변수인 가중치를 갱신할 때 <span class="math inline">\frac{1}{\sqrt{\textbf{h}}}</span>를 곱하여 학습률을 조정해 줍니다.</p>
 <p>이는 이전 스텝에서 크게 갱신된 매개변수(가중치)는 이번 스텝에서 낮은 학습률을 적용하여 원소마다 상이한 학습률을 갖도록 한다는 것으로 이해할 수 있습니다.</p>
 <p>이러한 AdaGrad 클래스를 구현하면 아래와 같습니다.</p>
-<div id="f72ec163" class="cell" data-execution_count="3">
+<div id="39b1e755" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> AdaGrad:</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, lr<span class="op">=</span><span class="fl">0.01</span>):</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.lr <span class="op">=</span> lr</span>
@@ -484,7 +490,7 @@ Figure&nbsp;11.3: Update path for Momentum
 <img src="image/fig-techOpt4.png" class="img-fluid figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-techOpt4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;11.4: Update path for AdaGrad
+Figure&nbsp;10.4: Update path for AdaGrad
 </figcaption>
 </figure>
 </div>
@@ -505,11 +511,11 @@ RMSProp(=EWMA)
 </div>
 </div>
 </section>
-<section id="adam" class="level3 page-columns page-full" data-number="11.1.4">
-<h3 data-number="11.1.4" class="anchored" data-anchor-id="adam"><span class="header-section-number">11.1.4</span> Adam</h3>
+<section id="adam" class="level3 page-columns page-full" data-number="10.1.4">
+<h3 data-number="10.1.4" class="anchored" data-anchor-id="adam"><span class="header-section-number">10.1.4</span> Adam</h3>
 <p><strong>Adam</strong>은 정확하지는 않지만 직관적으로 모멘텀과 AdaGrad를 융합한듯한 방법입니다. 이 두 이점을 조합했다고 단순히 이해할 수 있습니다.<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></p>
 <div class="no-row-height column-margin column-container"><div id="fn2"><p><sup>2</sup>&nbsp;Adam에 대하여 보다 자세하게 이해하기 위하여는 <a href="http://arxiv.org/abs/1412.6980v8">Adam</a>논문을 읽어 보시기 바랍니다.</p></div></div><p>이러한 Adam 클래스를 구현하면 아래와 같습니다.</p>
-<div id="dc78462c" class="cell" data-execution_count="4">
+<div id="aa298ee4" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Adam:</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, lr<span class="op">=</span><span class="fl">0.001</span>, beta1<span class="op">=</span><span class="fl">0.9</span>, beta2<span class="op">=</span><span class="fl">0.999</span>):</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.lr <span class="op">=</span> lr</span>
@@ -541,7 +547,7 @@ RMSProp(=EWMA)
 <img src="image/fig-techOpt5.png" class="img-fluid figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-techOpt5-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;11.5: Update path for Adam
+Figure&nbsp;10.5: Update path for Adam
 </figcaption>
 </figure>
 </div>
@@ -565,8 +571,8 @@ Adam의 하이퍼파라미터
 </div>
 </section>
 </section>
-<section id="comparing-methodologies-for-updating-parameters" class="level2" data-number="11.2">
-<h2 data-number="11.2" class="anchored" data-anchor-id="comparing-methodologies-for-updating-parameters"><span class="header-section-number">11.2</span> Comparing Methodologies for Updating Parameters</h2>
+<section id="comparing-methodologies-for-updating-parameters" class="level2" data-number="10.2">
+<h2 data-number="10.2" class="anchored" data-anchor-id="comparing-methodologies-for-updating-parameters"><span class="header-section-number">10.2</span> Comparing Methodologies for Updating Parameters</h2>
 <p>우리가 살펴본 4가지의 모델 중 과연 어떠한 모델이 좋을까요? 이런 물음에 대한 답은 아직까지는 없다 입니다. 이는 문제의 성격에 따라 모델별로 잘 푸는 문제가 따로 있기 때문입니다.</p>
 <p>이러한 모델의 비교는 성능을 측정하여 우월성을 판단하기 위한 것이 아니라 모델별 성격에 따라 학습의 진도가 어떻게 다른지 이해하기 위함합니다.</p>
 <p>먼저 MNIST 데이터 셋을 이용하여 손글씨 인식문제의 학습진도를 비교해 보도록 하겠습니다.</p>
@@ -576,7 +582,7 @@ Adam의 하이퍼파라미터
 <img src="image/fig-techOpt6.png" class="img-fluid figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-techOpt6-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;11.6: Training progress by model on the MNIST dataset
+Figure&nbsp;10.6: Training progress by model on the MNIST dataset
 </figcaption>
 </figure>
 </div>
@@ -999,13 +1005,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./TECH-initializing.html" class="pagination-link" aria-label="Initializing parameters">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Initializing parameters</span></span>
+      <a href="./ANN-lab_Backpro.html" class="pagination-link" aria-label="Lab: Implementing Backpropagation to ANN">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Lab: Implementing Backpropagation to ANN</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./CNN-intro.html" class="pagination-link" aria-label="Convolution Neural Networks">
-        <span class="nav-page-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Convolution Neural Networks</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./TECH-initializing.html" class="pagination-link" aria-label="Initializing parameters">
+        <span class="nav-page-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Initializing parameters</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
