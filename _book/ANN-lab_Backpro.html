@@ -1,0 +1,988 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.551">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>DeepLearning x 101 - 9&nbsp; Lab: Implementing Backpropagation to ANN</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./TECH-initializing.html" rel="next">
+<link href="./ANN-backward.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-sidebar floating slimcontent">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./ANN-intro.html">ANN</a></li><li class="breadcrumb-item"><a href="./ANN-lab_Backpro.html"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Lab: Implementing Backpropagation to ANN</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">DeepLearning x 101</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Introduction</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+ <span class="menu-text">Perceptron</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./perceptron-intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Perceptron</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./perceptron-lab_classification.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Lab: Classification with Perceptron</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+ <span class="menu-text">ANN</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ANN-intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Artificial Neural Networks</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ANN-activation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Activation Function</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ANN-forward.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Forward Propagation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ANN-learning.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Learning process</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ANN-lab_MNIST.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Lab: Implementing ANN with MINIST dataset</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ANN-backward.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Backward Propagation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ANN-lab_Backpro.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Lab: Implementing Backpropagation to ANN</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+ <span class="menu-text">Related technologies</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./TECH-initializing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Initializing parameters</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./TECH-optimizer.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Optimaizer</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true">
+ <span class="menu-text">CNN</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./CNN-intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Convolution Neural Networks</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#step1-two-layer-net" id="toc-step1-two-layer-net" class="nav-link active" data-scroll-target="#step1-two-layer-net"><span class="header-section-number">9.1</span> STEP1: Two Layer Net</a></li>
+  <li><a href="#step2-gradient-check" id="toc-step2-gradient-check" class="nav-link" data-scroll-target="#step2-gradient-check"><span class="header-section-number">9.2</span> STEP2: Gradient Check</a></li>
+  <li><a href="#step3-implementing-backpropagation-to-ann" id="toc-step3-implementing-backpropagation-to-ann" class="nav-link" data-scroll-target="#step3-implementing-backpropagation-to-ann"><span class="header-section-number">9.3</span> STEP3: Implementing Backpropagation to ANN</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content page-columns page-full" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./ANN-intro.html">ANN</a></li><li class="breadcrumb-item"><a href="./ANN-lab_Backpro.html"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Lab: Implementing Backpropagation to ANN</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Lab: Implementing Backpropagation to ANN</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<hr>
+<p>지금까지 살펴본 내용을 종합하여 계층들을 조합한 신경망을 구축해 보도록 하겠습니다. 구체적인 구현에 앞서 전체적인 이해를 위해 전체과정을 다시 살펴볼 필요가 있습니다.</p>
+<ul>
+<li><strong>Pre requisite</strong>
+<ul>
+<li>신경망에는 적응 가능한 가중치와 편향이 있고, 이 가중치와 편향을 훈련 데이터에 적응하도록 조정하는 과정을 <strong>학습</strong>이라 한다.</li>
+</ul></li>
+<li><strong>1단계 - 미니배치</strong>
+<ul>
+<li>훈련 데이터 중 일부를 무작위로 추출하고, 이러한 미니배치를 활용하여 미니배치의 손실함수 값을 줄이도록 하는 것을 목표로 한다.</li>
+</ul></li>
+<li><strong>2단계 - 기울기 산출</strong>
+<ul>
+<li>미니배치의 손실함수 값을 줄이기 위해 각 가중치 매개변수의 기울기루 구하고, 기울기는 손실함수의 값을 가장작게하는 방향으로 제시한다.</li>
+</ul></li>
+<li><strong>3단계 - 매개변수 갱신</strong>
+<ul>
+<li>가중치 매개변수를 기울기의 반대방향(책에는 기울기 방향으로 되어 있는데?)으로 아주 조금 갱신한다.</li>
+</ul></li>
+<li><strong>4단계 - 반복(Iteration)</strong>
+<ul>
+<li>1~3단계를 반복합니다.</li>
+</ul></li>
+</ul>
+<p>오차 역전파는 2단계인 기울기 산출에 해당하고 기울기는 수치미분을 활용함을 다시 떠올려보고, 이를 효율적으로 수행하기 위하여 미니배치를 활용한다는 것까지 생각하며 다음의 구현사례를 살펴보도록 합시다.</p>
+<section id="step1-two-layer-net" class="level2 page-columns page-full" data-number="9.1">
+<h2 data-number="9.1" class="anchored" data-anchor-id="step1-two-layer-net"><span class="header-section-number">9.1</span> STEP1: Two Layer Net</h2>
+<p>지금까지 학습한 내용을 바탕으로 기존 <strong>Two Layer Net</strong>을 새롭게 구현해 보겠습니다. 2층 신경망의 가중치 초기화 및 계층을 생성하도록 합니다.</p>
+<p>이후 이 계층들을 활용하여 순전파<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>를 우선 실행합니다. 이후 순전파시의 손실함수값을 받아 역전파를 진행합니다.</p>
+<div class="no-row-height column-margin column-container"><div id="fn1"><p><sup>1</sup>&nbsp;순전파는 hidden layers를 대상으로 하는 <code>predict</code>와 output layer를 대상으로 하는 <code>loss</code> 메서드로 구분</p></div></div><div id="6686c29f" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="annotated-cell-1"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-1-1"><a href="#annotated-cell-1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sys, os</span>
+<span id="annotated-cell-1-2"><a href="#annotated-cell-1-2" aria-hidden="true" tabindex="-1"></a>sys.path.append(os.pardir)</span>
+<span id="annotated-cell-1-3"><a href="#annotated-cell-1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="annotated-cell-1-4"><a href="#annotated-cell-1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-1-5"><a href="#annotated-cell-1-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> common.layers <span class="im">import</span> <span class="op">*</span></span>
+<span id="annotated-cell-1-6"><a href="#annotated-cell-1-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> common.gradient <span class="im">import</span> numerical_gradient</span>
+<span id="annotated-cell-1-7"><a href="#annotated-cell-1-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> collections <span class="im">import</span> OrderedDict</span>
+<span id="annotated-cell-1-8"><a href="#annotated-cell-1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-1-9"><a href="#annotated-cell-1-9" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> TwoLayerNet:</span>
+<span id="annotated-cell-1-10"><a href="#annotated-cell-1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-1-11"><a href="#annotated-cell-1-11" aria-hidden="true" tabindex="-1"></a>  <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, input_size, hidden_size, output_size, weight_init_std <span class="op">=</span> <span class="fl">0.01</span>):</span>
+<span id="annotated-cell-1-12"><a href="#annotated-cell-1-12" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 가중치 초기화</span></span>
+<span id="annotated-cell-1-13"><a href="#annotated-cell-1-13" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.params <span class="op">=</span> {}</span>
+<span id="annotated-cell-1-14"><a href="#annotated-cell-1-14" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.params[<span class="st">'W1'</span>] <span class="op">=</span> weight_init_std <span class="op">*</span> np.random.randn(input_size, hidden_size)</span>
+<span id="annotated-cell-1-15"><a href="#annotated-cell-1-15" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.params[<span class="st">'b1'</span>] <span class="op">=</span> np.zeros(hidden_size)</span>
+<span id="annotated-cell-1-16"><a href="#annotated-cell-1-16" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.params[<span class="st">'W2'</span>] <span class="op">=</span> weight_init_std <span class="op">*</span> np.random.randn(hidden_size, output_size) </span>
+<span id="annotated-cell-1-17"><a href="#annotated-cell-1-17" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.params[<span class="st">'b2'</span>] <span class="op">=</span> np.zeros(output_size)</span>
+<span id="annotated-cell-1-18"><a href="#annotated-cell-1-18" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 계층 생성</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-1-19" class="code-annotation-target"><a href="#annotated-cell-1-19" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.layers <span class="op">=</span> OrderedDict()</span>
+<span id="annotated-cell-1-20"><a href="#annotated-cell-1-20" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.layers[<span class="st">'Affine1'</span>] <span class="op">=</span> Affine(<span class="va">self</span>.params[<span class="st">'W1'</span>], <span class="va">self</span>.params[<span class="st">'b1'</span>])</span>
+<span id="annotated-cell-1-21"><a href="#annotated-cell-1-21" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.layers[<span class="st">'Relu1'</span>] <span class="op">=</span> Relu()</span>
+<span id="annotated-cell-1-22"><a href="#annotated-cell-1-22" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.layers[<span class="st">'Affine2'</span>] <span class="op">=</span> Affine(<span class="va">self</span>.params[<span class="st">'W2'</span>], <span class="va">self</span>.params[<span class="st">'b2'</span>])</span>
+<span id="annotated-cell-1-23"><a href="#annotated-cell-1-23" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.lastLayer <span class="op">=</span> SoftmaxWithLoss()</span>
+<span id="annotated-cell-1-24"><a href="#annotated-cell-1-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-1-25"><a href="#annotated-cell-1-25" aria-hidden="true" tabindex="-1"></a>  <span class="kw">def</span> predict(<span class="va">self</span>, x):</span>
+<span id="annotated-cell-1-26"><a href="#annotated-cell-1-26" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> layer <span class="kw">in</span> <span class="va">self</span>.layers.values():</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-1-27" class="code-annotation-target"><a href="#annotated-cell-1-27" aria-hidden="true" tabindex="-1"></a>        x <span class="op">=</span> layer.forward(x)</span>
+<span id="annotated-cell-1-28"><a href="#annotated-cell-1-28" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> x</span>
+<span id="annotated-cell-1-29"><a href="#annotated-cell-1-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-1-30"><a href="#annotated-cell-1-30" aria-hidden="true" tabindex="-1"></a>  <span class="co"># x :입력 데이터, t : 정답 레이블</span></span>
+<span id="annotated-cell-1-31"><a href="#annotated-cell-1-31" aria-hidden="true" tabindex="-1"></a>  <span class="kw">def</span> loss(<span class="va">self</span>, x, t):</span>
+<span id="annotated-cell-1-32"><a href="#annotated-cell-1-32" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> <span class="va">self</span>.predict(x)</span>
+<span id="annotated-cell-1-33"><a href="#annotated-cell-1-33" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="va">self</span>.lastLayer.forward(y, t)</span>
+<span id="annotated-cell-1-34"><a href="#annotated-cell-1-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-1-35"><a href="#annotated-cell-1-35" aria-hidden="true" tabindex="-1"></a>  <span class="kw">def</span> accuracy(<span class="va">self</span>, x, t):</span>
+<span id="annotated-cell-1-36"><a href="#annotated-cell-1-36" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> <span class="va">self</span>.predict(x)</span>
+<span id="annotated-cell-1-37"><a href="#annotated-cell-1-37" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> np.argmax(y, axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="annotated-cell-1-38"><a href="#annotated-cell-1-38" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> t.ndim <span class="op">!=</span> <span class="dv">1</span>: t <span class="op">=</span> np.argmax(t, axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="annotated-cell-1-39"><a href="#annotated-cell-1-39" aria-hidden="true" tabindex="-1"></a>    accuracy <span class="op">=</span> np.<span class="bu">sum</span>(y <span class="op">==</span> t) <span class="op">/</span> <span class="bu">float</span>(x.shape[<span class="dv">0</span>])</span>
+<span id="annotated-cell-1-40"><a href="#annotated-cell-1-40" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> accuracy</span>
+<span id="annotated-cell-1-41"><a href="#annotated-cell-1-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-1-42"><a href="#annotated-cell-1-42" aria-hidden="true" tabindex="-1"></a>  <span class="co"># x :입력 데이터, t : 정답 레이블</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="3" onclick="event.preventDefault();">3</a><span id="annotated-cell-1-43" class="code-annotation-target"><a href="#annotated-cell-1-43" aria-hidden="true" tabindex="-1"></a>  <span class="kw">def</span> numerical_gradient(<span class="va">self</span>, x, t):</span>
+<span id="annotated-cell-1-44"><a href="#annotated-cell-1-44" aria-hidden="true" tabindex="-1"></a>    loss_W <span class="op">=</span> <span class="kw">lambda</span> W: <span class="va">self</span>.loss(x, t)</span>
+<span id="annotated-cell-1-45"><a href="#annotated-cell-1-45" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="annotated-cell-1-46"><a href="#annotated-cell-1-46" aria-hidden="true" tabindex="-1"></a>    grads <span class="op">=</span> {}</span>
+<span id="annotated-cell-1-47"><a href="#annotated-cell-1-47" aria-hidden="true" tabindex="-1"></a>    grads[<span class="st">'W1'</span>] <span class="op">=</span> numerical_gradient(loss_W, <span class="va">self</span>.params[<span class="st">'W1'</span>])</span>
+<span id="annotated-cell-1-48"><a href="#annotated-cell-1-48" aria-hidden="true" tabindex="-1"></a>    grads[<span class="st">'b1'</span>] <span class="op">=</span> numerical_gradient(loss_W, <span class="va">self</span>.params[<span class="st">'b1'</span>])</span>
+<span id="annotated-cell-1-49"><a href="#annotated-cell-1-49" aria-hidden="true" tabindex="-1"></a>    grads[<span class="st">'W2'</span>] <span class="op">=</span> numerical_gradient(loss_W, <span class="va">self</span>.params[<span class="st">'W2'</span>])</span>
+<span id="annotated-cell-1-50"><a href="#annotated-cell-1-50" aria-hidden="true" tabindex="-1"></a>    grads[<span class="st">'b2'</span>] <span class="op">=</span> numerical_gradient(loss_W, <span class="va">self</span>.params[<span class="st">'b2'</span>])</span>
+<span id="annotated-cell-1-51"><a href="#annotated-cell-1-51" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> grads</span>
+<span id="annotated-cell-1-52"><a href="#annotated-cell-1-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-1-53"><a href="#annotated-cell-1-53" aria-hidden="true" tabindex="-1"></a>  <span class="kw">def</span> gradient(<span class="va">self</span>, x, t):</span>
+<span id="annotated-cell-1-54"><a href="#annotated-cell-1-54" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 순전파</span></span>
+<span id="annotated-cell-1-55"><a href="#annotated-cell-1-55" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.loss(x, t)</span>
+<span id="annotated-cell-1-56"><a href="#annotated-cell-1-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-1-57"><a href="#annotated-cell-1-57" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 역전파</span></span>
+<span id="annotated-cell-1-58"><a href="#annotated-cell-1-58" aria-hidden="true" tabindex="-1"></a>    dout <span class="op">=</span> <span class="dv">1</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="4" onclick="event.preventDefault();">4</a><span id="annotated-cell-1-59" class="code-annotation-target"><a href="#annotated-cell-1-59" aria-hidden="true" tabindex="-1"></a>    dout <span class="op">=</span> <span class="va">self</span>.lastLayer.backward(dout)</span>
+<span id="annotated-cell-1-60"><a href="#annotated-cell-1-60" aria-hidden="true" tabindex="-1"></a>    layers <span class="op">=</span> <span class="bu">list</span>(<span class="va">self</span>.layers.values())</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="5" onclick="event.preventDefault();">5</a><span id="annotated-cell-1-61" class="code-annotation-target"><a href="#annotated-cell-1-61" aria-hidden="true" tabindex="-1"></a>    layers.reverse()</span>
+<span id="annotated-cell-1-62"><a href="#annotated-cell-1-62" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> layer <span class="kw">in</span> layers:</span>
+<span id="annotated-cell-1-63"><a href="#annotated-cell-1-63" aria-hidden="true" tabindex="-1"></a>      dout <span class="op">=</span> layer.backward(dout)</span>
+<span id="annotated-cell-1-64"><a href="#annotated-cell-1-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-1-65"><a href="#annotated-cell-1-65" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 결과저장</span></span>
+<span id="annotated-cell-1-66"><a href="#annotated-cell-1-66" aria-hidden="true" tabindex="-1"></a>    grads <span class="op">=</span> {}</span>
+<span id="annotated-cell-1-67"><a href="#annotated-cell-1-67" aria-hidden="true" tabindex="-1"></a>    grads[<span class="st">'W1'</span>] <span class="op">=</span> <span class="va">self</span>.layers[<span class="st">'Affine1'</span>].dW</span>
+<span id="annotated-cell-1-68"><a href="#annotated-cell-1-68" aria-hidden="true" tabindex="-1"></a>    grads[<span class="st">'b1'</span>] <span class="op">=</span> <span class="va">self</span>.layers[<span class="st">'Affine1'</span>].db</span>
+<span id="annotated-cell-1-69"><a href="#annotated-cell-1-69" aria-hidden="true" tabindex="-1"></a>    grads[<span class="st">'W2'</span>] <span class="op">=</span> <span class="va">self</span>.layers[<span class="st">'Affine2'</span>].dW</span>
+<span id="annotated-cell-1-70"><a href="#annotated-cell-1-70" aria-hidden="true" tabindex="-1"></a>    grads[<span class="st">'b2'</span>] <span class="op">=</span> <span class="va">self</span>.layers[<span class="st">'Affine2'</span>].db</span>
+<span id="annotated-cell-1-71"><a href="#annotated-cell-1-71" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-1-72"><a href="#annotated-cell-1-72" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> grads</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-1" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-1" data-code-lines="19" data-code-annotation="1"><code>OrderedDict</code>의 경우 순서가 딕셔너리라 순전파 때 추가한 순서대로 연산</span>
+</dd>
+<dt data-target-cell="annotated-cell-1" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-1" data-code-lines="27,33" data-code-annotation="2"><code>forward</code>는 <code>Affine</code> 및 <code>Relu</code>클래스에 존재하는 순전파 메서드</span>
+</dd>
+<dt data-target-cell="annotated-cell-1" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-cell="annotated-cell-1" data-code-lines="43,53" data-code-annotation="3"><code>numerical_gradient</code>은 검증용 수치미분 메서드, <code>gradient</code>는 학습용 해석미분 메서드</span>
+</dd>
+<dt data-target-cell="annotated-cell-1" data-target-annotation="4">4</dt>
+<dd>
+<span data-code-cell="annotated-cell-1" data-code-lines="59,63" data-code-annotation="4"><code>backward</code>는 <code>Affine</code> 및 <code>Relu</code>클래스에 존재하는 역전파 메서드</span>
+</dd>
+<dt data-target-cell="annotated-cell-1" data-target-annotation="5">5</dt>
+<dd>
+<span data-code-cell="annotated-cell-1" data-code-lines="61" data-code-annotation="5"><code>reverse</code>로 <code>layers</code>의 순서를 뒤집어 연산이 역으로 진행되게 하는 메서드</span>
+</dd>
+</dl>
+</div>
+</div>
+</section>
+<section id="step2-gradient-check" class="level2 page-columns page-full" data-number="9.2">
+<h2 data-number="9.2" class="anchored" data-anchor-id="step2-gradient-check"><span class="header-section-number">9.2</span> STEP2: Gradient Check</h2>
+<p>오차역전파 이전에 가중치 매개변수를 업데이트하기 위하여 기울기가 필요하다고 하였습니다. 이러한 기울기는 수치미분을 써서 구하는 방법과 핵석적으로 수식을 풀어 구하는 방법이 존재합을 확인하였습니다.</p>
+<p>후자의 경우가 매개변수가 많아도 효율적으로 계산할 수 있음을 확인한 만큼 오차역전파를 해석적인 방법을 활용하여 구현하겠습니다.<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></p>
+<div class="no-row-height column-margin column-container"><div id="fn2"><p><sup>2</sup>&nbsp;수치미분은 구현이 쉬워 실수를 줄이고 정확한 값을 산출할 수 있습니다. 다만, 효율적이지 않은 문제가 있습니다. 따라서, 수치미분은 해석적 방법으로 구한 기울기의 값을 검증하기 위한 도구로 활용시 이점이 있습니다.</p></div></div><div id="f3ccfc1d" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># coding: utf-8</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sys, os</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>sys.path.append(os.pardir)  <span class="co"># 부모 디렉터리의 파일을 가져올 수 있도록 설정</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> dataset.mnist <span class="im">import</span> load_mnist</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co"># from two_layer_net import TwoLayerNet</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co"># 데이터 읽기</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>(x_train, t_train), (x_test, t_test) <span class="op">=</span> load_mnist(normalize<span class="op">=</span><span class="va">True</span>, one_hot_label<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>network <span class="op">=</span> TwoLayerNet(input_size<span class="op">=</span><span class="dv">784</span>, hidden_size<span class="op">=</span><span class="dv">50</span>, output_size<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>x_batch <span class="op">=</span> x_train[:<span class="dv">3</span>]</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>t_batch <span class="op">=</span> t_train[:<span class="dv">3</span>]</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>grad_numerical <span class="op">=</span> network.numerical_gradient(x_batch, t_batch)</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>grad_backprop <span class="op">=</span> network.gradient(x_batch, t_batch)</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="co"># 각 가중치의 절대 오차의 평균을 구한다.</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> key <span class="kw">in</span> grad_numerical.keys():</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>    diff <span class="op">=</span> np.average( np.<span class="bu">abs</span>(grad_backprop[key] <span class="op">-</span> grad_numerical[key]) )</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(key <span class="op">+</span> <span class="st">":"</span> <span class="op">+</span> <span class="bu">str</span>(diff))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>W1:3.9840747903431535e-10
+b1:2.67079086131391e-09
+W2:5.137859581899639e-09
+b2:1.3964826387630191e-07</code></pre>
+</div>
+</div>
+</section>
+<section id="step3-implementing-backpropagation-to-ann" class="level2" data-number="9.3">
+<h2 data-number="9.3" class="anchored" data-anchor-id="step3-implementing-backpropagation-to-ann"><span class="header-section-number">9.3</span> STEP3: Implementing Backpropagation to ANN</h2>
+<p>기울기를 수치미분으로 구하는 방법이 아닌 해석적 방법의 연쇄법칙을 사용한 오차역전파를 사용하여 신경망학습을 구현해 보겠습니다.</p>
+<div id="babf235e" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="annotated-cell-3"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-3-1"><a href="#annotated-cell-3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># coding: utf-8</span></span>
+<span id="annotated-cell-3-2"><a href="#annotated-cell-3-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sys, os</span>
+<span id="annotated-cell-3-3"><a href="#annotated-cell-3-3" aria-hidden="true" tabindex="-1"></a>sys.path.append(os.pardir)</span>
+<span id="annotated-cell-3-4"><a href="#annotated-cell-3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-3-5"><a href="#annotated-cell-3-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="annotated-cell-3-6"><a href="#annotated-cell-3-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> dataset.mnist <span class="im">import</span> load_mnist</span>
+<span id="annotated-cell-3-7"><a href="#annotated-cell-3-7" aria-hidden="true" tabindex="-1"></a><span class="co"># from two_layer_net import TwoLayerNet</span></span>
+<span id="annotated-cell-3-8"><a href="#annotated-cell-3-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-3-9"><a href="#annotated-cell-3-9" aria-hidden="true" tabindex="-1"></a><span class="co"># 데이터 읽기</span></span>
+<span id="annotated-cell-3-10"><a href="#annotated-cell-3-10" aria-hidden="true" tabindex="-1"></a>(x_train, t_train), (x_test, t_test) <span class="op">=</span> load_mnist(normalize<span class="op">=</span><span class="va">True</span>, one_hot_label<span class="op">=</span><span class="va">True</span>)</span>
+<span id="annotated-cell-3-11"><a href="#annotated-cell-3-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-3-12"><a href="#annotated-cell-3-12" aria-hidden="true" tabindex="-1"></a>network <span class="op">=</span> TwoLayerNet(input_size<span class="op">=</span><span class="dv">784</span>, hidden_size<span class="op">=</span><span class="dv">50</span>, output_size<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="annotated-cell-3-13"><a href="#annotated-cell-3-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-3-14"><a href="#annotated-cell-3-14" aria-hidden="true" tabindex="-1"></a>iters_num <span class="op">=</span> <span class="dv">10000</span></span>
+<span id="annotated-cell-3-15"><a href="#annotated-cell-3-15" aria-hidden="true" tabindex="-1"></a>train_size <span class="op">=</span> x_train.shape[<span class="dv">0</span>]</span>
+<span id="annotated-cell-3-16"><a href="#annotated-cell-3-16" aria-hidden="true" tabindex="-1"></a>batch_size <span class="op">=</span> <span class="dv">100</span></span>
+<span id="annotated-cell-3-17"><a href="#annotated-cell-3-17" aria-hidden="true" tabindex="-1"></a>learning_rate <span class="op">=</span> <span class="fl">0.1</span></span>
+<span id="annotated-cell-3-18"><a href="#annotated-cell-3-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-3-19"><a href="#annotated-cell-3-19" aria-hidden="true" tabindex="-1"></a>train_loss_list <span class="op">=</span> []</span>
+<span id="annotated-cell-3-20"><a href="#annotated-cell-3-20" aria-hidden="true" tabindex="-1"></a>train_acc_list <span class="op">=</span> []</span>
+<span id="annotated-cell-3-21"><a href="#annotated-cell-3-21" aria-hidden="true" tabindex="-1"></a>test_acc_list <span class="op">=</span> []</span>
+<span id="annotated-cell-3-22"><a href="#annotated-cell-3-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-3-23"><a href="#annotated-cell-3-23" aria-hidden="true" tabindex="-1"></a>iter_per_epoch <span class="op">=</span> <span class="bu">max</span>(train_size <span class="op">/</span> batch_size, <span class="dv">1</span>)</span>
+<span id="annotated-cell-3-24"><a href="#annotated-cell-3-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-3-25"><a href="#annotated-cell-3-25" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(iters_num):</span>
+<span id="annotated-cell-3-26"><a href="#annotated-cell-3-26" aria-hidden="true" tabindex="-1"></a>    batch_mask <span class="op">=</span> np.random.choice(train_size, batch_size)</span>
+<span id="annotated-cell-3-27"><a href="#annotated-cell-3-27" aria-hidden="true" tabindex="-1"></a>    x_batch <span class="op">=</span> x_train[batch_mask]</span>
+<span id="annotated-cell-3-28"><a href="#annotated-cell-3-28" aria-hidden="true" tabindex="-1"></a>    t_batch <span class="op">=</span> t_train[batch_mask]</span>
+<span id="annotated-cell-3-29"><a href="#annotated-cell-3-29" aria-hidden="true" tabindex="-1"></a>    </span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-3-30" class="code-annotation-target"><a href="#annotated-cell-3-30" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 기울기 계산</span></span>
+<span id="annotated-cell-3-31"><a href="#annotated-cell-3-31" aria-hidden="true" tabindex="-1"></a>    <span class="co">#grad = network.numerical_gradient(x_batch, t_batch) # 수치 미분 방식</span></span>
+<span id="annotated-cell-3-32"><a href="#annotated-cell-3-32" aria-hidden="true" tabindex="-1"></a>    grad <span class="op">=</span> network.gradient(x_batch, t_batch) <span class="co"># 오차역전파법 방식(훨씬 빠르다)</span></span>
+<span id="annotated-cell-3-33"><a href="#annotated-cell-3-33" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="annotated-cell-3-34"><a href="#annotated-cell-3-34" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 갱신</span></span>
+<span id="annotated-cell-3-35"><a href="#annotated-cell-3-35" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> key <span class="kw">in</span> (<span class="st">'W1'</span>, <span class="st">'b1'</span>, <span class="st">'W2'</span>, <span class="st">'b2'</span>):</span>
+<span id="annotated-cell-3-36"><a href="#annotated-cell-3-36" aria-hidden="true" tabindex="-1"></a>        network.params[key] <span class="op">-=</span> learning_rate <span class="op">*</span> grad[key]</span>
+<span id="annotated-cell-3-37"><a href="#annotated-cell-3-37" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="annotated-cell-3-38"><a href="#annotated-cell-3-38" aria-hidden="true" tabindex="-1"></a>    loss <span class="op">=</span> network.loss(x_batch, t_batch)</span>
+<span id="annotated-cell-3-39"><a href="#annotated-cell-3-39" aria-hidden="true" tabindex="-1"></a>    train_loss_list.append(loss)</span>
+<span id="annotated-cell-3-40"><a href="#annotated-cell-3-40" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="annotated-cell-3-41"><a href="#annotated-cell-3-41" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> i <span class="op">%</span> iter_per_epoch <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="annotated-cell-3-42"><a href="#annotated-cell-3-42" aria-hidden="true" tabindex="-1"></a>        train_acc <span class="op">=</span> network.accuracy(x_train, t_train)</span>
+<span id="annotated-cell-3-43"><a href="#annotated-cell-3-43" aria-hidden="true" tabindex="-1"></a>        test_acc <span class="op">=</span> network.accuracy(x_test, t_test)</span>
+<span id="annotated-cell-3-44"><a href="#annotated-cell-3-44" aria-hidden="true" tabindex="-1"></a>        train_acc_list.append(train_acc)</span>
+<span id="annotated-cell-3-45"><a href="#annotated-cell-3-45" aria-hidden="true" tabindex="-1"></a>        test_acc_list.append(test_acc)</span>
+<span id="annotated-cell-3-46"><a href="#annotated-cell-3-46" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(train_acc, test_acc)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-3" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-3" data-code-lines="30" data-code-annotation="1">수치미분방법과 해석적방법의 기울기 계산</span>
+</dd>
+</dl>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>0.12618333333333334 0.1249
+0.9046 0.9052
+0.9223 0.9239
+0.9368333333333333 0.9327
+0.94555 0.9427
+0.95085 0.9462
+0.9552333333333334 0.9492
+0.9594166666666667 0.9541
+0.9620833333333333 0.9545
+0.965 0.9576
+0.9666166666666667 0.9611
+0.9698666666666667 0.9638
+0.9715666666666667 0.9633
+0.9734333333333334 0.9655
+0.97455 0.966
+0.9757666666666667 0.968
+0.97575 0.9654</code></pre>
+</div>
+</div>
+
+
+</section>
+
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./ANN-backward.html" class="pagination-link" aria-label="Backward Propagation">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Backward Propagation</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./TECH-initializing.html" class="pagination-link" aria-label="Initializing parameters">
+        <span class="nav-page-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Initializing parameters</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
