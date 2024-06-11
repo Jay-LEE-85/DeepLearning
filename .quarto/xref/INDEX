@@ -1,0 +1,50 @@
+{
+  "index.qmd": {
+    "index.html": "c79fec52"
+  },
+  "intro.qmd": {
+    "intro.html": "b9b6edbb"
+  },
+  "perceptron-intro.qmd": {
+    "perceptron-intro.html": "bf54e62e"
+  },
+  "perceptron-lab_classification.qmd": {
+    "perceptron-lab_classification.html": "31382752"
+  },
+  "ANN-intro.qmd": {
+    "ANN-intro.html": "731dafb6"
+  },
+  "ANN-activation.qmd": {
+    "ANN-activation.html": "d120c39a"
+  },
+  "ANN-forward.qmd": {
+    "ANN-forward.html": "2b2c687e"
+  },
+  "ANN-learning.qmd": {
+    "ANN-learning.html": "87066a0b"
+  },
+  "ANN-lab_MNIST.qmd": {
+    "ANN-lab_MNIST.html": "4d78ad41"
+  },
+  "ANN-backward.qmd": {
+    "ANN-backward.html": "d85d0f0f"
+  },
+  "ANN-lab_Backpro.qmd": {
+    "ANN-lab_Backpro.html": "0d6737bd"
+  },
+  "TECH-initializing.qmd": {
+    "TECH-initializing.html": "66d05bc2"
+  },
+  "TECH-optimizer.qmd": {
+    "TECH-optimizer.html": "07109355"
+  },
+  "CNN-intro.qmd": {
+    "CNN-intro.html": "21b7d351"
+  },
+  "references.qmd": {
+    "references.html": "5b69e7ad"
+  },
+  "TECH-batchnorm.qmd": {
+    "TECH-batchnorm.html": "ab31a11a"
+  }
+}
