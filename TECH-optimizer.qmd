@@ -24,8 +24,9 @@ $$
 위의 식을 간단한 클래스로 구현하도록 하겠습니다.
 
 ``` {python}
-#| echo: False
+#| echo: True
 #| eval: False
+class SGD:
   def __init__(self, lr=0.01):
     self.lr = lr
 
