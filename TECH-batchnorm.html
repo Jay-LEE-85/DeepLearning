@@ -69,10 +69,53 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script>window.backupDefine = window.define; window.define = undefined;</script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+ var mathElements = document.getElementsByClassName("math");
+ var macros = [];
+ for (var i = 0; i < mathElements.length; i++) {
+  var texText = mathElements[i].firstChild;
+  if (mathElements[i].tagName == "SPAN") {
+   katex.render(texText.data, mathElements[i], {
+    displayMode: mathElements[i].classList.contains('display'),
+    throwOnError: false,
+    macros: macros,
+    fleqn: false
+   });
+}}});
+  </script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css">
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
-<body class="nav-sidebar floating">
+<body class="nav-sidebar floating slimcontent">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -81,7 +124,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./TECH-optimizer.html">Related technologies</a></li><li class="breadcrumb-item"><a href="./TECH-batchnorm.html"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Batch Normalization</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./TECH-optimizer.html">Learning technologies</a></li><li class="breadcrumb-item"><a href="./TECH-batchnorm.html"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Batch Normalization</span></a></li></ol></nav>
         <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -197,7 +240,7 @@ ul.task-list li input[type="checkbox"] {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
- <span class="menu-text">Related technologies</span></a>
+ <span class="menu-text">Learning technologies</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -252,12 +295,19 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#algorithm-of-batch-normalization" id="toc-algorithm-of-batch-normalization" class="nav-link active" data-scroll-target="#algorithm-of-batch-normalization"><span class="header-section-number">12.1</span> Algorithm of Batch Normalization</a></li>
+  <li><a href="#effects-of-batch-normalization" id="toc-effects-of-batch-normalization" class="nav-link" data-scroll-target="#effects-of-batch-normalization"><span class="header-section-number">12.2</span> Effects of Batch Normalization</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
+<main class="content page-columns page-full" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./TECH-optimizer.html">Related technologies</a></li><li class="breadcrumb-item"><a href="./TECH-batchnorm.html"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Batch Normalization</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./TECH-optimizer.html">Learning technologies</a></li><li class="breadcrumb-item"><a href="./TECH-batchnorm.html"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Batch Normalization</span></a></li></ol></nav>
 <div class="quarto-title">
 <h1 class="title"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Batch Normalization</span></h1>
 </div>
@@ -277,7 +327,49 @@ ul.task-list li input[type="checkbox"] {
 
 
 <hr>
+<p>이전 장에서 가중치 초깃값을 적절히 설정하명 각 층의 활성함수값 분포가 균일화되어 학습이 원활하게 수행됨을 확인하였습니다.</p>
+<p>가중치 초깃값 없이 각 층의 활성함수값 분포를 강제로 균일하게 퍼지도록 할 수 없을까요? 이러한 물음에서 시작한 논의의 결과가 바로 <strong><em>배치정규화</em></strong>(Batch Normalization)입니다.</p>
+<section id="algorithm-of-batch-normalization" class="level2 page-columns page-full" data-number="12.1">
+<h2 data-number="12.1" class="anchored" data-anchor-id="algorithm-of-batch-normalization"><span class="header-section-number">12.1</span> Algorithm of Batch Normalization</h2>
+<p>배치정규화는 학습의 효율성과 정확성을 증가시키는 등 강점은 명확합니다.</p>
+<ul>
+<li>학습을 빨리 진행할수 있다.(학습속도 개선)</li>
+<li>초깃값에 크게 의존하지 않는다(골치아픈 초깃값 선택 장애 회피)</li>
+<li>오버피팅을 억제한다(드롭아웃 등의 필요성 감소)</li>
+</ul>
+<p>그렇다면 배치정규화는 무엇일까요? 배치정규화는 이름에서 알수 있듯이 미니배치를 단위로 정규화를 진행하는 것으로 데이터 분포가 평균 0, 분산이 1이 되도록 정규화 하는 방법으로 그 수식은 아래와 같습니다.</p>
+<p><span class="math display">
+\begin{align}
+\mu_{B} &amp;\leftarrow \frac{1}{m}\sum^{m}_{i=1}x_i \\
+\sigma^2_B &amp;\leftarrow \frac{1}{m}\sum^{m}_{i=1}(x_i-\mu_B)^2 \\
+\hat{x}_i &amp;\leftarrow \frac{x_i-\mu_B}{\sqrt{\sigma^2_B+\epsilon}}
+\end{align}
+</span></p>
+<p>미니배치(<span class="math inline">B=\{x_1, x_2, \cdots, x_m\}</span>)에 m개의 입력 데이터가 존재할때 해당 미니배치의 평균과 분산을 구하여 입력 데이터를 평균이 0, 분산이 1이되도록 정규화를 진행합니다.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
+<div class="no-row-height column-margin column-container"><div id="fn1"><p><sup>1</sup>&nbsp;<span class="math inline">\epsilon</span>은 아주 작은값을 의미하며 0으로 나누게 되는 경우를 방지하기 위합입니다.</p></div></div><p>이렇게 정규화한 데이터를 활성화함수 앞 또는 뒤에 삽입함으로써 활성화 함수값의 분포를 고르게 만들 수 있습니다.</p>
+<p>또 하나 주목할 만한 것은 정규화 계층마다 고유한 확대(scale) 및 이동(shift) 변환을 수행할 수 있다는 것이고 이러한 확대 및 변환에 관한 수식은 아래와 같습니다.</p>
+<p><span class="math display">
+y_i \leftarrow \gamma\hat{x}_i+\beta
+</span></p>
+<p>여기서 <span class="math inline">\gamma</span>는 확대를 담당하고 1부터 시작합니다. 그리고 <span class="math inline">\beta</span>는 이동을 담당하고 0부터 시작합니다.</p>
+<p>이 알고리즘은 순전파때 적용되고 아래와 같이 계산그래프(<a href="#fig-techBM1" class="quarto-xref">Figure&nbsp;<span>12.1</span></a> )로 표현이 가능합니다.</p>
+<div id="fig-techBM1" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-techBM1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="image/fig-techBM1.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-techBM1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;12.1: Graph of process for Batch Normalization
+</figcaption>
+</figure>
+</div>
+<p>이 알고리즘의 역전파에 대한 계산그래프는 추후 정리하여 업데이트 하도록 하겠습니다.</p>
+</section>
+<section id="effects-of-batch-normalization" class="level2" data-number="12.2">
+<h2 data-number="12.2" class="anchored" data-anchor-id="effects-of-batch-normalization"><span class="header-section-number">12.2</span> Effects of Batch Normalization</h2>
 
+
+</section>
 
 
 </main> <!-- /main -->

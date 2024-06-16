@@ -158,7 +158,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./TECH-optimizer.html">Related technologies</a></li><li class="breadcrumb-item"><a href="./TECH-optimizer.html"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Optimaizer</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./TECH-optimizer.html">Learning technologies</a></li><li class="breadcrumb-item"><a href="./TECH-optimizer.html"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Optimaizer</span></a></li></ol></nav>
         <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -274,7 +274,7 @@ window.Quarto = {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
- <span class="menu-text">Related technologies</span></a>
+ <span class="menu-text">Learning technologies</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -347,7 +347,7 @@ window.Quarto = {
 <!-- main -->
 <main class="content page-columns page-full" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./TECH-optimizer.html">Related technologies</a></li><li class="breadcrumb-item"><a href="./TECH-optimizer.html"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Optimaizer</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./TECH-optimizer.html">Learning technologies</a></li><li class="breadcrumb-item"><a href="./TECH-optimizer.html"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Optimaizer</span></a></li></ol></nav>
 <div class="quarto-title">
 <h1 class="title"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Optimaizer</span></h1>
 </div>
@@ -381,7 +381,7 @@ window.Quarto = {
 \textbf{W} \leftarrow \textbf{W} - \eta\frac{\partial{L}}{\partial{\textbf{W}}}
 </span></p>
 <p>위의 식을 간단한 클래스로 구현하도록 하겠습니다.</p>
-<div id="f9b984dc" class="cell" data-execution_count="1">
+<div id="c7ae2c8d" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="annotated-cell-1"><pre class="sourceCode python code-annotation-code code-with-copy"><code class="sourceCode python"><span id="annotated-cell-1-1"><a href="#annotated-cell-1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> SGD:</span>
 <span id="annotated-cell-1-2"><a href="#annotated-cell-1-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, lr<span class="op">=</span><span class="fl">0.01</span>):</span>
 <span id="annotated-cell-1-3"><a href="#annotated-cell-1-3" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.lr <span class="op">=</span> lr</span>
@@ -437,7 +437,7 @@ Figure&nbsp;10.2: Update path for SGD
 </span></p>
 <p>SGD와 가장 큰 차이점은 <span class="math inline">\textbf{v}</span>(velocity)가 등장하여 기울기 방향으로 힘을 받아 물체가 가속되는 물리법칙을 의미합니다. 또 하나는 <span class="math inline">\alpha\textbf{v}</span>항 아무런 힘이 영향을 주지 않을 때 운동량을 약화 시키는(저항에 해당) 역할을 한다는 것입니다.</p>
 <p>이러한 모멘텀 클래스를 구현하면 아래와 같습니다.</p>
-<div id="6247cb90" class="cell" data-execution_count="2">
+<div id="9dc32721" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="annotated-cell-2"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-2-1"><a href="#annotated-cell-2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Momentum:</span>
 <span id="annotated-cell-2-2"><a href="#annotated-cell-2-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, lr<span class="op">=</span><span class="fl">0.01</span>, momentum<span class="op">=</span><span class="fl">0.9</span>):</span>
 <span id="annotated-cell-2-3"><a href="#annotated-cell-2-3" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.lr <span class="op">=</span> lr</span>
@@ -487,7 +487,7 @@ Figure&nbsp;10.3: Update path for Momentum
 <p>여기서 <span class="math inline">\textbf{h}</span>가 등장합니다. 이 값은 기울기를 제곱하여 계속 더해주게 됩니다. 그리고 매개변수인 가중치를 갱신할 때 <span class="math inline">\frac{1}{\sqrt{\textbf{h}}}</span>를 곱하여 학습률을 조정해 줍니다.</p>
 <p>이는 이전 스텝에서 크게 갱신된 매개변수(가중치)는 이번 스텝에서 낮은 학습률을 적용하여 원소마다 상이한 학습률을 갖도록 한다는 것으로 이해할 수 있습니다.</p>
 <p>이러한 AdaGrad 클래스를 구현하면 아래와 같습니다.</p>
-<div id="093c891d" class="cell" data-execution_count="3">
+<div id="0561a19a" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> AdaGrad:</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, lr<span class="op">=</span><span class="fl">0.01</span>):</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.lr <span class="op">=</span> lr</span>
@@ -535,7 +535,7 @@ RMSProp(=EWMA)
 <h3 data-number="10.1.4" class="anchored" data-anchor-id="adam"><span class="header-section-number">10.1.4</span> Adam</h3>
 <p><strong>Adam</strong>은 정확하지는 않지만 직관적으로 모멘텀과 AdaGrad를 융합한듯한 방법입니다. 이 두 이점을 조합했다고 단순히 이해할 수 있습니다.<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></p>
 <div class="no-row-height column-margin column-container"><div id="fn2"><p><sup>2</sup>&nbsp;Adam에 대하여 보다 자세하게 이해하기 위하여는 <a href="http://arxiv.org/abs/1412.6980v8">Adam</a>논문을 읽어 보시기 바랍니다.</p></div></div><p>이러한 Adam 클래스를 구현하면 아래와 같습니다.</p>
-<div id="8f248af8" class="cell" data-execution_count="4">
+<div id="2f59274d" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Adam:</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, lr<span class="op">=</span><span class="fl">0.001</span>, beta1<span class="op">=</span><span class="fl">0.9</span>, beta2<span class="op">=</span><span class="fl">0.999</span>):</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.lr <span class="op">=</span> lr</span>
