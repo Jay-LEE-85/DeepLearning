@@ -100,7 +100,7 @@ plt.show()
 
 $$
 \begin{align}
-\textbf{L}^* &= \textbf{L}(\textbf{W})+\frac{1}{2}\lambda\textbf{W}^2 \\ \\
+\textbf{L}^* &= \textbf{L}+\frac{1}{2}\lambda\textbf{W}^2 \\ \\
 \textbf{W} &= \textbf{W} - \eta\frac{\partial{\textbf{L}^*}}{\partial{\textbf{W}}} \\
 &= \textbf{W} - \eta\frac{\partial{(\textbf{L}+\frac{1}{2}\lambda\textbf{W}^2)}}{\partial{\textbf{W}}} \\
 &= \textbf{W} - \eta(\frac{\partial{\textbf{L}}}{\partial{\textbf{W}}}+\frac{\partial\frac{1}{2}\lambda\textbf{W}^2}{\partial{\textbf{W}}}) \\
