@@ -316,6 +316,23 @@ window.Quarto = {
 </li>
       </ul>
   </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true">
+ <span class="menu-text">CNN</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./CNN-intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Convolution Neural Networks</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./references.html" class="sidebar-item-text sidebar-link">
@@ -517,7 +534,7 @@ Figure&nbsp;8.5: Backpropagation process of ReLU
 </figure>
 </div>
 <p><a href="#fig-annBack3" class="quarto-xref">Figure&nbsp;<span>8.5</span></a> 의 과정을 참고하여 ReLU 계층을 코드로 구현하면 아래와 같습니다.</p>
-<div id="96b8086d" class="cell" data-execution_count="1">
+<div id="2cdadc95" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="annotated-cell-1"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-1-1"><a href="#annotated-cell-1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="annotated-cell-1-2"><a href="#annotated-cell-1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="annotated-cell-1-3"><a href="#annotated-cell-1-3" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Relu:</span>
@@ -615,7 +632,7 @@ Figure&nbsp;8.7: Simplified Backward of Sigmoid
 </figure>
 </div>
 <p><a href="#fig-annBack6" class="quarto-xref">Figure&nbsp;<span>8.7</span></a> 의 과정을 참고하여 Sigmoid 계층을 코드로 구현하면 아래와 같습니다.</p>
-<div id="532496cc" class="cell" data-execution_count="2">
+<div id="7eb48f9a" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="annotated-cell-2"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-2-1"><a href="#annotated-cell-2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Sigmoid:</span>
 <span id="annotated-cell-2-2"><a href="#annotated-cell-2-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>):</span>
 <span id="annotated-cell-2-3"><a href="#annotated-cell-2-3" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.out <span class="op">=</span> <span class="va">None</span></span>
@@ -717,7 +734,7 @@ Figure&nbsp;8.11: Backward Propagation of Affine for Mini-batch
 </figure>
 </div>
 <p>지금까지 설명한 Affine을 코드로 구현하겠습니다. 앞선 예들과 같이 순전파와 역전파 과정을 모두 포함합니다.,</p>
-<div id="c04df542" class="cell" data-execution_count="3">
+<div id="62f518a1" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Affine:</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, W, b):</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.W <span class="op">=</span> W</span>
@@ -844,7 +861,7 @@ y_1 = \frac{\exp(a_1)}{S} \quad &amp;\rightarrow \quad \frac{1}{y_1} = \frac{S}{
 <section id="implementing-of-softmax-with-error" class="level2 page-columns page-full" data-number="8.5">
 <h2 data-number="8.5" class="anchored" data-anchor-id="implementing-of-softmax-with-error"><span class="header-section-number">8.5</span> Implementing of Softmax-with-error</h2>
 <p>지금까지 순전파 및 역전파 과정을 계산그래프를 통하여 살펴보았습니다, 특히 Softmax-with-loss 계층을 코드로 구현하며 마무리 해 보도록 하겠습니다,<a href="#fn15" class="footnote-ref" id="fnref15" role="doc-noteref"><sup>15</sup></a></p>
-<div class="no-row-height column-margin column-container"><div id="fn15"><p><sup>15</sup>&nbsp;<a href="ANN-learning.html" class="quarto-xref"><span>Chapter 6</span></a> 에서 구현한 <code>softmax()</code>와 <code>cross-entropy_error()</code>을 활용하겠습니다.</p></div></div><div id="fa729abc" class="cell" data-execution_count="4">
+<div class="no-row-height column-margin column-container"><div id="fn15"><p><sup>15</sup>&nbsp;<a href="ANN-learning.html" class="quarto-xref"><span>Chapter 6</span></a> 에서 구현한 <code>softmax()</code>와 <code>cross-entropy_error()</code>을 활용하겠습니다.</p></div></div><div id="e693055f" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> common.functions <span class="im">import</span> softmax, cross_entropy_error</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> SoftmaxWithLoss:</span>

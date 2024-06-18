@@ -64,7 +64,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./references.html" rel="next">
+<link href="./CNN-intro.html" rel="next">
 <link href="./TECH-overfitting.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -103,6 +103,49 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 
+  <script>window.backupDefine = window.define; window.define = undefined;</script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+ var mathElements = document.getElementsByClassName("math");
+ var macros = [];
+ for (var i = 0; i < mathElements.length; i++) {
+  var texText = mathElements[i].firstChild;
+  if (mathElements[i].tagName == "SPAN") {
+   katex.render(texText.data, mathElements[i], {
+    displayMode: mathElements[i].classList.contains('display'),
+    throwOnError: false,
+    macros: macros,
+    fleqn: false
+   });
+}}});
+  </script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css">
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -269,6 +312,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
       </ul>
   </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true">
+ <span class="menu-text">CNN</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./CNN-intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Convolution Neural Networks</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./references.html" class="sidebar-item-text sidebar-link">
@@ -338,7 +398,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>데이터셋에 따라 위와 같이 3가지 데이터로 분류되는 경우도 있지만 사용자가 직접 분류를 해야 하는 경우도 있습니다. 아래는 MNIST 데이터셋을 활용하여 훈련 데이터에서 20%의 검증 데이터를 얻는 방법을 구현해보겠씁니다.</p>
-<div id="daaf2bfc" class="cell" data-execution_count="1">
+<div id="ad6f612f" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> dataset.mnist <span class="im">import</span> load_mnist</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> common.util <span class="im">import</span> shuffle_dataset</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -380,6 +440,25 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>1단계와 2단계를 특정횟수(100회 등) 반복하며, 그 정확도의 결과를 보고 하이퍼파라미터의 범위를 좁히도록 합니다.</li>
 </ul></li>
 </ul>
+<p>위의 절차에 따라 하이퍼파라미터의 최적화를 실시해보독 하겠습니다.</p>
+<div id="f0b44348" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>weight_decay <span class="op">=</span> <span class="dv">10</span><span class="op">**</span> np.random.uniform(<span class="op">-</span><span class="dv">8</span>, <span class="op">-</span><span class="dv">4</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>lr <span class="op">=</span> <span class="dv">10</span> <span class="op">**</span> np.random.uniform(<span class="op">-</span><span class="dv">6</span>, <span class="op">-</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>위와 같이 가중치 감소 계수의 범위를 <span class="math inline">10^{-8}\sim10^{-4}</span>로 설정하여 무작위로 추출하고, 학습률의 범위를 <span class="math inline">10^{-6}\sim10^{-2}</span>로 설정하여 무작위로 추출해 보겠습니다.</p>
+<div id="fig-techParam1" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-techParam1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="image/fig-techParam1.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-techParam1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;14.1: Accuracy of validation and training data per hyperparameter
+</figcaption>
+</figure>
+</div>
+<p>위의 그림을 살펴보면 ’Best-5’까지의 검증데이터의 학습 결과가 매우 좋은 것을 확인할 수 있습니다. 이러한 결과를 바탕으로 학습률은 0.001~0.01, 가중치 감소계수는 <span class="math inline">10^{-8}\sim10^{-4}</span>가 적당한 범위라 할 수 있습니다.</p>
+<p>이후 이 범위 내에서 다시 범위를 좁혀가며 학습을 진행하며 최종적인 하이퍼파라미터값을 최적화 할 수 있습니다.</p>
 
 
 </section>
@@ -802,8 +881,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./references.html" class="pagination-link" aria-label="References">
-        <span class="nav-page-text">References</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./CNN-intro.html" class="pagination-link" aria-label="Convolution Neural Networks">
+        <span class="nav-page-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Convolution Neural Networks</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
