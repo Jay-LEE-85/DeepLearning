@@ -32,10 +32,11 @@ book:
       - TECH-optimizer.qmd
       - TECH-initializing.qmd
       - TECH-batchnorm.qmd
+      - TECH-overfitting.qmd
 
-    - part: "CNN"
-      chapters:
-      - CNN-intro.qmd
+    # - part: "CNN"
+    #   chapters:
+    #   - CNN-intro.qmd
 
     - references.qmd
 
