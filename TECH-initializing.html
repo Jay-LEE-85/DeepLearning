@@ -298,21 +298,16 @@ window.Quarto = {
  <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Batch Normalization</span></span></a>
   </div>
 </li>
-      </ul>
-  </li>
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true">
- <span class="menu-text">CNN</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./CNN-intro.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Convolution Neural Networks</span></span></a>
+  <a href="./TECH-overfitting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Overfitting</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./TECH-settingparam.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Finding the appropriate hyperparameters</span></span></a>
   </div>
 </li>
       </ul>
@@ -361,13 +356,15 @@ window.Quarto = {
 
 
 <hr>
-<p>신경망의 주요 매개변수인 가중치의 초깃값을 어떻게 설정해야 할까요? 이는 학습의 성패를 가르기도 하는 매우 중요한 문제입니다. 기본적으로 알아야 할것은 은닉층으로 연결되는 간선의 가중치는 작은 값(0을 의미하는 것이 아님에 주의)을 갖도록 하고, 무작위적으로 설정되어야 한다는 것입니다.</p>
+<p>신경망의 주요 매개변수인 가중치의 초깃값을 어떻게 설정해야 할까요? 이는 학습의 성패를 가르기도 하는 매우 중요한 문제입니다.</p>
+<p>기본적으로 알아야 할것은 은닉층으로 연결되는 간선의 가중치는 작은 값(0을 의미하는 것이 아님에 주의)을 갖도록 하고, 무작위적으로 설정되어야 한다는 것입니다.</p>
 <section id="weighting-initialization-when-using-sigmoid-functions" class="level2 page-columns page-full" data-number="11.1">
 <h2 data-number="11.1" class="anchored" data-anchor-id="weighting-initialization-when-using-sigmoid-functions"><span class="header-section-number">11.1</span> Weighting initialization when using Sigmoid functions</h2>
 <p><strong>(Distribution of activation values in the hidden layer)</strong></p>
-<p>은닉층의 화성화값은 활성화 함수에서 출력되는 데이터를 말합니다. 스탠퍼드 대학교의 <strong>CS231n</strong>의 수업에서 시그모이드 함수로 구현된 은닉층에 무작위로 생성한 입력데이터를 넣어 출력되는 데이터의 분포를 히스토그램으로 그려보았습니다.</p>
+<p>은닉층의 화성화값은 활성화 함수에서 출력되는 데이터를 말합니다.</p>
+<p>스탠퍼드 대학교의 <strong>CS231n</strong>의 수업에서 시그모이드 함수로 구현된 은닉층에 무작위로 생성한 입력데이터를 넣어 출력되는 데이터의 분포를 히스토그램으로 그려보았습니다.</p>
 <p>먼저 수업에 사용된 코드는 아래와 같습니다.</p>
-<div id="333b4bcd" class="cell" data-execution_count="1">
+<div id="7240f653" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="annotated-cell-1"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-1-1"><a href="#annotated-cell-1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># coding: utf-8</span></span>
 <span id="annotated-cell-1-2"><a href="#annotated-cell-1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="annotated-cell-1-3"><a href="#annotated-cell-1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>

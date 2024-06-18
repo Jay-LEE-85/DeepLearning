@@ -298,21 +298,16 @@ window.Quarto = {
  <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Batch Normalization</span></span></a>
   </div>
 </li>
-      </ul>
-  </li>
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true">
- <span class="menu-text">CNN</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./CNN-intro.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Convolution Neural Networks</span></span></a>
+  <a href="./TECH-overfitting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Overfitting</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./TECH-settingparam.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Finding the appropriate hyperparameters</span></span></a>
   </div>
 </li>
       </ul>
@@ -367,7 +362,7 @@ window.Quarto = {
 <div class="no-row-height column-margin column-container"><div id="fn1"><p><sup>1</sup>&nbsp;TwoLayerNet은 스탠퍼드의 CS231n 수업에서 제공한 코드를 참고</p></div></div><section id="step1-two-layer-net" class="level2" data-number="7.1">
 <h2 data-number="7.1" class="anchored" data-anchor-id="step1-two-layer-net"><span class="header-section-number">7.1</span> STEP1: Two Layer Net</h2>
 <p>우리는 지금까지 학습한 내용에 기초하여 아래와 같이 순전파(forward propagation) 과정을 <strong>Two Layer Net</strong>이라는 클래스로 구현해 보겠습니다.</p>
-<div id="cefc91b4" class="cell" data-execution_count="1">
+<div id="6befaf2c" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="annotated-cell-1"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-1-1"><a href="#annotated-cell-1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sys, os</span>
 <span id="annotated-cell-1-2"><a href="#annotated-cell-1-2" aria-hidden="true" tabindex="-1"></a>sys.path.append(os.pardir)  <span class="co"># 부모 디렉터리의 파일을 가져올 수 있도록 설정</span></span>
 <span id="annotated-cell-1-3"><a href="#annotated-cell-1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> common.functions <span class="im">import</span> <span class="op">*</span></span>
@@ -482,7 +477,7 @@ window.Quarto = {
 <h2 data-number="7.2" class="anchored" data-anchor-id="step2-mini-batch"><span class="header-section-number">7.2</span> STEP2: Mini-Batch</h2>
 <p>모든 데이터를 갖고 학습하는 것은 효율적이지 않다고 하였습니다. 따라서, 무작위로 훈련 데이터 중 일부를 추출하여 훈련을 진행하는 미니배치 방법을 통하여 훈련의 효율성을 높일 수 있습니다.</p>
 <p>미니배치를 활용하여 확률적 경사하강법을 구현하면 아래와 같습니다.</p>
-<div id="c4189514" class="cell" data-execution_count="2">
+<div id="0b333867" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sys, os</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>sys.path.append(os.pardir)  <span class="co"># 부모 디렉터리의 파일을 가져올 수 있도록 설정</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -525,7 +520,7 @@ window.Quarto = {
 <h2 data-number="7.3" class="anchored" data-anchor-id="step3-evaluating-with-test-data"><span class="header-section-number">7.3</span> STEP3: Evaluating with test data</h2>
 <p>이제 우리가 구현한 클래스의 성능을 평가해 보도록 하겠습니다. 훈련데이터를 미니배치로 나누어 훈련을 진행하였는데 과연 다른 새로운 데이터셋에서도 동일한 성능을 발휘할지 알아야 합니다.</p>
 <p>만약, 훈련 데이터에만 적응한 ANN이라면 새로운 데이터에서는 적절한 성능을 발휘하지 못할 가능성이 있기 때문입니다. 이를 <strong>오버피팅</strong>(overfitting)<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>이라 합니다.</p>
-<div class="no-row-height column-margin column-container"><div id="fn2"><p><sup>2</sup>&nbsp;오버피팅은 훈련데이터에 대한 정확도는 높으나 신규 데이터에는 적절한 성능을 발휘하지 못하는 문제로 이러한 문제를 해결하기 위하여 조기종료(early stopping), 가중치 감소, 드롭아웃(drop-out)등의 기법이 사용됩니다.</p></div></div><div id="d8f83b29" class="cell" data-execution_count="3">
+<div class="no-row-height column-margin column-container"><div id="fn2"><p><sup>2</sup>&nbsp;오버피팅은 훈련데이터에 대한 정확도는 높으나 신규 데이터에는 적절한 성능을 발휘하지 못하는 문제로 이러한 문제를 해결하기 위하여 조기종료(early stopping), 가중치 감소, 드롭아웃(drop-out)등의 기법이 사용됩니다.</p></div></div><div id="427ed27b" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="annotated-cell-3"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-3-1"><a href="#annotated-cell-3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sys, os</span>
 <span id="annotated-cell-3-2"><a href="#annotated-cell-3-2" aria-hidden="true" tabindex="-1"></a>sys.path.append(os.pardir)  <span class="co"># 부모 디렉터리의 파일을 가져올 수 있도록 설정</span></span>
 <span id="annotated-cell-3-3"><a href="#annotated-cell-3-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -593,7 +588,7 @@ window.Quarto = {
 </dd>
 <dt data-target-cell="annotated-cell-3" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-cell="annotated-cell-3" data-code-lines="20" data-code-annotation="2"><code>test_acc_list</code> 검증 데이터에 대한 정확도를 저장하는 튜플</span>
+<span data-code-cell="annotated-cell-3" data-code-lines="20" data-code-annotation="2"><code>test_acc_list</code> 시험 데이터에 대한 정확도를 저장하는 튜플</span>
 </dd>
 <dt data-target-cell="annotated-cell-3" data-target-annotation="3">3</dt>
 <dd>
@@ -616,7 +611,7 @@ Figure&nbsp;7.1: Accuracy trends for training and test data
 </figcaption>
 </figure>
 </div>
-<p>위의 그림에서 보듯이 훈련 데이터(실선)와 검증 데이터(점선)의 정확도가 epoch인 진행될 수록 같은 수준으로 좋아지고 있습니다. 이는 오버피팅없이 적절히 학습이 이루어 졌다고 평가할 수 있습니다.</p>
+<p>위의 그림에서 보듯이 훈련 데이터(실선)와 시험 데이터(점선)의 정확도가 epoch인 진행될 수록 같은 수준으로 좋아지고 있습니다. 이는 오버피팅없이 적절히 학습이 이루어 졌다고 평가할 수 있습니다.</p>
 
 
 </section>
