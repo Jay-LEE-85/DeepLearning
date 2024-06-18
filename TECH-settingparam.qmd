@@ -24,7 +24,10 @@
 데이터셋에 따라 위와 같이 3가지 데이터로 분류되는 경우도 있지만 사용자가 직접 분류를 해야 하는 경우도 있습니다. 아래는 MNIST 데이터셋을 활용하여 훈련 데이터에서 20%의 검증 데이터를 얻는 방법을 구현해보겠씁니다.
 
 ``` {python}
-(x_train, t_test), (x_test, t_test) = load_mnist()
+from dataset.mnist import load_mnist
+from common.util import shuffle_dataset
+
+(x_train, t_train), (x_test, t_test) = load_mnist()
 
 # 훈련 데이터 뒤섞기
 x_train, t_train = shuffle_dataset(x_train, t_train)
