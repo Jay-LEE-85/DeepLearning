@@ -35,9 +35,9 @@ book:
       - TECH-overfitting.qmd
       - TECH-settingparam.qmd
 
-    # - part: "CNN"
-    #   chapters:
-    #   - CNN-intro.qmd
+    - part: "CNN"
+      chapters:
+      - CNN-intro.qmd
 
     - references.qmd
 
