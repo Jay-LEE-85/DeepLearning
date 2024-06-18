@@ -1,0 +1,56 @@
+{
+  "index.qmd": {
+    "index.html": "16e179fa"
+  },
+  "intro.qmd": {
+    "intro.html": "39c92cd3"
+  },
+  "perceptron-intro.qmd": {
+    "perceptron-intro.html": "dd91eddc"
+  },
+  "perceptron-lab_classification.qmd": {
+    "perceptron-lab_classification.html": "e40efe12"
+  },
+  "ANN-intro.qmd": {
+    "ANN-intro.html": "81158ee9"
+  },
+  "ANN-activation.qmd": {
+    "ANN-activation.html": "e2b0e943"
+  },
+  "ANN-forward.qmd": {
+    "ANN-forward.html": "f79209a8"
+  },
+  "ANN-learning.qmd": {
+    "ANN-learning.html": "a1110578"
+  },
+  "ANN-lab_MNIST.qmd": {
+    "ANN-lab_MNIST.html": "80e99c76"
+  },
+  "ANN-backward.qmd": {
+    "ANN-backward.html": "6d11b885"
+  },
+  "ANN-lab_Backpro.qmd": {
+    "ANN-lab_Backpro.html": "bf8960c0"
+  },
+  "TECH-optimizer.qmd": {
+    "TECH-optimizer.html": "f3224c27"
+  },
+  "TECH-initializing.qmd": {
+    "TECH-initializing.html": "f5b98bd8"
+  },
+  "TECH-batchnorm.qmd": {
+    "TECH-batchnorm.html": "10e03c6e"
+  },
+  "CNN-intro.qmd": {
+    "CNN-intro.html": "7600fb79"
+  },
+  "references.qmd": {
+    "references.html": "9cdef636"
+  },
+  "TECH-overfitting.qmd": {
+    "TECH-overfitting.html": "b3b75ad0"
+  },
+  "TECH-settingparam.qmd": {
+    "TECH-settingparam.html": "9a512552"
+  }
+}
