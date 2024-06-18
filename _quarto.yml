@@ -33,6 +33,7 @@ book:
       - TECH-initializing.qmd
       - TECH-batchnorm.qmd
       - TECH-overfitting.qmd
+      - TECH-settingparam.qmd
 
     # - part: "CNN"
     #   chapters:
