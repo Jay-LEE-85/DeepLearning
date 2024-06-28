@@ -1,0 +1,1 @@
+{"headings":["understanding-overfitting","weight-decay","dropout"],"entries":[{"key":"fig-techOver2","order":{"section":[13,3,0,0,0,0,0],"number":2},"caption":"Comparison of results(without Dropout(Left), with Dropout(Right))"},{"key":"fig-techOver1","order":{"section":[13,3,0,0,0,0,0],"number":1},"caption":"Concept of Dropout"}],"options":{"chapters":true}}
