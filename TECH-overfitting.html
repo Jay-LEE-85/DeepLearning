@@ -401,7 +401,7 @@ window.Quarto = {
 </ul>
 <p>위의 상황을 살펴보기 위해 7층의 신경망을 사용하여 네트워크의 복잡성을 지나치게 높이고, 60,000개인 MNIST 데이터셋의 훈련데이터 중 아주 적은 300개만 사용한다면 오버피팅이 발생할까요?</p>
 <p>MNIST 데이터를 이용하여 훈련데이터와 시험데이터의 정확도를 아래 구현된 코드를 활용하여 비교해보도록 하겠습니다.</p>
-<div id="7932b4f4" class="cell" data-execution_count="1">
+<div id="680b1dee" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># coding: utf-8</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sys</span>
@@ -513,7 +513,7 @@ L2 Norm을 손실함수 값에 더한다? 그런데 왜 <span class="math inline
 </div>
 </div>
 <p>지금까지 살펴 본 내용을 바탕으로 가중치 감소에 따른 효과를 살펴 보도록 하겠습니다. 하이퍼파라미터인 <span class="math inline">\lambda</span>는 0.1로 설정하여 가중치 감소를 적용하였습니다.</p>
-<div id="462c8e74" class="cell" data-execution_count="2">
+<div id="a70fcfc8" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -539,7 +539,7 @@ Figure&nbsp;13.1: Concept of Dropout
 </figure>
 </div>
 <p>위에서 설명한 드롭아웃을 구현하도록 하겠습니다. 먼저 순전파를 담당하는 <code>forward</code>메서드에서는 훈련 때(<code>train_flg=True</code>)만 잘 계산해두면 시험 때 단순히 데이터를 흘리기만 하면됩니다.<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a></p>
-<div class="no-row-height column-margin column-container"><div id="fn3"><p><sup>3</sup>&nbsp;삭제 안한 비율은 곱하지 않아도 됩니다.</p></div></div><div id="8ea112cc" class="cell" data-execution_count="3">
+<div class="no-row-height column-margin column-container"><div id="fn3"><p><sup>3</sup>&nbsp;삭제 안한 비율은 곱하지 않아도 됩니다.</p></div></div><div id="9a77967d" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="annotated-cell-2"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-2-1"><a href="#annotated-cell-2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Dropout:</span>
 <span id="annotated-cell-2-2"><a href="#annotated-cell-2-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, dropout_ratio<span class="op">=</span><span class="fl">0.5</span>):</span>
 <span id="annotated-cell-2-3"><a href="#annotated-cell-2-3" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.dropout_ratio <span class="op">=</span> dropout_ratio</span>
