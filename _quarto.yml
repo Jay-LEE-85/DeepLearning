@@ -38,6 +38,10 @@ book:
     - part: "CNN"
       chapters:
       - CNN-intro.qmd
+      
+    - part: "Examples"
+      chapters:
+      - Example-LSTM.qmd
 
     - references.qmd
 
