@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.551">
+<meta name="generator" content="quarto-1.5.45">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>DeepLearning x 101 - 8&nbsp; Backward Propagation</title>
+<title>8&nbsp; Backward Propagation – DeepLearning x 101</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -33,7 +33,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -107,7 +107,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-diagram/mermaid-init.js"></script>
 <link href="site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
 
-  <script>window.backupDefine = window.define; window.define = undefined;</script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js"></script>
+  <script>window.backupDefine = window.define; window.define = undefined;</script><script src="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.js"></script>
   <script>document.addEventListener("DOMContentLoaded", function () {
  var mathElements = document.getElementsByClassName("math");
  var macros = [];
@@ -122,7 +122,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
    });
 }}});
   </script>
-  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css">
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.css">
 
 <script type="text/javascript">
 const typesetMath = (el) => {
@@ -159,13 +159,13 @@ window.Quarto = {
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
         <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./ANN-intro.html">ANN</a></li><li class="breadcrumb-item"><a href="./ANN-backward.html"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Backward Propagation</span></a></li></ol></nav>
-        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
-      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
       </button>
     </div>
@@ -201,9 +201,9 @@ window.Quarto = {
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
  <span class="menu-text">Perceptron</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
@@ -224,9 +224,9 @@ window.Quarto = {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
  <span class="menu-text">ANN</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
@@ -277,9 +277,9 @@ window.Quarto = {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
  <span class="menu-text">Learning technologies</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
@@ -318,9 +318,9 @@ window.Quarto = {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
  <span class="menu-text">CNN</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
@@ -335,9 +335,9 @@ window.Quarto = {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
  <span class="menu-text">Examples</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
@@ -457,7 +457,7 @@ t &amp;= x+y
 \end{align}
 \tag{8.3}</span></span></p>
 <p><a href="#eq-annBack3" class="quarto-xref">Equation&nbsp;<span>8.3</span></a> 를 그래프로 나타내어 연쇄법칙을 나타내봅시다. <a href="#fig-annBack1" class="quarto-xref">Figure&nbsp;<span>8.1</span></a> 에서 보는 바와 같이 오른쪽에서 왼쪽으로 신호를 전달(전파) 합니다. 전파의 과정에서 입력값에 해당하는 편미분값을 곱하여 다음 노드에 전달함을 확인 할 수 있습니다.</p>
-<div id="fig-annBack1" class="quarto-figure quarto-figure-center quarto-float anchored">
+<div id="fig-annBack1" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-annBack1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="image/fig-annBack1.png" class="img-fluid figure-img" style="width:70.0%">
@@ -468,7 +468,7 @@ Figure&nbsp;8.1: Multiplying the partial derivative of <a href="#eq-annBack3" cl
 </figure>
 </div>
 <p><a href="#fig-annBack1" class="quarto-xref">Figure&nbsp;<span>8.1</span></a> 과 같은 과정에 <a href="#eq-annBack3" class="quarto-xref">Equation&nbsp;<span>8.3</span></a> 의 미분값을 대입하면 <a href="#fig-annBack2" class="quarto-xref">Figure&nbsp;<span>8.2</span></a> 와 같은 결과를 얻을 수 있습니다.</p>
-<div id="fig-annBack2" class="quarto-figure quarto-figure-center quarto-float anchored">
+<div id="fig-annBack2" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-annBack2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="image/fig-annBack2.png" class="img-fluid figure-img" style="width:70.0%">
@@ -484,7 +484,7 @@ Figure&nbsp;8.2: The process of showing backpropagation results
 <p><a href="#fig-annBack4" class="quarto-xref">Figure&nbsp;<span>8.6</span></a> 의 그래프를 기준으로 역전파<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> 과정을 살펴봅시다.</p>
 <div class="no-row-height column-margin column-container"><div id="fn3"><p><sup>3</sup>&nbsp;역전파는 순방향과 반대방향으로 국소적 미분(편미분)값을 곱하는 방법으로 수행</p></div></div><p>상류에서 산출한 편미분 값(<span class="math inline">\frac{\partial{L}}{\partial{z}}</span>)을 <span class="math inline">x</span>간선의 경우 <span class="math inline">\frac{\partial{L}}{\partial{z}}\frac{\partial{z}}{\partial{x}}</span>의 꼴로 역전파가 이루어 지고, <span class="math inline">y</span>간선의 경우 <span class="math inline">\frac{\partial{L}}{\partial{z}}\frac{\partial{z}}{\partial{y}}</span>의 꼴로 역전파가 이루어 집니다.</p>
 <p><a href="#fig-annBack4" class="quarto-xref">Figure&nbsp;<span>8.6</span></a> 는 덧셈의 역전파 이므로 <span class="math inline">\frac{\partial{L}}{\partial{z}}\frac{\partial{z}}{\partial{x}}=\frac{\partial{L}}{\partial{z}}\cdot1</span>과 <span class="math inline">\frac{\partial{L}}{\partial{z}}\frac{\partial{z}}{\partial{y}}=\frac{\partial{L}}{\partial{z}}\cdot1</span>로 변형됨으로 입력된 값 그대로 다음 노드에 전달되게 됩니다.</p>
-<div id="fig-annBack4" class="quarto-figure quarto-figure-center quarto-float anchored">
+<div id="fig-annBack4" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-annBack4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="image/annBack3.png" class="img-fluid figure-img" style="width:70.0%">
@@ -501,7 +501,7 @@ Figure&nbsp;8.3: Examples: Backpropagation of Addition Nodes
 <p><a href="#fig-annBack5" class="quarto-xref">Figure&nbsp;<span>8.4</span></a> 의 그래프를 기준으로 역전파 과정을 살펴봅시다.</p>
 <p>상류에서 산출한 편미분 값(<span class="math inline">\frac{\partial{L}}{\partial{z}}</span>)을 <span class="math inline">x</span>간선의 경우 <span class="math inline">\frac{\partial{L}}{\partial{z}}\frac{\partial{z}}{\partial{x}}=\frac{\partial{L}}{\partial{z}}\frac{\partial{z}}{\partial{x}}=\frac{\partial{L}}{\partial{z}}\cdot y</span>의 꼴로 역전파가 이루어 지고, <span class="math inline">y</span>간선의 경우 <span class="math inline">\frac{\partial{L}}{\partial{z}}\frac{\partial{z}}{\partial{y}}=\frac{\partial{L}}{\partial{z}}\frac{\partial{z}}{\partial{y}}=\frac{\partial{L}}{\partial{z}}\cdot x</span>의 꼴로 역전파가 이루어 집니다.</p>
 <p><a href="#fig-annBack5" class="quarto-xref">Figure&nbsp;<span>8.4</span></a> 는 곱셈의 역전파는 서로 바꾼값을 곱하여 하류로 흘려 보내게 됨을 확인할 수 있습니다.</p>
-<div id="fig-annBack5" class="quarto-figure quarto-figure-center quarto-float anchored">
+<div id="fig-annBack5" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-annBack5-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="image/annBack5.png" class="img-fluid figure-img" style="width:70.0%">
@@ -540,7 +540,7 @@ Figure&nbsp;8.4: Examples: Multiplication of Addition Nodes
 <h3 data-number="8.3.1" class="anchored" data-anchor-id="relu"><span class="header-section-number">8.3.1</span> ReLU</h3>
 <p>ReLU(Rectified Linear Unit) 함수는 0을 기점으로 입력값이 0이하이면 0을 출력하고 0을 초과하면 그대로 출력하도록 하는 활성화 함수 입니다.<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a></p>
 <div class="no-row-height column-margin column-container"><div id="fn4"><p><sup>4</sup>&nbsp;<span class="math inline">\frac{\partial{L}}{\partial{y}} = \begin{cases} 1 &amp; (x &gt;0) \\ 0 &amp; (x \leq 0) \end{cases}</span></p></div><div id="fn5"><p><sup>5</sup>&nbsp;<span class="math inline">y = \begin{cases} x &amp; (x &gt;0) \\ 0 &amp; (x \leq 0) \end{cases}</span></p></div></div><p>ReLU 함수의 미분값<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a>의 역전파 과정은 (1) <span class="math inline">x &gt; 0</span>일때 역전파는 미분값(<span class="math inline">\frac{\partial{L}}{\partial{y}}</span>)을 그대로 흘려보내고, (2) <span class="math inline">x \leq 0</span>일때 역전파는 미분값을 보내지 않습니다.</p>
-<div id="fig-annBack3" class="quarto-figure quarto-figure-center quarto-float anchored">
+<div id="fig-annBack3" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-annBack3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="image/fig-annBack3.png" class="img-fluid figure-img">
@@ -551,7 +551,7 @@ Figure&nbsp;8.5: Backpropagation process of ReLU
 </figure>
 </div>
 <p><a href="#fig-annBack3" class="quarto-xref">Figure&nbsp;<span>8.5</span></a> 의 과정을 참고하여 ReLU 계층을 코드로 구현하면 아래와 같습니다.</p>
-<div id="8cee0bb0" class="cell" data-execution_count="1">
+<div id="dd29bb4d" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="annotated-cell-1"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-1-1"><a href="#annotated-cell-1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="annotated-cell-1-2"><a href="#annotated-cell-1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="annotated-cell-1-3"><a href="#annotated-cell-1-3" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Relu:</span>
@@ -638,7 +638,7 @@ Figure&nbsp;8.6: Backpropagation process of Sigmoid
 &amp;= \frac{\partial{L}}{\partial{}}y(1-y)
 \end{align}
 </span></p>
-<div id="fig-annBack6" class="quarto-figure quarto-figure-center quarto-float anchored">
+<div id="fig-annBack6" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-annBack6-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="image/fig-annBack6.png" class="img-fluid figure-img" style="width:70.0%">
@@ -649,7 +649,7 @@ Figure&nbsp;8.7: Simplified Backward of Sigmoid
 </figure>
 </div>
 <p><a href="#fig-annBack6" class="quarto-xref">Figure&nbsp;<span>8.7</span></a> 의 과정을 참고하여 Sigmoid 계층을 코드로 구현하면 아래와 같습니다.</p>
-<div id="6057216e" class="cell" data-execution_count="2">
+<div id="bd75c546" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="annotated-cell-2"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-2-1"><a href="#annotated-cell-2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Sigmoid:</span>
 <span id="annotated-cell-2-2"><a href="#annotated-cell-2-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>):</span>
 <span id="annotated-cell-2-3"><a href="#annotated-cell-2-3" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.out <span class="op">=</span> <span class="va">None</span></span>
@@ -679,7 +679,7 @@ Figure&nbsp;8.7: Simplified Backward of Sigmoid
 <section id="affine" class="level3 page-columns page-full" data-number="8.4.1">
 <h3 data-number="8.4.1" class="anchored" data-anchor-id="affine"><span class="header-section-number">8.4.1</span> Affine</h3>
 <p>ANN의 순전파에서 입력값(<span class="math inline">\textbf{X}</span>)과 가중치(<span class="math inline">\textbf{W}</span>)의 Weighted sum에 편향(<span class="math inline">\textbf{B}</span>)을 합산하여 활성화 함수를 통해 출력값을 다음 계층에 전달하게 됩니다. 이 과정에서 중요한 것은 특정 계층 또는 노드의 계산과정에서의 형상 또는 차원을 일치시켜야 한다는 점입니다.</p>
-<div id="fig-annBack7" class="quarto-figure quarto-figure-center quarto-float anchored">
+<div id="fig-annBack7" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-annBack7-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="image/fig-annBack7.png" class="img-fluid figure-img" style="width:70.0%">
@@ -690,7 +690,7 @@ Figure&nbsp;8.8: Forward Propagation of Affine
 </figure>
 </div>
 <p><a href="#fig-annBack7" class="quarto-xref">Figure&nbsp;<span>8.8</span></a> 는 행렬을 기준으로 한 순전파 과정입니다. 이는 2개의 입력노드를 <span class="math inline">\textbf{X}</span>, 3개의 출력노드 <span class="math inline">\textbf{Y}</span>를 갖는 신경망<a href="#fn8" class="footnote-ref" id="fnref8" role="doc-noteref"><sup>8</sup></a> (<a href="#fig-annBack7_2" class="quarto-xref">Figure&nbsp;<span>8.9</span></a> )을 벡터폼으로 표현한 것입니다.</p>
-<div class="no-row-height column-margin column-container"><div id="fn8"><p><sup>8</sup>&nbsp;입력노드와 출력노드간 간선에 해당하는 가중치 <span class="math inline">2\times3</span>의 <span class="math inline">\textbf{W}</span></p></div><div id="fig-annBack7_2" class="quarto-figure quarto-figure-center quarto-float anchored">
+<div class="no-row-height column-margin column-container"><div id="fn8"><p><sup>8</sup>&nbsp;입력노드와 출력노드간 간선에 해당하는 가중치 <span class="math inline">2\times3</span>의 <span class="math inline">\textbf{W}</span></p></div><div id="fig-annBack7_2" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-annBack7_2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell" data-layout-align="default">
@@ -729,7 +729,7 @@ Figure&nbsp;8.9
 \end{align}
 \tag{8.4}</span></span></p>
 <p><a href="#eq-annBack4" class="quarto-xref">Equation&nbsp;<span>8.4</span></a> 의 식을 이용하여 역전파 과정을 그리면 <a href="#fig-annBack8" class="quarto-xref">Figure&nbsp;<span>8.10</span></a> 과 같이 그 과정을 표현할 수 있습니다. 주의할 것은 <span class="math inline">\textbf{X}</span>(<span class="math inline">\textbf{W}</span>)의 형상과 역전파로 산출되는 <span class="math inline">\frac{\partial{L}}{\partial{\textbf{X}}}</span>(<span class="math inline">\frac{\partial{L}}{\partial{\textbf{W}}}</span>)의 형상이 동일하다는 것입니다.</p>
-<div id="fig-annBack8" class="quarto-figure quarto-figure-center quarto-float anchored">
+<div id="fig-annBack8" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-annBack8-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="image/fig-annBack8.png" class="img-fluid figure-img" style="width:70.0%">
@@ -740,7 +740,7 @@ Figure&nbsp;8.10: Backward Propagation of Affine
 </figure>
 </div>
 <p>이러한 어파인 과정을 배치용 계층으로 구성할 때는 <span class="math inline">\textbf{X}</span>의 형상만을 변형해주면 손쉽게 구현할 수 있습니다.</p>
-<div id="fig-annBack9" class="quarto-figure quarto-figure-center quarto-float anchored">
+<div id="fig-annBack9" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-annBack9-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="image/fig-annBack9.png" class="img-fluid figure-img" style="width:70.0%">
@@ -751,7 +751,7 @@ Figure&nbsp;8.11: Backward Propagation of Affine for Mini-batch
 </figure>
 </div>
 <p>지금까지 설명한 Affine을 코드로 구현하겠습니다. 앞선 예들과 같이 순전파와 역전파 과정을 모두 포함합니다.,</p>
-<div id="787208fa" class="cell" data-execution_count="3">
+<div id="81a6d0ed" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Affine:</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, W, b):</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.W <span class="op">=</span> W</span>
@@ -774,7 +774,7 @@ Figure&nbsp;8.11: Backward Propagation of Affine for Mini-batch
 <section id="softmax" class="level3 page-columns page-full" data-number="8.4.2">
 <h3 data-number="8.4.2" class="anchored" data-anchor-id="softmax"><span class="header-section-number">8.4.2</span> Softmax</h3>
 <p>Softmax 계층은 입력값을 정규화 하여 출력하는 계층이라 하였습니다. 이러한 소프트맥스 함수는 손실함수 인 교차 엔트로피 오차도 포함하여 <strong>Softmax-with-loss 계층</strong>으로 마지막 출력층으로 구현됩니다.</p>
-<div id="fig-annBack10" class="quarto-figure quarto-figure-center quarto-float anchored">
+<div id="fig-annBack10" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-annBack10-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="image/fig-annBack10.png" class="img-fluid figure-img" style="width:70.0%">
@@ -807,7 +807,7 @@ Figure&nbsp;8.12: Layer of Softmax-with-loss
 </div>
 <p><strong>Forward Propagation</strong></p>
 <p><a href="#fig-annBack11" class="quarto-xref">Figure&nbsp;<span>8.13</span></a> 에서 소프트맥스 계층에 사용되는 함수<a href="#fn9" class="footnote-ref" id="fnref9" role="doc-noteref"><sup>9</sup></a>를 그래프의 순전파 과정은 <a href="#fig-annBack11" class="quarto-xref">Figure&nbsp;<span>8.13</span></a> 과 같습니다. 주의할 것은 지수의 합을 <span class="math inline">S</span>로 표기하였다는 점입니다.</p>
-<div class="no-row-height column-margin column-container"><div id="fn9"><p><sup>9</sup>&nbsp;<span class="math inline">y_k = \frac{exp(a_k)}{\sum_{i=1}^{n}exp(a_i)}</span></p></div></div><div id="fig-annBack11" class="quarto-figure quarto-figure-center quarto-float anchored">
+<div class="no-row-height column-margin column-container"><div id="fn9"><p><sup>9</sup>&nbsp;<span class="math inline">y_k = \frac{exp(a_k)}{\sum_{i=1}^{n}exp(a_i)}</span></p></div></div><div id="fig-annBack11" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-annBack11-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="image/fig-annBack11.png" class="img-fluid figure-img" style="width:70.0%">
@@ -818,7 +818,7 @@ Figure&nbsp;8.13: Forward process of Softmax
 </figure>
 </div>
 <p><a href="#fig-annBack12" class="quarto-xref">Figure&nbsp;<span>8.14</span></a> 에서 크로스 엔트로피 오차 계층에 사용되는 함수<a href="#fn10" class="footnote-ref" id="fnref10" role="doc-noteref"><sup>10</sup></a>를 그래프의 순전파 과정은 <a href="#fig-annBack12" class="quarto-xref">Figure&nbsp;<span>8.14</span></a> 과 같습니다.</p>
-<div class="no-row-height column-margin column-container"><div id="fn10"><p><sup>10</sup>&nbsp;<span class="math inline">L=-\sum_{k}^{}t_k\log{y_k}</span></p></div></div><div id="fig-annBack12" class="quarto-figure quarto-figure-center quarto-float anchored">
+<div class="no-row-height column-margin column-container"><div id="fn10"><p><sup>10</sup>&nbsp;<span class="math inline">L=-\sum_{k}^{}t_k\log{y_k}</span></p></div></div><div id="fig-annBack12" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-annBack12-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="image/fig-annBack12.png" class="img-fluid figure-img" style="width:70.0%">
@@ -830,7 +830,7 @@ Figure&nbsp;8.14: Forward process of Cross-entropy
 </div>
 <p><strong>Backward Propagation</strong></p>
 <p>역전파는 순전파의 순서를 바꾸어 크로스 엔트로피 오차의 역전파 과정(<a href="#fig-annBack13" class="quarto-xref">Figure&nbsp;<span>8.15</span></a> )을 먼저 살펴보겠습니다.</p>
-<div id="fig-annBack13" class="quarto-figure quarto-figure-center quarto-float anchored">
+<div id="fig-annBack13" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-annBack13-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="image/fig-annBack13.png" class="img-fluid figure-img" style="width:70.0%">
@@ -848,7 +848,7 @@ Figure&nbsp;8.15: Backward process of Cross-entropy
 <li><strong>5단계:</strong> <span class="math inline">\log</span> 노드의 역전파는 순전파시의 식(<span class="math inline">y=\log{x}</span>)을 편미분한 값(<span class="math inline">\frac{\partial{y}}{\partial{x}}=\frac{1}{x}</span>, 여기서 <span class="math inline">x</span>를 <span class="math inline">y_1</span>로 대입한다.)에 <span class="math inline">-t_1</span>을 곱하여 최종결과를 산출합니다.</li>
 </ul>
 <p>다음으로 크로스 엔트로피 오차 계층의 결과(<span class="math inline">-\frac{t_1}{y_1}, -\frac{t_2}{y_2}, -\frac{t_3}{y_3}</span>)를 사용하여 소프트맥스의 역전파 과정(<a href="#fig-annBack14" class="quarto-xref">Figure&nbsp;<span>8.16</span></a> )을 살펴보겠습니다. 아래 과정은 크로스 엔트로피 분모쪽의 역전파를 먼저 수행하고 분자쪽의 역잔파를 다음에 수행하며 설명하겠습니다.</p>
-<div id="fig-annBack14" class="quarto-figure quarto-figure-center quarto-float anchored">
+<div id="fig-annBack14" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-annBack14-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="image/fig-annBack14.png" class="img-fluid figure-img" style="width:70.0%">
@@ -878,7 +878,7 @@ y_1 = \frac{\exp(a_1)}{S} \quad &amp;\rightarrow \quad \frac{1}{y_1} = \frac{S}{
 <section id="implementing-of-softmax-with-error" class="level2 page-columns page-full" data-number="8.5">
 <h2 data-number="8.5" class="anchored" data-anchor-id="implementing-of-softmax-with-error"><span class="header-section-number">8.5</span> Implementing of Softmax-with-error</h2>
 <p>지금까지 순전파 및 역전파 과정을 계산그래프를 통하여 살펴보았습니다, 특히 Softmax-with-loss 계층을 코드로 구현하며 마무리 해 보도록 하겠습니다,<a href="#fn15" class="footnote-ref" id="fnref15" role="doc-noteref"><sup>15</sup></a></p>
-<div class="no-row-height column-margin column-container"><div id="fn15"><p><sup>15</sup>&nbsp;<a href="ANN-learning.html" class="quarto-xref"><span>Chapter 6</span></a> 에서 구현한 <code>softmax()</code>와 <code>cross-entropy_error()</code>을 활용하겠습니다.</p></div></div><div id="dd03698a" class="cell" data-execution_count="4">
+<div class="no-row-height column-margin column-container"><div id="fn15"><p><sup>15</sup>&nbsp;<a href="ANN-learning.html" class="quarto-xref"><span>Chapter 6</span></a> 에서 구현한 <code>softmax()</code>와 <code>cross-entropy_error()</code>을 활용하겠습니다.</p></div></div><div id="5be4ef64" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> common.functions <span class="im">import</span> softmax, cross_entropy_error</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> SoftmaxWithLoss:</span>
@@ -939,18 +939,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-    }
-  });
-  clipboard.on('success', function(e) {
+  const onCopySuccess = function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -982,7 +971,29 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
   });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
       var filterRegex = new RegExp('/' + window.location.host + '/');
@@ -990,7 +1001,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
     // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
     for (var i=0; i<links.length; i++) {
       const link = links[i];
       if (!isInternal(link.href)) {

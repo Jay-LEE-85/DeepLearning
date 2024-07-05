@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.551">
+<meta name="generator" content="quarto-1.5.45">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>DeepLearning x 101 - 10&nbsp; Optimaizer</title>
+<title>10&nbsp; Optimaizer – DeepLearning x 101</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -33,7 +33,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -103,7 +103,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 
-  <script>window.backupDefine = window.define; window.define = undefined;</script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js"></script>
+  <script>window.backupDefine = window.define; window.define = undefined;</script><script src="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.js"></script>
   <script>document.addEventListener("DOMContentLoaded", function () {
  var mathElements = document.getElementsByClassName("math");
  var macros = [];
@@ -118,7 +118,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
    });
 }}});
   </script>
-  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css">
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.css">
 
 <script type="text/javascript">
 const typesetMath = (el) => {
@@ -155,13 +155,13 @@ window.Quarto = {
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
         <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./TECH-optimizer.html">Learning technologies</a></li><li class="breadcrumb-item"><a href="./TECH-optimizer.html"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Optimaizer</span></a></li></ol></nav>
-        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
-      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
       </button>
     </div>
@@ -197,9 +197,9 @@ window.Quarto = {
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
  <span class="menu-text">Perceptron</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
@@ -220,9 +220,9 @@ window.Quarto = {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
  <span class="menu-text">ANN</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
@@ -273,9 +273,9 @@ window.Quarto = {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
  <span class="menu-text">Learning technologies</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
@@ -314,9 +314,9 @@ window.Quarto = {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
  <span class="menu-text">CNN</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
@@ -331,9 +331,9 @@ window.Quarto = {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
  <span class="menu-text">Examples</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
@@ -410,7 +410,7 @@ window.Quarto = {
 \textbf{W} \leftarrow \textbf{W} - \eta\frac{\partial{L}}{\partial{\textbf{W}}}
 </span></p>
 <p>위의 식을 간단한 클래스로 구현하도록 하겠습니다.</p>
-<div id="a297fcaa" class="cell" data-execution_count="1">
+<div id="7ec8eff7" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="annotated-cell-1"><pre class="sourceCode python code-annotation-code code-with-copy"><code class="sourceCode python"><span id="annotated-cell-1-1"><a href="#annotated-cell-1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> SGD:</span>
 <span id="annotated-cell-1-2"><a href="#annotated-cell-1-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, lr<span class="op">=</span><span class="fl">0.01</span>):</span>
 <span id="annotated-cell-1-3"><a href="#annotated-cell-1-3" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.lr <span class="op">=</span> lr</span>
@@ -432,7 +432,7 @@ window.Quarto = {
 </div>
 <p>SGD의 경우 위와 같이 구현이 쉽다는 장점이 있습니다. 다만, 경우에 따라 비효율적일 때가 있기 때문에, 매개변수를 갱신하는 다른 최적화 기법들이 필요한 것입니다.</p>
 <p>먼저 <span class="math inline">f(x, y) = \frac{1}{20}x^2+y^2</span>의 합수를 이용하여 최소값을 구하는 문제를 살펴보겠습니다. 이 함수는 아래의 그림(<a href="#fig-tech_Opt1" class="quarto-xref">Figure&nbsp;<span>10.1</span></a> )과 같이 그릇을 X축의 방향으로 늘인 타원과 같습니다.</p>
-<div id="fig-tech_Opt1" class="quarto-figure quarto-figure-center quarto-float anchored">
+<div id="fig-tech_Opt1" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-tech_Opt1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="image/fig-tech_Opt1.png" class="img-fluid figure-img">
@@ -443,7 +443,7 @@ Figure&nbsp;10.1: Graphs and contour lines
 </figure>
 </div>
 <p>등고선을 살펴보면 y축방향으로 가파르나 x축 방향으로는 완만한 거의 <code>0</code>에 가깝다는 것을 알 수 있습니다. 이러한 함수에 SGD를 적용하면 지그재그로 움직이는 비효율적인 모습을 보여줍니다. 이를 SGD의 단점 <strong>비등방성</strong>이라 하고 학습의 효율을 하락시키게 되는 것입니다.</p>
-<div id="fig-techOpt2" class="quarto-figure quarto-figure-center quarto-float anchored">
+<div id="fig-techOpt2" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-techOpt2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="image/fig-techOpt2.png" class="img-fluid figure-img">
@@ -466,7 +466,7 @@ Figure&nbsp;10.2: Update path for SGD
 </span></p>
 <p>SGD와 가장 큰 차이점은 <span class="math inline">\textbf{v}</span>(velocity)가 등장하여 기울기 방향으로 힘을 받아 물체가 가속되는 물리법칙을 의미합니다. 또 하나는 <span class="math inline">\alpha\textbf{v}</span>항 아무런 힘이 영향을 주지 않을 때 운동량을 약화 시키는(저항에 해당) 역할을 한다는 것입니다.</p>
 <p>이러한 모멘텀 클래스를 구현하면 아래와 같습니다.</p>
-<div id="cf8aea1a" class="cell" data-execution_count="2">
+<div id="37aa93f2" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="annotated-cell-2"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-2-1"><a href="#annotated-cell-2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Momentum:</span>
 <span id="annotated-cell-2-2"><a href="#annotated-cell-2-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, lr<span class="op">=</span><span class="fl">0.01</span>, momentum<span class="op">=</span><span class="fl">0.9</span>):</span>
 <span id="annotated-cell-2-3"><a href="#annotated-cell-2-3" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.lr <span class="op">=</span> lr</span>
@@ -492,7 +492,7 @@ Figure&nbsp;10.2: Update path for SGD
 </div>
 </div>
 <p>모멘텀을 이용하는 방식을 사용하는 경우 SGD에 비하여 가중치를 갱신하는 경우 지그재그로 움직이는 정도가 줄어 들었음을 확인 할 수 있습니다.</p>
-<div id="fig-techOpt3" class="quarto-figure quarto-figure-center quarto-float anchored">
+<div id="fig-techOpt3" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-techOpt3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="image/fig-techOpt3.png" class="img-fluid figure-img">
@@ -516,7 +516,7 @@ Figure&nbsp;10.3: Update path for Momentum
 <p>여기서 <span class="math inline">\textbf{h}</span>가 등장합니다. 이 값은 기울기를 제곱하여 계속 더해주게 됩니다. 그리고 매개변수인 가중치를 갱신할 때 <span class="math inline">\frac{1}{\sqrt{\textbf{h}}}</span>를 곱하여 학습률을 조정해 줍니다.</p>
 <p>이는 이전 스텝에서 크게 갱신된 매개변수(가중치)는 이번 스텝에서 낮은 학습률을 적용하여 원소마다 상이한 학습률을 갖도록 한다는 것으로 이해할 수 있습니다.</p>
 <p>이러한 AdaGrad 클래스를 구현하면 아래와 같습니다.</p>
-<div id="d753ba4b" class="cell" data-execution_count="3">
+<div id="af97a587" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> AdaGrad:</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, lr<span class="op">=</span><span class="fl">0.01</span>):</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.lr <span class="op">=</span> lr</span>
@@ -533,7 +533,7 @@ Figure&nbsp;10.3: Update path for Momentum
 <span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>      params[key] <span class="op">-=</span> <span class="va">self</span>.lr <span class="op">*</span> grads[key] <span class="op">/</span> (np.sqrt(<span class="va">self</span>.h[key]) <span class="op">+</span> <span class="fl">1e-7</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>AdaGrad를 이용한 합습경로를 보면 최솟값을 향해 효율적으로 움직이는 것을 확인할 수 있습니다.</p>
-<div id="fig-techOpt4" class="quarto-figure quarto-figure-center quarto-float anchored">
+<div id="fig-techOpt4" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-techOpt4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="image/fig-techOpt4.png" class="img-fluid figure-img">
@@ -564,7 +564,7 @@ RMSProp(=EWMA)
 <h3 data-number="10.1.4" class="anchored" data-anchor-id="adam"><span class="header-section-number">10.1.4</span> Adam</h3>
 <p><strong>Adam</strong>은 정확하지는 않지만 직관적으로 모멘텀과 AdaGrad를 융합한듯한 방법입니다. 이 두 이점을 조합했다고 단순히 이해할 수 있습니다.<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></p>
 <div class="no-row-height column-margin column-container"><div id="fn2"><p><sup>2</sup>&nbsp;Adam에 대하여 보다 자세하게 이해하기 위하여는 <a href="http://arxiv.org/abs/1412.6980v8">Adam</a>논문을 읽어 보시기 바랍니다.</p></div></div><p>이러한 Adam 클래스를 구현하면 아래와 같습니다.</p>
-<div id="a2b6afd0" class="cell" data-execution_count="4">
+<div id="33a1dfad" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Adam:</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, lr<span class="op">=</span><span class="fl">0.001</span>, beta1<span class="op">=</span><span class="fl">0.9</span>, beta2<span class="op">=</span><span class="fl">0.999</span>):</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.lr <span class="op">=</span> lr</span>
@@ -590,7 +590,7 @@ RMSProp(=EWMA)
 <span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>            params[key] <span class="op">-=</span> lr_t <span class="op">*</span> <span class="va">self</span>.m[key] <span class="op">/</span> (np.sqrt(<span class="va">self</span>.v[key]) <span class="op">+</span> <span class="fl">1e-7</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Adam을 이용한 합습경로를 보면 앞서 설명한 바와 같이 모멘텀 및 AdaGrad가 혼합된 형태로 최솟값을 향해 효율적으로 움직이는 것을 확인할 수 있습니다.</p>
-<div id="fig-techOpt5" class="quarto-figure quarto-figure-center quarto-float anchored">
+<div id="fig-techOpt5" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-techOpt5-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="image/fig-techOpt5.png" class="img-fluid figure-img">
@@ -625,7 +625,7 @@ Adam의 하이퍼파라미터
 <p>우리가 살펴본 4가지의 모델 중 과연 어떠한 모델이 좋을까요? 이런 물음에 대한 답은 아직까지는 없다 입니다. 이는 문제의 성격에 따라 모델별로 잘 푸는 문제가 따로 있기 때문입니다.</p>
 <p>이러한 모델의 비교는 성능을 측정하여 우월성을 판단하기 위한 것이 아니라 모델별 성격에 따라 학습의 진도가 어떻게 다른지 이해하기 위함합니다.</p>
 <p>먼저 MNIST 데이터 셋을 이용하여 손글씨 인식문제의 학습진도를 비교해 보도록 하겠습니다.</p>
-<div id="fig-techOpt6" class="quarto-figure quarto-figure-center quarto-float anchored">
+<div id="fig-techOpt6" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-techOpt6-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="image/fig-techOpt6.png" class="img-fluid figure-img">
@@ -678,18 +678,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-    }
-  });
-  clipboard.on('success', function(e) {
+  const onCopySuccess = function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -721,7 +710,29 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
   });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
       var filterRegex = new RegExp('/' + window.location.host + '/');
@@ -729,7 +740,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
     // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
     for (var i=0; i<links.length; i++) {
       const link = links[i];
       if (!isInternal(link.href)) {
